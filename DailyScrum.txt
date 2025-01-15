@@ -1,6 +1,6 @@
 2025/01/14 Sean
-1. Setup of User class
-- First scrum 
+1. Done since last scrum
+- Setup of User class
 2. Plan until next Scrum
 - Continue working on Spring Boot User class/controller
 - Look into Spring Security integration
@@ -24,3 +24,31 @@
 -
 
 *****
+
+2025/01/15 Sean
+1. Done since last scrum
+- Look into Spring Security integration
+- Set up most of User class/controller
+- Configured many elements surrounding login/register
+2. Plan until next Scrum
+- Continue work on register/login
+3. Need assistance / figure things out
+- May need to coordinate with Amine to get login/register working
+
+2025/01/15 Amine
+1. Done since last scrum
+- Dive into TypeScript for React
+- Set up User Context, register, and most of login for Frontend
+2. Plan until next Scrum
+- Finish login
+- Front end for Account update
+3. Need assistance / figure things out
+-
+
+2025/01/15 Felix
+1. Done since last scrum
+- 
+2. Plan until next Scrum
+- 
+3. Need assistance / figure things out
+-
