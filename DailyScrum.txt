@@ -1,0 +1,26 @@
+2025/01/14 Sean
+1. Setup of User class
+- First scrum 
+2. Plan until next Scrum
+- Continue working on Spring Boot User class/controller
+- Look into Spring Security integration
+3. Need assistance / figure things out
+-
+
+2025/01/14 Amine
+1. Done since last scrum
+- Host the database on RDS
+2. Plan until next Scrum
+- Work on the frontend of user registraton and login
+3. Need assistance / figure things out
+-
+
+2025/01/14 Felix
+1. Done since last scrum
+- 
+2. Plan until next Scrum
+- 
+3. Need assistance / figure things out
+-
+
+*****
