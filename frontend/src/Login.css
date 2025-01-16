@@ -1,0 +1,102 @@
+/* Full viewport height to vertically center the login form */
+.login-page {
+    height: 100vh;
+    background-color: #001f3f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Login form container */
+.login-box {
+    background-color: #ddd;
+    padding: 40px 30px;
+    border-radius: 10px;
+    max-width: 400px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* Twixer logo styling */
+.login-logo {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: rgb(0, 0, 0);
+    letter-spacing: 0.1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Form control styling for the login form */
+.login-form-control {
+    background-color: white;
+    color: black;
+    border: 2px solid cyan;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+}
+
+/* Login button styling */
+.custom-button {
+    background-color: #3590e9 !important;
+    border-color: #3590e9 !important;
+    color: white !important;
+    border: none;
+    font-weight: bold;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%;
+    margin-top: 15px;
+    cursor: pointer;
+}
+
+.login-btn:hover {
+    background-color: #0056b3 !important;
+}
+
+/* Link styling for forgot password and sign-up */
+.login-link {
+    color: #888;
+    text-decoration: underline;
+    font-size: 0.9rem;
+}
+
+.login-link:hover {
+    color: white;
+}
+
+/* Specific styles for "Sign up" link */
+.signup-link {
+    color: #1DA1F2;
+}
+
+.signup-link:hover {
+    text-decoration: underline;
+}
+
+/* Error message styling */
+.login-error {
+    font-size: 0.85rem;
+    color: red;
+    margin-top: 5px;
+}
+
+/* Success message styling */
+.login-success {
+    font-size: 1.2rem;
+    color: green;
+    margin-top: 10px;
+    font-weight: bolder !important;
+}
+
+.mt-3 {
+    color: rgb(0, 0, 0) !important;
+}
+
+.mb-4 {
+    color: rgb(0, 0, 0) !important;
+}
