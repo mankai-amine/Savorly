@@ -17,9 +17,9 @@
 
 2025/01/14 Felix
 1. Done since last scrum
-- 
+- Brought a controller named TagController to return nearest 10 tags with counting L2 distance.
 2. Plan until next Scrum
-- 
+- Bring a controoller named EmbeddingController to get vector information from Ollama embedding model.
 3. Need assistance / figure things out
 -
 
@@ -47,9 +47,10 @@
 
 2025/01/15 Felix
 1. Done since last scrum
-- 
+- Brought EmbeddingController to get vector from ollama.
+- Brought a function to return a list of tags in EmbeddingController.
 2. Plan until next Scrum
-- 
+-  Brouhgt a function to Add/Delete/Edit tags in TagController.
 3. Need assistance / figure things out
 -
 
@@ -81,3 +82,29 @@
 -
 
 *****
+
+
+2025/01/17 Sean
+1. Done since last scrum
+- 
+2. Plan until next Scrum
+- 
+- 
+3. Need assistance / figure things out
+-
+
+2025/01/17 Amine
+1. Done since last scrum
+- 
+2. Plan until next Scrum
+- 
+3. Need assistance / figure things out
+-
+
+2025/01/17 Felix
+1. Done since last scrum
+- 
+2. Plan until next Scrum
+- 
+3. Need assistance / figure things out
+-

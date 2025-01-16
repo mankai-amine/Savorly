@@ -32,6 +32,7 @@ public class WebSecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/", "/api/user/**").permitAll()
+                        .requestMatchers("/api/tags/**", "/api/embedding/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
