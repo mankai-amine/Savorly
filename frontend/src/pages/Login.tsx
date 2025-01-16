@@ -8,7 +8,7 @@ import { UserContext } from "../helpers/UserContext";
 import { useNavigate } from 'react-router-dom';
 import '../Login.css';
 
-const apiUrl = "http://localhost:3001/api/user";
+const apiUrl = "http://localhost:8080/api/user";
 
 const loginSchema = Yup.object().shape({
     username: Yup.string().required('Username is required'),

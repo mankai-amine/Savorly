@@ -6,13 +6,13 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import '../Register.css';
 
-const apiUrl = "http://localhost:3001/api/user";
+const apiUrl = "http://localhost:8080/api/user";
 
 // validation schema
 const registerSchema = Yup.object().shape({
     username: Yup.string().required('Username is required'),
     password: Yup.string().required('Password is required').min(6, 'Password must be at least 6 characters'),
-    confirmPassword: Yup.string()
+    password2: Yup.string()
         .oneOf([Yup.ref('password'), undefined], 'Passwords must match')
         .required('Confirm Password is required'),
 
@@ -22,7 +22,7 @@ const registerSchema = Yup.object().shape({
 interface RegisterFormData {
     username: string;
     password: string;
-    confirmPassword: string;
+    password2: string;
 }
 
 const Register = () => {
@@ -77,9 +77,9 @@ const Register = () => {
                                     <Form.Control
                                         type="password"
                                         placeholder="Confirm your password"
-                                        {...register('confirmPassword')}
+                                        {...register('password2')}
                                     />
-                                    {errors.confirmPassword && <p className="text-danger">{errors.confirmPassword.message}</p>}
+                                    {errors.password2 && <p className="text-danger">{errors.password2.message}</p>}
                                 </Form.Group>
 
                                 <Button variant='primary' type='submit' className='w-100 mb-3'>
