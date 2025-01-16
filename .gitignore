@@ -7,6 +7,10 @@ target/
 # Environment variables
 *.env
 
+# Log files
+*.log
+*.gz
+
 ### STS ###
 .apt_generated
 .classpath
