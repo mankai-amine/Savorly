@@ -18,14 +18,30 @@ public class Recipe {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @NotBlank(message="Name is required")
     @Column(unique = true)
-    @Size(min = 10, max 300, message = "Recipes must contain between {min} and {max} characters")
+    @Size(min = 10, max = 300, message = "Recipes must contain between {min} and {max} characters")
     private String name;
 
-    @NotBlank
-    @Size
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String ingredients;
 
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String instructions;
+
+    @Column(name = "picture")
+    private String picture;
+
+    @Column(name = "authorid")
+    private Long authorId;
+
+//    @ManyToMany
+//    @JoinTable(
+//            name = "recipe_tags",
+//            joinColumns = @JoinColumn(name = "recipeid"),
+//            inverseJoinColumns = @JoinColumn(name = "tagid")
+//    )
+//    private Set<Tag> tags;
 }
