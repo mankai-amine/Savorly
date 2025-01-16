@@ -21,12 +21,17 @@ interface LoginFormData {
     password: string;
 }
 
-// data structure for axios response
+// data structure for login response
 interface LoginResponse {
-    accessToken: string;
+    token: string;
+}
+
+// data structure for fetching user
+interface UserResponse {
     user: {
         id: string;
         username: string;
+        password:string
     };
 }
 
@@ -64,11 +69,15 @@ const Login = () => {
                 password: data.password
             });
 
-            if (response.data.accessToken) {
-                sessionStorage.setItem("accessToken", response.data.accessToken);
+            console.log("outside the if statement")
+
+            if (response.data.token) {
+                console.log("inside the if statement")
+
+                sessionStorage.setItem("accessToken", response.data.token);
                 
-                const userResponse = await axios.get<LoginResponse>(apiUrl, {
-                    headers: { accessToken: response.data.accessToken },
+                const userResponse = await axios.get<UserResponse>(apiUrl, {
+                    headers: { Authorization: `Bearer ${response.data.token}` },
                 });
                 const user = userResponse.data.user;
                 setUser(user); 
