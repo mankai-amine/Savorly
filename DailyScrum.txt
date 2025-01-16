@@ -52,3 +52,32 @@
 - 
 3. Need assistance / figure things out
 -
+
+*****
+
+2025/01/16 Sean
+1. Done since last scrum
+- Finish Register and Login for Spring Boot
+2. Plan until next Scrum
+- Work with Amine to integrate frontend and backend register/login
+- Add some basic features if we have time
+3. Need assistance / figure things out
+-
+
+2025/01/16 Amine
+1. Done since last scrum
+- Finish login
+2. Plan until next Scrum
+- Front end for Account update
+3. Need assistance / figure things out
+-
+
+2025/01/16 Felix
+1. Done since last scrum
+- 
+2. Plan until next Scrum
+- 
+3. Need assistance / figure things out
+-
+
+*****
