@@ -54,8 +54,21 @@ body {
   min-height: 100vh;
 }
 
+.card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+  font-weight: 600;
+}
+
+.card-text {
+  font-size: 0.9rem;
+}
+
 h1 {
   font-size: 3.2em;
+  font-weight: bold;
   line-height: 1.1;
 }
 
