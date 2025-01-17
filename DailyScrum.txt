@@ -86,20 +86,27 @@
 
 2025/01/17 Sean
 1. Done since last scrum
-- 
+- Added Recipe entity/controller to backend
+- Added JwtAuth
 2. Plan until next Scrum
-- 
-- 
+- Edit/Delete recipe
+- Profile update
 3. Need assistance / figure things out
--
+- Bucket upload for Saturday
+- Look into frontend work
+- Documentation
 
 2025/01/17 Amine
 1. Done since last scrum
-- 
+- frontend for adding a recipe
+- frontend for viewing recipe(s)
+- backend code for getting authenticated user details 
 2. Plan until next Scrum
-- 
+- Header
+- Improve the current styling
+- Frontend for updating a recipe
 3. Need assistance / figure things out
--
+- dive into the backend code in preparation for next week
 
 2025/01/17 Felix
 1. Done since last scrum
