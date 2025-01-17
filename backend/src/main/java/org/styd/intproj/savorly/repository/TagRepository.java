@@ -14,10 +14,10 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
     Tag findByTitle(String title);
 
     @Query("SELECT t FROM Tag t WHERE t.title LIKE :title")
-    List<Tag> getTagsForTitle(@Param("title") String title);
+    List<Tag> findTagsForTitle(@Param("title") String title);
 
     @Query(value = "SELECT * FROM tags ORDER BY embedding <-> CAST(:embedding AS vector) LIMIT 10", nativeQuery = true)
-    List<Tag> getTagsByNearestEmbedding(@Param("embedding") float[] embedding);
+    List<Tag> findTagsByNearestEmbedding(@Param("embedding") float[] embedding);
 
     @Modifying //@Modifying：INSERT should add a tag @Modifying，or JPA will take as SELECT
     @Transactional //ensure INSERT as a transact

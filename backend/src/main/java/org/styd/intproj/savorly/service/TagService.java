@@ -23,12 +23,17 @@ public class TagService {
     private EmbeddingService embeddingService;
 
     public List<Tag> getTagsForTitle(String title) {
-        List<Tag> tagsForTitle = tagRepository.getTagsForTitle(title);
+        List<Tag> tagsForTitle = tagRepository.findTagsForTitle(title);
         return tagsForTitle;
     }
 
+    public List<Tag> getAllTags() {
+        List<Tag> tags = tagRepository.findAll();
+        return tags;
+    }
+
     public List<Tag> getTagsForNearestEmbedding(float[] embedding) {
-        List<Tag> tagsForNearestEmbedding = tagRepository.getTagsByNearestEmbedding(embedding);
+        List<Tag> tagsForNearestEmbedding = tagRepository.findTagsByNearestEmbedding(embedding);
         return tagsForNearestEmbedding;
         }
 
@@ -75,7 +80,7 @@ public class TagService {
         if (tagViewModel.getTitle() == null || tagViewModel.getTitle().trim().isEmpty()) {
             throw new IllegalArgumentException("Title cannot be empty");
         }
-        if (!tagRepository.getTagsForTitle("%" + tagViewModel.getTitle().trim() + "%").isEmpty()) {
+        if (!tagRepository.findTagsForTitle("%" + tagViewModel.getTitle().trim() + "%").isEmpty()) {
             throw new IllegalArgumentException("Title already exists");
         }
     }

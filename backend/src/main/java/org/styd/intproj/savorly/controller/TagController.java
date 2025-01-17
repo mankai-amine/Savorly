@@ -140,6 +140,13 @@ public class TagController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("serverError", "Tag deletion failed"));
         }
     }
+
+    //get all tags
+    @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Tag>> getAllTags() {
+        List<Tag> tags = tagService.getAllTags();
+        return ResponseEntity.status(HttpStatus.OK).body(tags);
+    }
 }
 
 
