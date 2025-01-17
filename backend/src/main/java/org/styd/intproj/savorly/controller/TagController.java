@@ -32,6 +32,9 @@ public class TagController {
     @Autowired
     private TagService tagService;
 
+    @Autowired
+    private EmbeddingService embeddingService;
+
     //get the titles with the word(s) input
     @GetMapping(value = "/titles",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getTagsForTitle(@RequestParam String title) {
@@ -99,27 +102,43 @@ public class TagController {
     }
 
     //bring a new tag record
-    @PostMapping(value = "/new",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> processNewTag(@Valid @RequestBody TagViewModel tagViewModel) {
+    @PostMapping(value = "/new", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> createTag(@Valid @RequestBody TagViewModel tagViewModel) {
         try {
-            if (tagViewModel.getTitle() != null) {
-                StringBuilder allWords = new StringBuilder();
-                allWords.append(tagViewModel.getTitle().trim());
-                allWords.append(" ");
-                allWords.append(tagViewModel.getIngredients().trim());
-                allWords.append(" ");
-                allWords.append(tagViewModel.getDescription().trim());
-                String allWordsInTag = allWords.toString();
-
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-            }
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            TagResponse response = tagService.createTag(tagViewModel);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("saveError", e.getMessage()));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ErrorResponse("serverError", "Tag not found"));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("serverError", "Tag creation failed"));
         }
+    }
 
 
+    //update an exists tag
+    @PutMapping(value = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> updateTag(@Valid @RequestBody TagViewModel tagViewModel) {
+        try {
+            TagResponse response = tagService.updateTag(tagViewModel);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("updateError", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("serverError", "Tag update failed"));
+        }
+    }
+
+    //delete
+    @DeleteMapping(value = "/delete", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> deleteTag(@RequestParam Long id) {
+        try {
+            tagService.deleteTag(id);
+            return ResponseEntity.status(HttpStatus.OK).body(new TagResponse("Deleted successfully", null));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("deleteError", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse("serverError", "Tag deletion failed"));
+        }
     }
 }
 

@@ -43,6 +43,7 @@ public class EmbeddingService {
             System.out.println("texts in request" +request.getInstructions());
             EmbeddingResponse response = ollamaEmbeddingModel.call(request);
             System.out.println("return response : " + response );
+
             System.out.println(Arrays.toString(response.getResults().getFirst().getOutput()));
             return response.getResults();
         } catch (Exception e) {
@@ -82,4 +83,5 @@ public class EmbeddingService {
         }
         return embeddings;
     }
+
 }
