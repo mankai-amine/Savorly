@@ -1,6 +1,7 @@
 package org.styd.intproj.savorly.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -47,7 +48,8 @@ public class RecipeController {
         try {
             recipe.setAuthorId(getUserIdFromUsername(username));
             Recipe savedRecipe = recipeRepository.save(recipe);
-            return ResponseEntity.ok(savedRecipe);
+            //return ResponseEntity.ok(savedRecipe);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedRecipe);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }

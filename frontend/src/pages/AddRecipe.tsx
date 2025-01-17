@@ -7,7 +7,7 @@ import axios from 'axios';
 import { UserContext } from "../helpers/UserContext"
 import { useNavigate } from 'react-router-dom';
 
-const apiUrl = "http://localhost:8080/api/user";
+const apiUrl = "http://localhost:8080/api/recipe";
 
 const recipeSchema = Yup.object().shape({
     name: Yup.string().min(5, "Name needs to be at least 5 characters").required('Recipe name is required'),
@@ -49,11 +49,19 @@ export const AddRecipe = () => {
     const onSubmit = async (data: AddRecipeFormData) => {
         setServerErrors({});
 
+        const accessToken = sessionStorage.getItem("accessToken"); 
+        if (!accessToken) {
+            alert("Authorization token is missing. Please log in again.");
+            return;
+        }
+
         try {
-            const response = await axios.post(`${apiUrl}/recipe`, data, {headers: {
-                "accessToken": sessionStorage.getItem("accessToken"),
-            },
+            const response = await axios.post(`${apiUrl}/create`, data, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`, 
+                },
             });
+            
             if (response.status === 201) {
                 setIsSubmitted(true);
                 navigate("/");
@@ -81,7 +89,7 @@ export const AddRecipe = () => {
                             <div className='register-box text-center'>
                                 <h2 className='mb-4'>New recipe</h2>
                                 <Form onSubmit={handleSubmit(onSubmit)}>
-                                    <Form.Group controlId='formContent' className='mb-3'>
+                                    <Form.Group controlId='formName' className='mb-3'>
                                         <Form.Control
                                             type="text"
                                             placeholder="Recipe name"
@@ -90,7 +98,7 @@ export const AddRecipe = () => {
                                         {errors.name && <p className="text-danger">{errors.name.message}</p>}
                                     </Form.Group>
                                     
-                                    <Form.Group controlId='formContent' className='mb-3'>
+                                    <Form.Group controlId='formIngredients' className='mb-3'>
                                         <Form.Control
                                             as="textarea"
                                             placeholder="Ingredients"
@@ -99,7 +107,7 @@ export const AddRecipe = () => {
                                         {errors.ingredients && <p className="text-danger">{errors.ingredients.message}</p>}
                                     </Form.Group>
                                     
-                                    <Form.Group controlId='formContent' className='mb-3'>
+                                    <Form.Group controlId='formInstructions' className='mb-3'>
                                         <Form.Control
                                             as="textarea"
                                             placeholder="Instructions"
