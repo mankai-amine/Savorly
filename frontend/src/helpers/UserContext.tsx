@@ -2,7 +2,7 @@ import { createContext, useState, useEffect, ReactNode } from 'react';
 import axios from 'axios';
 
 
-const apiUrl = "http://localhost:3001/api/user";
+const apiUrl = "http://localhost:8080/api/user";
 
 // structure of the user data 
 interface User {
@@ -32,7 +32,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
             if (accessToken) {
                 try {
                     const response = await axios.get<{ user: User }>(`${apiUrl}`, {
-                        headers: { accessToken }
+                        headers: { Authorization: `Bearer ${accessToken}` },
                     });
                     setUser(response.data.user);
                 } catch (error) {
