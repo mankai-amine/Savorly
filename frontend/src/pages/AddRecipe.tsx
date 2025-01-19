@@ -38,7 +38,7 @@ export const AddRecipe = () => {
         throw new Error("UserContext must be used within a UserProvider");
     }
 
-    const { setUser } = context;
+    const { user } = context;
 
     const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
     const [submissionStatus, setSubmissionStatus] = useState<string | null>(null);

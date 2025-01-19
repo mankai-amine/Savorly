@@ -31,10 +31,11 @@ export const UserProvider = ({ children }: UserProviderProps) => {
             const accessToken = sessionStorage.getItem("accessToken");
             if (accessToken) {
                 try {
-                    const response = await axios.get<{ user: User }>(`${apiUrl}`, {
+                    const response = await axios.get<User>(`${apiUrl}`, {
                         headers: { Authorization: `Bearer ${accessToken}` },
                     });
-                    setUser(response.data.user);
+                    console.log("API Response:", response.data);
+                    setUser(response.data);
                 } catch (error) {
                     console.error("Error fetching user data:", error);
                 }
