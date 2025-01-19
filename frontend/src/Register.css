@@ -1,0 +1,101 @@
+/* Full viewport height to vertically center the registration form */
+.register-page {
+    height: 100vh;
+    background-color: #001f3f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Registration form container */
+.register-box {
+    background-color: #ddd;
+    padding: 40px 30px;
+    border-radius: 10px;
+    max-width: 400px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* Logo styling */
+.register-logo {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: white !important;
+    letter-spacing: 0.1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Form control (input field) styling for the registration form */
+.register-form-control {
+    background-color: white;
+    color: black;
+    border: 2px solid cyan;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+}
+
+/* Register button styling */
+.register-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    font-weight: bold;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%;
+    margin-top: 15px;
+    cursor: pointer;
+}
+
+.register-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Link styling for already have an account */
+.register-link {
+    color: #ffffff;
+    text-decoration: underline;
+    font-size: 0.9rem;
+}
+
+.register-link:hover {
+    color: white;
+}
+
+/* Specific styles for "Login" link */
+.login-link {
+    color: #1DA1F2;
+}
+
+.login-link:hover {
+    text-decoration: underline;
+}
+
+/* Error message styling */
+.register-error {
+    font-size: 0.85rem;
+    color: red;
+    margin-top: 5px;
+}
+
+/* Success message styling */
+.register-success {
+    font-size: 0.9rem;
+    color: green;
+    margin-top: 10px;
+}
+
+.mt-3 {
+    color: rgb(0, 0, 0) !important;
+}
+
+.mb-4 {
+    color: rgb(0, 0, 0) !important;
+}
+

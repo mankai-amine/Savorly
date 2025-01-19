@@ -1,5 +1,7 @@
 package org.styd.intproj.savorly.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.transaction.annotation.Transactional;
 import org.styd.intproj.savorly.entity.Tag;
@@ -8,16 +10,18 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface TagRepository extends JpaRepository<Tag, Long> {
-    Tag findByTitle(String title);
+    //Tag findByTitle(String title);
+    Optional<Tag> findByTitle(String title);
 
     @Query("SELECT t FROM Tag t WHERE t.title LIKE :title")
-    List<Tag> findTagsForTitle(@Param("title") String title);
+    List<Tag> findByTitleLike(@Param("title") String title);
 
     @Query(value = "SELECT * FROM tags ORDER BY embedding <-> CAST(:embedding AS vector) LIMIT 10", nativeQuery = true)
-    List<Tag> findTagsByNearestEmbedding(@Param("embedding") float[] embedding);
+    List<Tag> findNearestTags(float[] embedding);
 
     @Modifying //@Modifying：INSERT should add a tag @Modifying，or JPA will take as SELECT
     @Transactional //ensure INSERT as a transact
