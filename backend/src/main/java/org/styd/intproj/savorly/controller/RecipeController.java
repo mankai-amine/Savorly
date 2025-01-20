@@ -55,6 +55,63 @@ public class RecipeController {
         }
     }
 
+    @PostMapping("edit/{id}")
+    public ResponseEntity<Recipe> editRecipe(@PathVariable Long id, @RequestBody Recipe recipe, Authentication authentication) {
+        String username = authentication.getName();
+
+        try {
+            Long currUserId = getUserIdFromUsername(username);
+
+            Recipe toEdit = recipeRepository.findById(id).orElse(null);
+            if (toEdit == null) {
+                return ResponseEntity.notFound().build();
+            }
+
+            Long recipeAuthorId = toEdit.getAuthorId();
+            if (!recipeAuthorId.equals(currUserId)) {
+                return ResponseEntity.badRequest().build();
+            }
+
+            // TODO check if fields were edited, only overwrite in that case
+            toEdit.setName(recipe.getName());
+            toEdit.setIngredients(recipe.getIngredients());
+            toEdit.setInstructions(recipe.getInstructions());
+            toEdit.setPicture(recipe.getPicture());
+            recipeRepository.save(toEdit);
+
+            return ResponseEntity.ok(toEdit);
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PostMapping("/delete/{id}")
+    public ResponseEntity<Recipe> deleteRecipe(@PathVariable Long id, Authentication authentication) {
+        String username = authentication.getName();
+
+        try {
+            Long currUserId = getUserIdFromUsername(username);
+
+            Recipe toDelete = recipeRepository.findById(id).orElse(null);
+            if (toDelete == null) {
+                return ResponseEntity.notFound().build();
+            }
+
+            Long recipeAuthorId = toDelete.getAuthorId();
+            if (!recipeAuthorId.equals(currUserId)) {
+                return ResponseEntity.badRequest().build();
+            }
+
+            recipeRepository.delete(toDelete);
+
+            return ResponseEntity.ok(toDelete);
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
     private Long getUserIdFromUsername(String username) {
         return userRepository.findByUsername(username).getId();
     }
