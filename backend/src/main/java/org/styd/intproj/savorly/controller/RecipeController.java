@@ -92,4 +92,11 @@ public class RecipeController {
         RecipeResponse response = recipeService.createRecipeAndTagWithEmbedding(recipeViewModel);
         return ResponseEntity.ok(response);
     }
+
+    //update in transactional way
+    @PutMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RecipeResponse> updateRecipeAndTagWithEmbedding(@Valid @RequestBody Recipe recipe) {
+        RecipeResponse response = recipeService.updateRecipeAndTagWithEmbedding(recipe);
+        return ResponseEntity.ok(response);
+    }
 }

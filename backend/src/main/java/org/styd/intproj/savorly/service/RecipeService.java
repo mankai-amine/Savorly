@@ -20,6 +20,7 @@ import org.styd.intproj.savorly.repository.TagRepository;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RecipeService {
@@ -170,6 +171,56 @@ public class RecipeService {
         return new RecipeResponse("success", List.of(savedRecipe));
 
     }
+
+    @Transactional // update exists record both in recipes table and tags table
+    public RecipeResponse updateRecipeAndTagWithEmbedding(Recipe recipe) {
+        // Step 1: get exists recipe
+        Recipe existsRecipe = recipeRepository.findById(recipe.getId())
+                .orElseThrow(() -> new RuntimeException("Recipe not found with ID: " + recipe.getId()));
+
+        // Step 2: get exists tags
+        Tag existsTag = existsRecipe.getTag();
+        if (existsTag == null) {
+            throw new RuntimeException("Tag not found for Recipe ID: " + recipe.getId());
+        }
+
+        // Step 3: generate new embedding
+        String textToEmbedding = recipe.getName() + " " + recipe.getIngredients() + " " + recipe.getInstructions();
+        List<Embedding> embeddings = embeddingService.getEmbeddings(List.of(textToEmbedding));
+        if (embeddings.isEmpty()) {
+            throw new RuntimeException("Failed to generate embeddings for recipe.");
+        }
+        float[] embeddingArray = embeddings.getFirst().getOutput();
+
+        // Step 4: update fields in recipe
+        existsRecipe.setAuthorId(Optional.ofNullable(recipe.getAuthorId()).orElse(existsRecipe.getAuthorId()));
+        existsRecipe.setId(existsRecipe.getId());
+        existsRecipe.setName(Optional.ofNullable(recipe.getName()).orElse(existsRecipe.getName()));
+        existsRecipe.setIngredients(Optional.ofNullable(recipe.getIngredients()).orElse(existsRecipe.getIngredients()));
+        existsRecipe.setInstructions(Optional.ofNullable(recipe.getInstructions()).orElse(existsRecipe.getInstructions()));
+        existsRecipe.setPicture(Optional.ofNullable(recipe.getPicture()).orElse(existsRecipe.getPicture()));
+
+        // Step 5: update fields in tag
+        existsTag.setId(existsTag.getId());
+        existsTag.setTitle(existsRecipe.getName());
+        existsTag.setIngredients(existsRecipe.getIngredients());
+        existsTag.setDescription(existsRecipe.getInstructions());
+        existsTag.setEmbedding(embeddingArray);
+
+        //tagRepository.save(existsTag);
+        existsTag.setRecipe(existsRecipe);
+        existsRecipe.setTag(existsTag);
+
+        // Step 6: save in recipes table, not in tags table manually
+        try {
+            Recipe updatedRecipe = recipeRepository.save(existsRecipe);
+            return new RecipeResponse("success", List.of(updatedRecipe));
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to update recipe and tag", e);
+        }
+    }
+
+
 
     /**
      * validation for id and name
