@@ -35,47 +35,46 @@ export const EditRecipe = () => {
     const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
     const [submissionStatus, setSubmissionStatus] = useState<string | null>(null);
     const [serverErrors, setServerErrors] = useState<ServerErrors>({});
-    const [recipe, setRecipe] = useState<any>(null);
-
+    const [recipe, setRecipe] = useState<EditRecipeFormData | null>(null);
 
     const navigate = useNavigate();
-
     const { id } = useParams();
 
+    // Fetch recipe data on component mount or when the `id` changes
     useEffect(() => {
         const fetchRecipe = async () => {
-            try {
-                const response = await axios.get(`${apiUrl}/edit/${id}`);
-                setRecipe(response.data);
-                console.log(recipe);
-                setValue("name", recipe.name);
-                setValue("ingredients", recipe.ingredients);
-                setValue("instructions", recipe.instructions);
-            } catch (error: any) {
-                if (error?.response) {
-                    setServerErrors(error.response.data);
-                } else {
-                    console.error('Error posting:', error);
-                    setSubmissionStatus('Error occurred');
-                }
-            }
+        try {
+            const response = await axios.get<EditRecipeFormData>(`${apiUrl}/${id}`);
+            setRecipe(response.data); 
+        } catch (error) {
+            console.error("Error fetching recipe data:", error);
+        }
         };
-    
-        if (id) fetchRecipe();
-    }, [id, setValue]);
+
+        fetchRecipe();
+    }, [id]);
+
+    useEffect(() => {
+        if (recipe) {
+        // Populate form values once the recipe data is fetched
+        setValue("name", recipe.name);
+        setValue("ingredients", recipe.ingredients);
+        setValue("instructions", recipe.instructions);
+        }
+    }, [recipe, setValue]);
 
 
     const onSubmit = async (data: EditRecipeFormData) => {
         const accessToken = sessionStorage.getItem("accessToken");
 
         try {
-            const response = await axios.put(`${apiUrl}/edit`, data, {
+            const response = await axios.put(`${apiUrl}/edit/${id}`, data, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`, 
                 },
             });
             
-            if (response.status === 201) {
+            if (response.status === 200) {
                 setIsSubmitted(true);
                 navigate("/");
             } else {
