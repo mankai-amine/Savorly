@@ -83,7 +83,6 @@
 
 *****
 
-
 2025/01/17 Sean
 1. Done since last scrum
 - Added Recipe entity/controller to backend
@@ -109,6 +108,37 @@
 - dive into the backend code in preparation for next week
 
 2025/01/17 Felix
+1. Done since last scrum
+- 
+2. Plan until next Scrum
+- 
+3. Need assistance / figure things out
+-
+
+
+*****
+
+2025/01/20 Sean
+1. Done since last scrum
+- Edit/Delete recipe
+2. Plan until next Scrum
+- Profile update
+3. Need assistance / figure things out
+- Look into frontend work
+- Documentation
+
+2025/01/20 Amine
+1. Done since last scrum
+- Header
+- Improve the current styling
+- Frontend for updating a recipe 
+2. Plan until next Scrum
+- work on My recipes pages, from which user can update and delete recipes
+- Work on favorites (frontend and backend)
+3. Need assistance / figure things out
+- 
+
+2025/01/20 Felix
 1. Done since last scrum
 - 
 2. Plan until next Scrum
