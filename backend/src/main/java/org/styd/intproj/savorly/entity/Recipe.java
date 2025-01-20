@@ -38,20 +38,9 @@ public class Recipe {
     @Column(name = "authorid")
     private Long authorId;
 
-//    @ManyToMany
-//    @JoinTable(
-//            name = "recipe_tags",
-//            joinColumns = @JoinColumn(name = "recipeid"),
-//            inverseJoinColumns = @JoinColumn(name = "tagid")
-//    )
-//    private Set<Tag> tags;
 
-    //brought a one to one mapping , and does not use the recipe_tags table
-//    @OneToOne
-//    @JoinColumn(name = "id", unique = true)
-//    private Tag tag;
     //@OneToOne(mappedBy = "recipe", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    //@JsonManagedReference // ✅ 处理序列化，避免无限递归
+    //@JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "tag_id", referencedColumnName = "id", unique = true) // 让 Recipe 维护关系
     private Tag tag;
