@@ -55,7 +55,7 @@ public class RecipeController {
         }
     }
 
-    @PostMapping("edit/{id}")
+    @PutMapping("edit/{id}")
     public ResponseEntity<Recipe> editRecipe(@PathVariable Long id, @RequestBody Recipe recipe, Authentication authentication) {
         String username = authentication.getName();
 

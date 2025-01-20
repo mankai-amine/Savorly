@@ -60,7 +60,7 @@ const Register = () => {
                                 <Form.Group controlId='formUsername' className='mb-3'>
                                     <Form.Control
                                         type='text'
-                                        placeholder='Please Enter A Username'
+                                        placeholder='Enter your Username'
                                         {...register('username')}
                                     />
                                     {errors.username && <p className="text-danger">{errors.username.message}</p>}
