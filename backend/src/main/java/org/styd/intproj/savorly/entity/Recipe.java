@@ -1,5 +1,6 @@
 package org.styd.intproj.savorly.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -49,6 +50,9 @@ public class Recipe {
 //    @OneToOne
 //    @JoinColumn(name = "id", unique = true)
 //    private Tag tag;
-    @OneToOne(mappedBy = "recipe", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    //@OneToOne(mappedBy = "recipe", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    //@JsonManagedReference // ✅ 处理序列化，避免无限递归
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "tag_id", referencedColumnName = "id", unique = true) // 让 Recipe 维护关系
     private Tag tag;
 }

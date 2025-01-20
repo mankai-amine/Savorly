@@ -12,9 +12,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.styd.intproj.savorly.dto.RecipeResponse;
 import org.styd.intproj.savorly.dto.RecipeViewModel;
+import org.styd.intproj.savorly.dto.TagResponse;
 import org.styd.intproj.savorly.entity.Recipe;
+import org.styd.intproj.savorly.entity.Tag;
 import org.styd.intproj.savorly.repository.RecipeRepository;
+import org.styd.intproj.savorly.repository.TagRepository;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -24,6 +28,12 @@ public class RecipeService {
 
     @Autowired
     private RecipeRepository recipeRepository;
+
+    @Autowired
+    private EmbeddingService embeddingService; //service class dependency injection for getting embedding
+
+    @Autowired
+    private TagRepository tagRepository;
 
     /**
      * get all recipes
@@ -120,6 +130,45 @@ public class RecipeService {
         }
         recipeRepository.deleteById(id);
         logger.info("Deleted recipe with id: {}", id);
+    }
+
+    //create new record both in recipes table and tags table
+    @Transactional //transaction will roll back only when runtime exception or error
+    public RecipeResponse createRecipeAndTagWithEmbedding(RecipeViewModel recipeViewModel) {
+        validateRecipeInput(recipeViewModel);
+        String textToEmbedding = recipeViewModel.getName()+" "+recipeViewModel.getIngredients()+" "+recipeViewModel.getInstructions();
+        List<Embedding> embeddings =  embeddingService.getEmbeddings(List.of(textToEmbedding));
+
+        if (embeddings.isEmpty()) {
+            throw new RuntimeException("Failed to generate embeddings for recipe.");
+        }
+
+        float[] embeddingArray = embeddings.getFirst().getOutput();
+
+        Recipe recipe = new Recipe();
+
+        recipe.setName(recipeViewModel.getName());
+        recipe.setIngredients(recipeViewModel.getIngredients());
+        recipe.setInstructions(recipeViewModel.getInstructions());
+        recipe.setPicture(recipeViewModel.getPicture());
+        recipe.setAuthorId(1L);
+
+        Tag tag = new Tag();
+
+        tag.setTitle(recipe.getName());
+        tag.setIngredients(recipe.getIngredients());
+        tag.setDescription(recipe.getInstructions());
+        tag.setEmbedding(embeddingArray);
+
+        //2-way association
+        tag.setRecipe(recipe);
+        recipe.setTag(tag);
+
+        //save first and then associate
+        Recipe savedRecipe = recipeRepository.save(recipe);
+
+        return new RecipeResponse("success", List.of(savedRecipe));
+
     }
 
     /**

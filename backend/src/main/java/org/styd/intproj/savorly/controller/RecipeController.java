@@ -85,4 +85,11 @@ public class RecipeController {
         recipeService.deleteRecipe(id);
         return ResponseEntity.noContent().build();
     }
+
+    //create in transactional way
+    @PostMapping(value = "create",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RecipeResponse> createRecipeAndTagWithEmbedding(@Valid @RequestBody RecipeViewModel recipeViewModel) {
+        RecipeResponse response = recipeService.createRecipeAndTagWithEmbedding(recipeViewModel);
+        return ResponseEntity.ok(response);
+    }
 }

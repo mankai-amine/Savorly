@@ -1,5 +1,6 @@
 package org.styd.intproj.savorly.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.styd.intproj.savorly.utils.FloatArrayDeserializer;
 import org.styd.intproj.savorly.utils.FloatArraySerializer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -94,6 +95,8 @@ public class Tag {
 
     @OneToOne
     @JoinColumn(name = "recipe_id", unique = true)
+    @JsonBackReference // ✅ 反向引用，防止无限循环
     private Recipe recipe;
+
 
 }
