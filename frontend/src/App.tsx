@@ -9,6 +9,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js"; 
 import Header from './components/Header';
 import ProtectedRoute from './helpers/ProtectedRoute';
+import { EditRecipe } from './pages/EditRecipe';
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
             <Route path='/recipe/add' element={<ProtectedRoute element={AddRecipe} />} />
+            <Route path='/recipe/edit/:id' element={<ProtectedRoute element={EditRecipe} />} />
             <Route path="/recipe/:id" element={<RecipeDetails />} />
           </Routes>
         </Router>
