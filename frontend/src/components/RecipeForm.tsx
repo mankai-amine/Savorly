@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Recipe } from "../api/RecipeApi"; 
 
 interface RecipeFormProps {
@@ -23,6 +23,11 @@ const RecipeForm = ({ initialRecipe, onSubmit }: RecipeFormProps) => {
   };
 
   const [recipe, setRecipe] = useState<Recipe>(getInitialRecipe(initialRecipe));
+
+  // listen for changes in `initialRecipe`
+  useEffect(() => {
+    setRecipe(initialRecipe);
+  }, [initialRecipe]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setRecipe({ ...recipe, [e.target.name]: e.target.value });

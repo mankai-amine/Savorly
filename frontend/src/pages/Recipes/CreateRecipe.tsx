@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { createRecipe, Recipe } from "../../api/RecipeApi";
+import { createRecipeTransactional, Recipe } from "../../api/RecipeApi";
+import UploadPicture from "../../components/UploadPicture";
 
 const CreateRecipe = () => {
   const [recipe, setRecipe] = useState<Recipe>({
@@ -7,20 +8,30 @@ const CreateRecipe = () => {
     ingredients: "",
     instructions: "",
     picture: "",
-    authorId: 1, // 默认值，可更改
+    authorId: 1, // default
   });
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
+  // handle input change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setRecipe({
-      ...recipe,
+    setRecipe((prev) => ({
+      ...prev,
       [e.target.name]: e.target.value,
-    });
+    }));
   };
 
+  // handle picture upload success, update recipe picture field
+  const handleUploadSuccess = (imgUrl: string) => {
+    setRecipe((prev) => ({
+      ...prev,
+      picture: imgUrl, // update picture field
+    }));
+  };
+
+  // handle form submit
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -28,19 +39,15 @@ const CreateRecipe = () => {
     setSuccessMessage(null);
 
     try {
-      const response = await createRecipe(recipe);
+      const response = await createRecipeTransactional(recipe);
       console.log(response);
+
       if (response.message !== "success") { 
         throw new Error(`Failed to create recipe, HTTP status: ${response.message}`);
       }
-    
-      const data = await response.recipes;
-      console.log(data[0]);    
-      
-    
+
       setSuccessMessage("Recipe created successfully!");
       setRecipe({ name: "", ingredients: "", instructions: "", picture: "", authorId: 1 });
-    
     } catch (err) {
       setError("Failed to create recipe: " + err);
     } finally {
@@ -60,15 +67,19 @@ const CreateRecipe = () => {
         </div>
         <div>
           <label>Ingredients:</label>
-          <textarea name="ingredients" value={recipe.ingredients} onChange={handleChange}/>
+          <textarea name="ingredients" value={recipe.ingredients} onChange={handleChange} />
         </div>
         <div>
           <label>Instructions:</label>
-          <textarea name="instructions" value={recipe.instructions} onChange={handleChange}/>
+          <textarea name="instructions" value={recipe.instructions} onChange={handleChange} />
         </div>
         <div>
           <label>Picture URL:</label>
           <input type="text" name="picture" value={recipe.picture} onChange={handleChange} />
+        </div>
+        <div>
+          {/* pass as call back*/}
+          <UploadPicture onUploadSuccess={handleUploadSuccess} />
         </div>
         <button type="submit" disabled={loading}>
           {loading ? "Submitting..." : "Create Recipe"}
@@ -79,4 +90,3 @@ const CreateRecipe = () => {
 };
 
 export default CreateRecipe;
-
