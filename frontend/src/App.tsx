@@ -1,5 +1,6 @@
 import Login from './pages/Login';
 import Register from './pages/Register';
+import  Home  from './pages/Home';
 import Tag from './pages/Tag';
 import Recipe from './pages/Recipes/Recipe';
 import CreateRecipe from './pages/Recipes/CreateRecipe';
@@ -22,6 +23,7 @@ function App() {
             <Route path="/recipes/edit/:id" element={<EditRecipe />} />
             <Route path="/tags" element={<Tag />} />
             <Route path="/upload" element={<Upload />} />
+            <Route path='/' element={<Home />} />
           </Routes>
         </Router>
       </div>

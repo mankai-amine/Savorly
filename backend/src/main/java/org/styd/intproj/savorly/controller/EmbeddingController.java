@@ -2,6 +2,7 @@ package org.styd.intproj.savorly.controller;
 
 import org.styd.intproj.savorly.dto.TagViewModel;
 import org.styd.intproj.savorly.entity.Tag;
+import org.styd.intproj.savorly.service.OpenAiEmbeddingService;
 import org.styd.intproj.savorly.service.TagService;
 import jakarta.validation.Valid;
 import org.springframework.ai.embedding.Embedding;
@@ -24,6 +25,9 @@ public class EmbeddingController {
 
     @Autowired
     private EmbeddingService embeddingService;
+
+    //@Autowired
+    //private OpenAiEmbeddingService embeddingService;
     @Autowired
     private TagService tagService;
 
@@ -113,7 +117,7 @@ public class EmbeddingController {
                 }
 
                 if (!queryVector.isEmpty()) {
-                    tags.addAll(tagService.getTagsForNearestEmbedding(queryVector.get(0).getOutput()));
+                    tags.addAll(tagService.getTagsForNearestEmbedding(queryVector.getFirst().getOutput()));
                 }
 
                 // Step 4: Map tags to TagViewModel for the response

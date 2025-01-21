@@ -3,6 +3,8 @@ package org.styd.intproj.savorly.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.embedding.Embedding;
+import org.springframework.ai.embedding.EmbeddingRequest;
+import org.springframework.ai.embedding.EmbeddingResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +29,10 @@ public class TagService {
 
     @Autowired
     private EmbeddingService embeddingService;
+
+    //@Autowired
+    //private OpenAiEmbeddingService openAiEmbeddingService;
+
 
     private static final Logger logger = LoggerFactory.getLogger(TagService.class);
 
@@ -103,6 +109,29 @@ public class TagService {
         throw new RuntimeException("Failed to save tag");
     }
 
+    // to generate openai embedding
+    @Transactional
+    public TagResponse createTagWithOpenAiEmbedding(TagViewModel tagViewModel) {
+        validateTagInput(tagViewModel);
+
+        // generate embedding with open , 1536 dimensions
+        float[] embedding = generateEmbeddingWithOpenAi(tagViewModel);
+
+        // save in the database
+        int savedTagCount = tagRepository.saveTag(
+                tagViewModel.getTitle().trim(),
+                tagViewModel.getIngredients().trim(),
+                tagViewModel.getDescription().trim(),
+                embedding
+        );
+
+        if (savedTagCount > 0) {
+            logger.info("Created new tag with openai embedding: {}", tagViewModel.getTitle());
+            return new TagResponse("Saved successfully", List.of(tagViewModel));
+        }
+        throw new RuntimeException("Failed to save tag with openai embedding");
+    }
+
     /**
      * update
      */
@@ -166,7 +195,7 @@ public class TagService {
     }
 
     /**
-     * generate embedding of the words list in tagViewModel
+     * generate embedding of the words list in tagViewModel with ollama, dimensions are 768
      */
     private float[] generateEmbedding(TagViewModel tagViewModel) {
         String combinedText = tagViewModel.getTitle().trim() + " " +
@@ -180,7 +209,25 @@ public class TagService {
             throw new RuntimeException("Failed to generate embeddings");
         }
 
-        return tagEmbeddings.get(0).getOutput();
+        return tagEmbeddings.getFirst().getOutput();
+    }
+
+    //to get embedding with openAi, notice the dimensions are 1536
+    private float[] generateEmbeddingWithOpenAi(TagViewModel tagViewModel) {
+        String combinedText = tagViewModel.getTitle().trim() + " " +
+                tagViewModel.getIngredients().trim() + " " +
+                tagViewModel.getDescription().trim();
+
+        List<String> wordsList = Arrays.asList(combinedText.split("\\s+"));
+//        EmbeddingResponse embeddingResponse = embeddingService.getEmbeddings(wordsList);
+//        List<Embedding> tagEmbeddings =  embeddingResponse.getResults();
+
+        List<Embedding> tagEmbeddings = embeddingService.getEmbeddings(wordsList);
+        if (tagEmbeddings.isEmpty()) {
+            throw new RuntimeException("Failed to generate embeddings");
+        }
+
+        return tagEmbeddings.getFirst().getOutput();
     }
 
     /**

@@ -4,6 +4,7 @@ import org.styd.intproj.savorly.dto.TagPassModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.embedding.Embedding;
+import org.styd.intproj.savorly.service.OpenAiEmbeddingService;
 import org.springframework.ai.embedding.EmbeddingOptions;
 import org.springframework.ai.embedding.EmbeddingRequest;
 import org.springframework.ai.embedding.EmbeddingResponse;
@@ -22,11 +23,21 @@ import static java.awt.SystemColor.text;
 @Service
 public class EmbeddingService {
 
-    private final OllamaEmbeddingModel ollamaEmbeddingModel;
+    //for ollama
+    //private final OllamaEmbeddingModel ollamaEmbeddingModel;
 
+    private final OpenAiEmbeddingService openAiEmbeddingService;
+
+    //for ollama injection
+//    @Autowired
+//    public EmbeddingService(OllamaEmbeddingModel ollamaEmbeddingModel) {
+//        this.ollamaEmbeddingModel = ollamaEmbeddingModel;
+//    }
+
+    //for openai injection
     @Autowired
-    public EmbeddingService(OllamaEmbeddingModel ollamaEmbeddingModel) {
-        this.ollamaEmbeddingModel = ollamaEmbeddingModel;
+    public EmbeddingService(OpenAiEmbeddingService openAiEmbeddingService) {
+        this.openAiEmbeddingService = openAiEmbeddingService;
     }
 
 
@@ -41,7 +52,8 @@ public class EmbeddingService {
             //all print must be disabled in product environment
             System.out.println("Start to get the embedding from ollama");
             System.out.println("texts in request" +request.getInstructions());
-            EmbeddingResponse response = ollamaEmbeddingModel.call(request);
+            EmbeddingResponse response = openAiEmbeddingService.getEmbeddingFromOpenAi(texts); //from openai
+            //EmbeddingResponse response = ollamaEmbeddingModel.call(request); //from ollama
             System.out.println("return response : " + response );
 
             System.out.println(Arrays.toString(response.getResults().getFirst().getOutput()));

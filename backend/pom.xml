@@ -130,6 +130,14 @@
             <artifactId>spring-ai-ollama-spring-boot-starter</artifactId>
         </dependency>
 
+        <!-- for openai embedding model-->
+        <!-- https://mvnrepository.com/artifact/group.springframework.ai/spring-ai-openai-spring-boot-starter -->
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-openai-spring-boot-starter</artifactId>
+        </dependency>
+
+
         <!--for s3 -->
         <dependency>
             <groupId>com.amazonaws</groupId>
