@@ -43,6 +43,9 @@ const Header = () => {
                 <Nav.Link as={Link} to="/recipe/add">
                   Create Recipe
                 </Nav.Link>
+                <Nav.Link as={Link} to="/recipe/myrecipes">
+                  My Recipes
+                </Nav.Link>
                 <Button
                   variant="outline-danger"
                   className="ms-2"

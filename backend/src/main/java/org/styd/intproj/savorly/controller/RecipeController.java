@@ -41,6 +41,16 @@ public class RecipeController {
         return ResponseEntity.ok(recipe);
     }
 
+    @GetMapping("/mine")
+    public ResponseEntity<List<Recipe>> getMyRecipes(Authentication authentication) {
+        String username = authentication.getName();
+        Long userId = getUserIdFromUsername(username);
+
+        List<Recipe> recipes = recipeRepository.findByAuthorId(userId);
+
+        return ResponseEntity.ok(recipes);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<Recipe> createRecipe(@RequestBody Recipe recipe, Authentication authentication) {
         String username = authentication.getName();
@@ -86,7 +96,7 @@ public class RecipeController {
         }
     }
 
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Recipe> deleteRecipe(@PathVariable Long id, Authentication authentication) {
         String username = authentication.getName();
 
