@@ -24,7 +24,7 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
     @Query("SELECT r FROM Recipe r WHERE r.instructions LIKE :instructions")
     List<Recipe> findByInstructionsLike(@Param("instructions") String instructions);
 
-
+    List<Recipe> findByAuthorId(Long userId);
 
 }
 

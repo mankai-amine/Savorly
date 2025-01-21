@@ -1,25 +1,35 @@
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Tag from './pages/Tag';
-import Recipe from './pages/Recipes/Recipe';
-import CreateRecipe from './pages/Recipes/CreateRecipe';
-import EditRecipe from './pages/Recipes/EditRecipe';
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import { UserProvider } from './helpers/UserContext';
-import Upload from './pages/Upload';
+import { AddRecipe } from './pages/AddRecipe';
+import { Home } from './pages/Home';
+import { RecipeDetails } from './pages/RecipeDetails';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js"; 
+import Header from './components/Header';
+import ProtectedRoute from './helpers/ProtectedRoute';
+import { EditRecipe } from './pages/EditRecipe';
+import { MyRecipes } from './pages/MyRecipes';
+import EditProfile from './pages/EditProfile';
+
 
 function App() {
 
   return (
     <UserProvider>
-      <div className='App'>
+      <div>
         <Router>
+          <Header />
           <Routes>
+            <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
-            <Route path="/recipes" element={<Recipe />} />
-            <Route path="/recipes/new" element={<CreateRecipe />} />
-            <Route path="/recipes/edit/:id" element={<EditRecipe />} />
+            <Route path='/profile' element={<ProtectedRoute element={EditProfile} />} />
+            <Route path='/recipe/add' element={<ProtectedRoute element={AddRecipe} />} />
+            <Route path='/recipe/edit/:id' element={<ProtectedRoute element={EditRecipe} />} />
+            <Route path='/recipe/myrecipes' element={<ProtectedRoute element={MyRecipes} />} />
+            <Route path="/recipe/:id" element={<RecipeDetails />} />
             <Route path="/tags" element={<Tag />} />
             <Route path="/upload" element={<Upload />} />
           </Routes>

@@ -83,25 +83,93 @@
 
 *****
 
-
 2025/01/17 Sean
 1. Done since last scrum
-- 
+- Added Recipe entity/controller to backend
+- Added JwtAuth
 2. Plan until next Scrum
-- 
-- 
+- Edit/Delete recipe
+- Profile update
 3. Need assistance / figure things out
--
+- Bucket upload for Saturday
+- Look into frontend work
+- Documentation
 
 2025/01/17 Amine
 1. Done since last scrum
+- frontend for adding a recipe
+- frontend for viewing recipe(s)
+- backend code for getting authenticated user details 
+2. Plan until next Scrum
+- Header
+- Improve the current styling
+- Frontend for updating a recipe
+3. Need assistance / figure things out
+- dive into the backend code in preparation for next week
+
+2025/01/17 Felix
+1. Done since last scrum
 - 
 2. Plan until next Scrum
 - 
 3. Need assistance / figure things out
 -
 
-2025/01/17 Felix
+
+*****
+
+2025/01/20 Sean
+1. Done since last scrum
+- Edit/Delete recipe
+2. Plan until next Scrum
+- Profile update
+3. Need assistance / figure things out
+- Look into frontend work
+- Documentation
+
+2025/01/20 Amine
+1. Done since last scrum
+- Header
+- Improve the current styling
+- Frontend for updating a recipe 
+2. Plan until next Scrum
+- work on My recipes pages, from which user can update and delete recipes
+- Work on favorites (frontend and backend)
+3. Need assistance / figure things out
+- 
+
+2025/01/20 Felix
+1. Done since last scrum
+- 
+2. Plan until next Scrum
+- 
+3. Need assistance / figure things out
+-
+
+*****
+
+2025/01/21 Sean
+1. Done since last scrum
+- Profile update
+2. Plan until next Scrum
+- Rate Recipe
+- Look into code merging
+- Start writing some documentation
+3. Need assistance / figure things out
+-
+
+2025/01/21 Amine
+1. Done since last scrum
+- work on My recipes pages, from which user can update and delete recipes
+- Work on favorites (backend)
+2. Plan until next Scrum
+- participate in solving issues when merging Felix's code
+- work on frontend documentation
+- Work on favorites (frontend)
+3. Need assistance / figure things out
+- 
+
+2025/01/21 Felix
 1. Done since last scrum
 - 
 2. Plan until next Scrum
