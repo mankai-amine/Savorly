@@ -11,6 +11,7 @@ import Header from './components/Header';
 import ProtectedRoute from './helpers/ProtectedRoute';
 import { EditRecipe } from './pages/EditRecipe';
 import { MyRecipes } from './pages/MyRecipes';
+import EditProfile from './pages/EditProfile';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
             <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
+            <Route path='/profile' element={<ProtectedRoute element={EditProfile} />} />
             <Route path='/recipe/add' element={<ProtectedRoute element={AddRecipe} />} />
             <Route path='/recipe/edit/:id' element={<ProtectedRoute element={EditRecipe} />} />
             <Route path='/recipe/myrecipes' element={<ProtectedRoute element={MyRecipes} />} />
