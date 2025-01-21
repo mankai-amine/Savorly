@@ -88,4 +88,34 @@ public class UserController {
         }
     }
 
+    @PostMapping("/edit")
+    public ResponseEntity<?> editUser(Authentication authentication, @RequestBody User user) {
+        String username = authentication.getName();
+
+        try {
+            // should never happen
+            if (userRepository.findByUsername(username) == null) {
+                return ResponseEntity.badRequest()
+                        .body(new ErrorResponse("usernameNotExists", "User does not exist"));
+            }
+            User toEdit = userRepository.findByUsername(username);
+
+            if (!user.getPassword().equals(user.getPassword2())) {
+                return ResponseEntity.badRequest()
+                        .body(new ErrorResponse("passwordsDoNotMatch", "Passwords must match"));
+            }
+
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String encodedPassword = passwordEncoder.encode(user.getPassword());
+            toEdit.setPassword(encodedPassword);
+
+            userRepository.save(toEdit);
+
+            return ResponseEntity.ok(toEdit);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
 }
