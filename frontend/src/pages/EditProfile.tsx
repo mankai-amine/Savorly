@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useState, useContext } from 'react';
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../helpers/UserContext";
 import { Container, Form, Button, Row, Col } from 'react-bootstrap';
 
 
@@ -31,16 +32,34 @@ const EditProfile = () => {
 
     const navigate = useNavigate();
 
+    const accessToken = sessionStorage.getItem("accessToken"); 
+    if (!accessToken) {
+        alert("Authorization token is missing. Please log in again.");
+        return;
+    }
+
+    const userContext = useContext(UserContext);
+    
+    if (!userContext) {
+    throw new Error("UserContext is undefined");
+    }
+    
+    const { user } = userContext;
 
     const onSubmit = async (data: ProfileFormData) => {
         try {
-            const response = await axios.post(`${apiUrl}`, data);
+            const response = await axios.post(`${apiUrl}`, data, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`, 
+                },
+            });
     
             if (response.status === 200) {
                 setIsSubmitted(true);
                 navigate("/");
             } else {
                 setIsSubmitted(false);
+                alert("Editing profile failed. Please try again.");
             }
         } catch (error) {
             console.error('Registration error:', error);
@@ -54,7 +73,7 @@ const EditProfile = () => {
                 <Row className='justify-content-md-center'>
                     <Col md={6} lg={4}>
                         <div className='register-box text-center'>
-                            <h2 className='mb-4 twixer-logo'> Savorly</h2>
+                            <h2 className='mb-4 twixer-logo'> Editing profile password for { user ? user.username : "Guest(should not happen!)" }</h2>
                          
                             <Form onSubmit={handleSubmit(onSubmit)}>
                                 <Form.Group controlId="formPassword" className="mb-3">
@@ -75,14 +94,10 @@ const EditProfile = () => {
                                 </Form.Group>
 
                                 <Button variant='primary' type='submit' className='w-100 mb-3'>
-                                    Register
+                                    Edit password
                                 </Button>
 
                                 {isSubmitted && <p className="text-success">Profile edited successfully</p>}
-
-                                <div className='mt-3'>
-                                    <p>Already have an account? <a href='/login' className='login-link'>Login</a></p>
-                                </div>
                             </Form>
                         </div>
                     </Col>
