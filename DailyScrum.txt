@@ -145,3 +145,34 @@
 - 
 3. Need assistance / figure things out
 -
+
+*****
+
+2025/01/21 Sean
+1. Done since last scrum
+- Profile update
+2. Plan until next Scrum
+- Rate Recipe
+- Look into code merging
+- Start writing some documentation
+3. Need assistance / figure things out
+-
+
+2025/01/21 Amine
+1. Done since last scrum
+- work on My recipes pages, from which user can update and delete recipes
+- Work on favorites (backend)
+2. Plan until next Scrum
+- participate in solving issues when merging Felix's code
+- work on frontend documentation
+- Work on favorites (frontend)
+3. Need assistance / figure things out
+- 
+
+2025/01/21 Felix
+1. Done since last scrum
+- 
+2. Plan until next Scrum
+- 
+3. Need assistance / figure things out
+-
