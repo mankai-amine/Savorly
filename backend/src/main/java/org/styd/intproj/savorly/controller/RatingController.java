@@ -14,6 +14,7 @@ import org.styd.intproj.savorly.repository.RatingRepository;
 import org.styd.intproj.savorly.repository.RecipeRepository;
 import org.styd.intproj.savorly.repository.UserRepository;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,8 +31,8 @@ public class RatingController {
     @Autowired
     private RatingRepository ratingRepository;
 
-    @GetMapping("/recipe/{recipeId}")
-    public ResponseEntity<Integer> getUsersRecipeRating(@PathVariable Long recipeId,
+    @GetMapping("/user/{recipeId}")
+    public ResponseEntity<Integer> getUserRecipeRating(@PathVariable Long recipeId,
                                                              Authentication authentication) {
         String username = authentication.getName();
         try {
@@ -58,6 +59,23 @@ public class RatingController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    @GetMapping("/recipe/{recipeId}")
+    public ResponseEntity<Double> getAverageRatingForRecipe(@PathVariable Long recipeId) {
+        Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
+        if (recipeOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        Long currRecipeId = recipeOptional.get().getId();
+
+        Optional<Double> averageRating = Optional.ofNullable(ratingRepository.getAverageRatingByRecipeId(currRecipeId));
+        if (averageRating.isEmpty()) {
+            Double noRatings = 0.0;
+            return ResponseEntity.ok().body(noRatings);
+        }
+        
+        return ResponseEntity.ok().body(averageRating.get());
     }
 
     @PostMapping("/create/{recipeId}")
