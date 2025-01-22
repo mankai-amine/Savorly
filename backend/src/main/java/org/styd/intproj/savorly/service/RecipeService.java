@@ -237,7 +237,7 @@ public class RecipeService {
         List<Recipe> recipes = new ArrayList<>();
         //find the recipe with the tagId
         for (Tag tag : tags) {
-            recipes.add(recipeRepository.findById(tag.getRecipe().getId()).orElse(null));
+            recipes.add(recipeRepository.findById(tag.getRecipe().getId()).orElseThrow(null)); //orElse can not be used here
         }
 
         return recipes;

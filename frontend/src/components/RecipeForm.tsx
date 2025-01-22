@@ -1,5 +1,5 @@
 import { useState,useEffect } from "react";
-import { Recipe } from "../api/RecipeApi"; 
+import { Recipe,Tag } from "../api/RecipeApi"; 
 
 interface RecipeFormProps {
   initialRecipe:  Recipe; 
@@ -17,8 +17,8 @@ const RecipeForm = ({ initialRecipe, onSubmit }: RecipeFormProps) => {
       name: recipe.name,
       ingredients: recipe.ingredients,
       instructions: recipe.instructions,
-      picture: "picture" in recipe ? recipe.picture : "", // `Recipe` 可能没有 picture
-      authorId: "authorId" in recipe ? recipe.authorId : 1, // `Recipe` 可能没有 authorId
+      picture: "picture" in recipe ? recipe.picture : "", // `Recipe` may not picture
+      authorId: "authorId" in recipe ? recipe.authorId : 1, // `Recipe` may not authorId
     };
   };
 

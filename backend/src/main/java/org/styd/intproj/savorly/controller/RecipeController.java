@@ -100,6 +100,7 @@ public class RecipeController {
         return ResponseEntity.ok(response);
     }
 
+    //search with the embedding from openai, if fail to get embedding , will return a simple fuzzy search of name
     @GetMapping(value = "/search-embedding", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RecipeResponse> searchNearestRecipes(@RequestParam String keyword) {
         List<Recipe> recipes = recipeService.findNearestRecipes(keyword);

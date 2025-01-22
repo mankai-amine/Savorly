@@ -5,6 +5,14 @@ export interface Recipe {
   instructions?: string;
   picture?: string;
   authorId: number;
+  tag?: Tag;
+}
+
+export interface Tag {
+  id: number;
+  title: string;
+  ingredients?: string;
+  description?: string;
 }
 
 export interface PaginatedResponse<T> {
@@ -93,7 +101,7 @@ export const getRecipeById = async (id: number): Promise<Recipe> => {
   return response.json();
 };
 
-//update using the recipe directly
+//update using the recipe directly, excluding the tags table
 export const updateRecipe = async (recipe: Recipe) => {
   const response = await fetch(`${API_BASE_URL}/update`, {
     method: "PUT",
@@ -128,4 +136,21 @@ export const updateRecipeTransactional = async (recipe: Recipe) => {
   }
 
   return response.json();
+};
+
+
+export const searchRecipesWithEmbedding = async (query: string): Promise<Recipe[]> => {
+  const response = await fetch(`${API_BASE_URL}/search-embedding?keyword=${encodeURIComponent(query)}`, {
+    method: "GET",
+    headers : {
+      "Authorization": `Bearer ${sessionStorage.getItem("token")}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to search recipes: " + response.statusText);
+  }
+
+  const data = await response.json(); //without await, it will return a promise
+  return data.recipes;
 };

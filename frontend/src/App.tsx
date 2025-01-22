@@ -8,6 +8,7 @@ import EditRecipe from './pages/Recipes/EditRecipe';
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import { UserProvider } from './helpers/UserContext';
 import Upload from './pages/Upload';
+import SearchRecipe from './pages/Recipes/SearchRecipe';
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
             <Route path="/recipes" element={<Recipe />} />
             <Route path="/recipes/new" element={<CreateRecipe />} />
             <Route path="/recipes/edit/:id" element={<EditRecipe />} />
+            <Route path="/recipes/search" element={<SearchRecipe />} />
             <Route path="/tags" element={<Tag />} />
             <Route path="/upload" element={<Upload />} />
             <Route path='/' element={<Home />} />

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchAllRecipes, Recipe, PaginatedResponse } from "../api/RecipeApi";
+import { fetchAllRecipes, Recipe,Tag, PaginatedResponse } from "../api/RecipeApi";
 
 const RecipeList = () => {
   const [recipesData, setRecipesData] = useState<PaginatedResponse<Recipe>>({

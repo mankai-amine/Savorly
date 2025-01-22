@@ -47,9 +47,10 @@ public class Tag {
 
     @Column
     @JdbcTypeCode(SqlTypes.VECTOR)
-    @Array(length = 768) // dimensions
+    @Array(length = 1536) // dimensions, ollama 768, openai-small 1536, openai-middle 3072
     @JsonSerialize
     @JsonDeserialize
+    @JsonIgnore
     private float[] embedding;
 
     // Getter and Setter methods
