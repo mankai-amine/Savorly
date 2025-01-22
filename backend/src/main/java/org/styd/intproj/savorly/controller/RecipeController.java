@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.styd.intproj.savorly.entity.Recipe;
+import org.styd.intproj.savorly.repository.FavouriteRepository;
 import org.styd.intproj.savorly.repository.RecipeRepository;
 import org.styd.intproj.savorly.repository.UserRepository;
 
@@ -24,6 +25,8 @@ public class RecipeController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private FavouriteRepository favouriteRepository;
 
 
     @GetMapping

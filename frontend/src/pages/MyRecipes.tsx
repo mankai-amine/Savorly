@@ -28,9 +28,9 @@ export const MyRecipes = () => {
 
     useEffect(() => {
 
-    const fetchRecipes = async () => {
+      const fetchRecipes = async () => {
         try {
-        const response = await axios.get(`${apiUrl}/mine`, {
+        const response = await axios.get<Recipe[]>(`${apiUrl}/mine`, {
             headers: { Authorization: `Bearer ${accessToken}` },
             });
         setMyRecipes(response.data as Recipe[]);

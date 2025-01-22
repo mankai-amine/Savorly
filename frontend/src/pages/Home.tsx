@@ -27,8 +27,7 @@ export const Home = () => {
 
   const accessToken = sessionStorage.getItem("accessToken"); 
   if (!accessToken) {
-      alert("Authorization token is missing. Please log in again.");
-      return;
+    navigate("/login")
   }
   
   useEffect(() => {
