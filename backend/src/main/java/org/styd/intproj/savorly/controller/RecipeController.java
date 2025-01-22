@@ -61,7 +61,7 @@ public class RecipeController {
         try {
             recipe.setAuthorId(getUserIdFromUsername(username));
             Recipe savedRecipe = recipeRepository.save(recipe);
-            //return ResponseEntity.ok(savedRecipe);
+
             return ResponseEntity.status(HttpStatus.CREATED).body(savedRecipe);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();

@@ -47,6 +47,10 @@ public class Recipe {
     @JsonIgnore
     private List<Favourite> favourites;
 
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Rating> ratings = new ArrayList<>();
+
 //    @ManyToMany
 //    @JoinTable(
 //            name = "recipe_tags",
