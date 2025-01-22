@@ -176,3 +176,31 @@
 - 
 3. Need assistance / figure things out
 -
+
+*****
+
+2025/01/22 Sean
+1. Done since last scrum
+- Code merging on test branch
+- Some documentation
+2. Plan until next Scrum
+- Rate Recipe
+- Documentation
+3. Need assistance / figure things out
+-
+
+2025/01/22 Amine
+1. Done since last scrum
+- finish Favourites (frontend + some changes in the backend)
+2. Plan until next Scrum
+- Review recipe
+3. Need assistance / figure things out
+- 
+
+2025/01/22 Felix
+1. Done since last scrum
+- 
+2. Plan until next Scrum
+- 
+3. Need assistance / figure things out
+-
