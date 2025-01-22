@@ -51,7 +51,7 @@ export const Favourites = () => {
     }
 
     async function handleDelete(recipeId: number): Promise<void> {
-        const isConfirmed = window.confirm('Are you sure you want to delete this recipe?');
+        const isConfirmed = window.confirm('Are you sure you want to remove this recipe from your favourites?');
         if (!isConfirmed) return;
         try {
             await axios.delete(`${apiUrl}/${recipeId}`, {
@@ -64,7 +64,7 @@ export const Favourites = () => {
 
             setFavouriteRecipes(response.data as Recipe[]);
               
-            alert('Recipe deleted successfully');
+            alert('Recipe successfully removed from favourites.');
             } catch (err) {
             setError('Failed to load recipes');
             } finally {
