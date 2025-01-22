@@ -12,6 +12,7 @@ import ProtectedRoute from './helpers/ProtectedRoute';
 import { EditRecipe } from './pages/EditRecipe';
 import { MyRecipes } from './pages/MyRecipes';
 import EditProfile from './pages/EditProfile';
+import { Favourites } from './pages/Favourites';
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
             <Route path='/recipe/add' element={<ProtectedRoute element={AddRecipe} />} />
             <Route path='/recipe/edit/:id' element={<ProtectedRoute element={EditRecipe} />} />
             <Route path='/recipe/myrecipes' element={<ProtectedRoute element={MyRecipes} />} />
+            <Route path='/recipe/favourites' element={<ProtectedRoute element={Favourites} />} />
             <Route path="/recipe/:id" element={<RecipeDetails />} />
           </Routes>
         </Router>
