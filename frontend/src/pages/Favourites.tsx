@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
-const apiUrl = 'http://localhost:8080/api/recipe'; 
+const apiUrl = 'http://localhost:8080/api/favourites'; 
 
 interface Recipe {
     id: number;
@@ -14,11 +13,10 @@ interface Recipe {
     authorId: number;
 }
 
-export const MyRecipes = () => {
-    const [myRecipes, setMyRecipes] = useState<Recipe[]>([]);
+export const Favourites = () => {
+    const [favouriteRecipes, setFavouriteRecipes] = useState<Recipe[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-    const navigate = useNavigate();
 
     const accessToken = sessionStorage.getItem("accessToken"); 
     if (!accessToken) {
@@ -28,12 +26,12 @@ export const MyRecipes = () => {
 
     useEffect(() => {
 
-      const fetchRecipes = async () => {
+    const fetchRecipes = async () => {
         try {
-        const response = await axios.get<Recipe[]>(`${apiUrl}/mine`, {
+        const response = await axios.get(`${apiUrl}`, {
             headers: { Authorization: `Bearer ${accessToken}` },
             });
-        setMyRecipes(response.data as Recipe[]);
+            setFavouriteRecipes(response.data as Recipe[]);
         } catch (err) {
         setError('Failed to load recipes');
         } finally {
@@ -53,20 +51,20 @@ export const MyRecipes = () => {
     }
 
     async function handleDelete(recipeId: number): Promise<void> {
-        const isConfirmed = window.confirm('Are you sure you want to delete this recipe?');
+        const isConfirmed = window.confirm('Are you sure you want to remove this recipe from your favourites?');
         if (!isConfirmed) return;
         try {
-            await axios.delete(`${apiUrl}/delete/${recipeId}`, {
+            await axios.delete(`${apiUrl}/${recipeId}`, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             });
 
-            const response = await axios.get(`${apiUrl}/mine`, {
+            const response = await axios.get(`${apiUrl}`, {
                 headers: { Authorization: `Bearer ${accessToken}` },
             });
 
-            setMyRecipes(response.data as Recipe[]);
+            setFavouriteRecipes(response.data as Recipe[]);
               
-            alert('Recipe deleted successfully');
+            alert('Recipe successfully removed from favourites.');
             } catch (err) {
             setError('Failed to load recipes');
             } finally {
@@ -77,39 +75,44 @@ export const MyRecipes = () => {
   return (
     <div style={{ backgroundColor: '#f0f0f0', minHeight: '100vh' }}>
       <Container className="mt-5">
-        <h1 className="mb-4">My Recipes</h1>
-        {Array.isArray(myRecipes) && myRecipes.length === 0 ? (
+        <h1 className="mb-4">Favourite Recipes</h1>
+        {Array.isArray(favouriteRecipes) && favouriteRecipes.length === 0 ? (
         <div className="alert alert-info" role="alert">
           No recipes found.
         </div>
         ) : (
         <Row>
-          {myRecipes.map((recipe) => (
+          {favouriteRecipes.map((recipe) => (
             <Col key={recipe.id} md={4} className="mb-4">
               <Card>
-                <Card.Body>
-                  <Card.Title>{recipe.name}</Card.Title>
-                  <Card.Text>
-                    <strong>Ingredients:</strong> {recipe.ingredients}
-                  </Card.Text>
-                  <Card.Text>
-                    <strong>Instructions:</strong> {recipe.instructions}
-                  </Card.Text>
-                  <Button
-                    variant="primary"
-                    onClick={() => navigate(`/recipe/edit/${recipe.id}`)}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    variant="danger"
+                <div style={{ position: 'relative' }}>
+                    <Button
+                    variant="link"
                     onClick={() => handleDelete(recipe.id)}
-                    style={{ marginLeft: '10px' }}
-                  >
-                    Delete
-                  </Button>
+                    style={{
+                        position: 'absolute',
+                        top: '10px',
+                        right: '10px',
+                        color: 'red',
+                        fontSize: '1.5rem',
+                        padding: '0',
+                        textDecoration: 'none'
+                    }}
+                    >
+                    &times; {/* Close icon (X) */}
+                    </Button>
+                </div>
+                <Card.Body>
+                    <Card.Title>{recipe.name}</Card.Title>
+                    <Card.Text>
+                    <strong>Ingredients:</strong> {recipe.ingredients}
+                    </Card.Text>
+                    <Card.Text>
+                    <strong>Instructions:</strong> {recipe.instructions}
+                    </Card.Text>
                 </Card.Body>
-              </Card>
+                </Card>
+
             </Col>
           ))}
         </Row>

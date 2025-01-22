@@ -46,6 +46,9 @@ const Header = () => {
                 <Nav.Link as={Link} to="/recipe/myrecipes">
                   My Recipes
                 </Nav.Link>
+                <Nav.Link as={Link} to="/recipe/favourites">
+                  Favourites
+                </Nav.Link>
                 <Nav.Link as={Link} to="/profile">
                   Edit Profile
                 </Nav.Link>

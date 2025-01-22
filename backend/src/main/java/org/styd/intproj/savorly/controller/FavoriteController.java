@@ -29,17 +29,20 @@ public class FavoriteController {
     @Autowired
     private FavouriteRepository favouriteRepository;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @GetMapping("/{userId}")
-    public ResponseEntity<List<Recipe>> getFavoriteRecipes(@PathVariable Long userId) {
-        List<Recipe> favoriteRecipes = favouriteRepository.getFavouriteByUserId(userId);
-        return ResponseEntity.ok(favoriteRecipes);
+    @GetMapping
+    public ResponseEntity<List<Recipe>> getFavouriteRecipes(Authentication authentication) {
+        String username = authentication.getName();
+        try {
+            Long currUserId = userRepository.findByUsername(username).getId();
+            List<Recipe> favouriteRecipes = favouriteRepository.getFavouriteByUserId(currUserId);
+            return ResponseEntity.ok(favouriteRecipes);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
-    @PostMapping("/add/{id}")
-    public ResponseEntity<Favourite> addFavorite(@PathVariable Long id, Authentication authentication) {
+    @PostMapping("/{recipeId}")
+    public ResponseEntity<Favourite> addFavourite(@PathVariable Long recipeId, Authentication authentication) {
         String username = authentication.getName();
 
         try {
@@ -51,7 +54,7 @@ public class FavoriteController {
             User user = userOptional.get();
 
             // Fetch the recipe
-            Optional<Recipe> recipeOptional = recipeRepository.findById(id);
+            Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
             if (recipeOptional.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             }
@@ -68,21 +71,16 @@ public class FavoriteController {
         }
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Favourite> deleteFavorite(@PathVariable Long id, Authentication authentication) {
+    @DeleteMapping("/{recipeId}")
+    public ResponseEntity<Favourite> deleteFavourite(@PathVariable Long recipeId, Authentication authentication) {
         String username = authentication.getName();
 
         try {
             Long currUserId = userRepository.findByUsername(username).getId();
 
-            Favourite toDelete = favouriteRepository.findById(id).orElse(null);
+            Favourite toDelete = favouriteRepository.findByRecipeIdAndUserId(recipeId, currUserId);
             if (toDelete == null) {
                 return ResponseEntity.notFound().build();
-            }
-
-            Long recipeUserId = toDelete.getUser().getId();
-            if (!recipeUserId.equals(currUserId)) {
-                return ResponseEntity.badRequest().build();
             }
 
             favouriteRepository.delete(toDelete);
