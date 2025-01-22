@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.styd.intproj.savorly.dto.TagResponse;
 import org.styd.intproj.savorly.dto.TagViewModel;
 import org.styd.intproj.savorly.dto.TagPassModel;
+import org.styd.intproj.savorly.entity.Recipe;
 import org.styd.intproj.savorly.repository.TagRepository;
 import org.styd.intproj.savorly.entity.Tag;
 import org.springframework.beans.factory.annotation.Autowired;

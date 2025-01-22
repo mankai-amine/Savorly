@@ -12,12 +12,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.styd.intproj.savorly.dto.RecipeResponse;
 import org.styd.intproj.savorly.dto.RecipeViewModel;
+import org.styd.intproj.savorly.dto.TagPassModel;
 import org.styd.intproj.savorly.dto.TagResponse;
 import org.styd.intproj.savorly.entity.Recipe;
 import org.styd.intproj.savorly.entity.Tag;
 import org.styd.intproj.savorly.repository.RecipeRepository;
 import org.styd.intproj.savorly.repository.TagRepository;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -220,6 +222,26 @@ public class RecipeService {
         }
     }
 
+    //find nearest tags with embedding or title, and then return the recipe  corresponding to the tagid
+    public List<Recipe> findNearestRecipes(String keyword) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            throw new IllegalArgumentException("Keyword is required");
+        }
+        //step1 : get the embedding of the list of the name field
+        List<Embedding> embeddingArray = embeddingService.getEmbeddings(Arrays.asList(keyword.split("\\s+")));
+        //step2 :
+        //if failed to get openai embedding, get the fuzzy search of the keyword, else the nearest L2 distance tags
+        List<Tag> tags = embeddingArray.isEmpty() ? tagRepository.findByTitleLike("%" + keyword + "%")
+                : tagRepository.findNearestTags(embeddingArray.getFirst().getOutput());
+        //step3 : return the recipe with the tagId
+        List<Recipe> recipes = new ArrayList<>();
+        //find the recipe with the tagId
+        for (Tag tag : tags) {
+            recipes.add(recipeRepository.findById(tag.getRecipe().getId()).orElse(null));
+        }
+
+        return recipes;
+    }
 
 
     /**

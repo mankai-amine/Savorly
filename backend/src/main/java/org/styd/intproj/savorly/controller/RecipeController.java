@@ -99,4 +99,16 @@ public class RecipeController {
         RecipeResponse response = recipeService.updateRecipeAndTagWithEmbedding(recipe);
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping(value = "/search-embedding", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RecipeResponse> searchNearestRecipes(@RequestParam String keyword) {
+        List<Recipe> recipes = recipeService.findNearestRecipes(keyword);
+
+        if (recipes.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new RecipeResponse("notFound", recipes));
+        }
+
+        return ResponseEntity.ok(new RecipeResponse("success", recipes));
+    }
 }
