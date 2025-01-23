@@ -46,10 +46,13 @@ public class ReviewController {
 
         try {
             String username = authentication.getName();
+
             User user = userRepository.findByUsername(username);
             if (user == null) {
+                System.err.println("User not found: " + username);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
             }
+            System.out.println("Authenticated username: " + user);
 
             Recipe recipe = recipeRepository.findById(recipeId).orElse(null);
             if (recipe == null) {
