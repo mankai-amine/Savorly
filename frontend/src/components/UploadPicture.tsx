@@ -35,7 +35,7 @@ const UploadPicture = ({ onUploadSuccess }: UploadPictureProps) => {
         method: "POST",
         body: formData,
         headers: {
-            "Authorization": `Bearer ${sessionStorage.getItem("token")}`,
+            "Authorization": `Bearer ${sessionStorage.getItem("accessToken")}`,
           },
       });
 

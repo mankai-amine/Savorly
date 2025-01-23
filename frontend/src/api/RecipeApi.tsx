@@ -30,7 +30,7 @@ export const fetchAllRecipes = async (page: number, size: number): Promise<Pagin
   const response = await fetch(`${API_BASE_URL}/all?page=${page}&size=${size}`, {
     method: "GET",
     headers: {
-      "Authorization": `Bearer ${sessionStorage.getItem("token")}`,
+      "Authorization": `Bearer ${sessionStorage.getItem("accessToken")}`,
       "Content-Type": "application/json",
     },
   });
@@ -54,7 +54,7 @@ export const createRecipe = async (recipe: Recipe) => {
   const response = await fetch(`${API_BASE_URL}/new`, {
     method: "POST",
     headers: {
-      "Authorization": `Bearer ${sessionStorage.getItem("token")}`,
+      "Authorization": `Bearer ${sessionStorage.getItem("accessToken")}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify(recipe),
@@ -71,7 +71,7 @@ export const createRecipeTransactional = async (recipe: Recipe) => {
   const response = await fetch(`${API_BASE_URL}/create`, {
     method: "POST",
     headers: {
-      "Authorization": `Bearer ${sessionStorage.getItem("token")}`,
+      "Authorization": `Bearer ${sessionStorage.getItem("accessToken")}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify(recipe),
@@ -89,7 +89,7 @@ export const getRecipeById = async (id: number): Promise<Recipe> => {
   const response = await fetch(`${API_BASE_URL}/${id}`, {
     method: "GET",
     headers: {
-      "Authorization": `Bearer ${sessionStorage.getItem("token")}`,
+      "Authorization": `Bearer ${sessionStorage.getItem("accessToken")}`,
       "Content-Type": "application/json",
     },
   });
@@ -106,7 +106,7 @@ export const updateRecipe = async (recipe: Recipe) => {
   const response = await fetch(`${API_BASE_URL}/update`, {
     method: "PUT",
     headers: {
-      "Authorization": `Bearer ${sessionStorage.getItem("token")}`,
+      "Authorization": `Bearer ${sessionStorage.getItem("accessToken")}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify(recipe),
@@ -125,7 +125,7 @@ export const updateRecipeTransactional = async (recipe: Recipe) => {
   const response = await fetch(`${API_BASE_URL}/edit`, {
     method: "PUT",
     headers: {
-      "Authorization": `Bearer ${sessionStorage.getItem("token")}`,
+      "Authorization": `Bearer ${sessionStorage.getItem("accessToken")}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify(recipe),
@@ -143,7 +143,7 @@ export const searchRecipesWithEmbedding = async (query: string): Promise<Recipe[
   const response = await fetch(`${API_BASE_URL}/search-embedding?keyword=${encodeURIComponent(query)}`, {
     method: "GET",
     headers : {
-      "Authorization": `Bearer ${sessionStorage.getItem("token")}`,
+      "Authorization": `Bearer ${sessionStorage.getItem("accessToken")}`,
     },
   });
 

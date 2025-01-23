@@ -7,7 +7,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import UploadPicture from "../components/UploadPicture";
 
-const apiUrl = "http://localhost:8080/api/recipe";
+const apiUrl = "http://localhost:8080/api/recipes";
 
 const recipeSchema = Yup.object().shape({
     name: Yup.string().min(10, "Name needs to be at least 10 characters").required('Recipe name is required'),
@@ -55,7 +55,7 @@ export const AddRecipe = () => {
         }
 
         try {
-            const response = await axios.post(`${apiUrl}/create`, data, {
+            const response = await axios.post(`${apiUrl}/new`, data, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`, 
                 },

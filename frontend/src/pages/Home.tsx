@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const apiUrl = 'http://localhost:8080/api/recipe';
+const apiUrl = 'http://localhost:8080/api/recipes';
 const favouritesApiUrl = 'http://localhost:8080/api/favourites';
 
 
@@ -34,7 +34,7 @@ export const Home = () => {
     const fetchData  = async () => {
       try {
         const [recipesResponse, favouritesResponse] = await Promise.all([
-          axios.get(apiUrl, {
+          axios.get(`${apiUrl}/all`, {
             headers: { Authorization: `Bearer ${accessToken}` },
             }),
           // Get favorite recipe IDs
