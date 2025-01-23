@@ -24,14 +24,22 @@ import java.util.List;
 public class RecipeController {
 
     private final RecipeService recipeService;
+
     @Autowired
     private UserRepository userRepository;
 
     public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
     }
+
     @Autowired
     private RecipeRepository recipeRepository;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private FavouriteRepository favouriteRepository;
 
     /**
      * fuzzy search for name/ingredients/instructions
@@ -39,10 +47,6 @@ public class RecipeController {
     @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RecipeResponse> searchRecipes(@RequestParam String field, @RequestParam String value) {
         List<Recipe> recipes = recipeService.searchRecipes(field, value);
-    @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private FavouriteRepository favouriteRepository;
 
         if (recipes.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -75,10 +79,11 @@ public class RecipeController {
     /**
      * create
      */
+    // TODO NEEDS JWT AUTH
     @PostMapping(value = "/new", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RecipeResponse> createRecipe(@Valid @RequestBody RecipeViewModel recipeViewModel) {
         RecipeResponse response = recipeService.createRecipe(recipeViewModel);
-        System.out.println("response message : "+response.toString());
+        System.out.println("response message : " + response.toString());
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -95,6 +100,7 @@ public class RecipeController {
     /**
      * update
      */
+    // TODO NEEDS JWT AUTH
     @PutMapping(value = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RecipeResponse> updateRecipe(@Valid @RequestBody Recipe recipe) {
         RecipeResponse response = recipeService.updateRecipe(recipe);
@@ -104,6 +110,7 @@ public class RecipeController {
     /**
      * delete
      */
+    // TODO NEEDS JWT AUTH
     @DeleteMapping(value = "/delete", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> deleteRecipe(@RequestParam Long id) {
         recipeService.deleteRecipe(id);
@@ -111,6 +118,7 @@ public class RecipeController {
     }
 
     //create in transactional way
+    // TODO NEEDS JWT AUTH
     @PostMapping(value = "create",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RecipeResponse> createRecipeAndTagWithEmbedding(@Valid @RequestBody RecipeViewModel recipeViewModel) {
         RecipeResponse response = recipeService.createRecipeAndTagWithEmbedding(recipeViewModel);
@@ -118,6 +126,7 @@ public class RecipeController {
     }
 
     //update in transactional way
+    // TODO NEEDS JWT AUTH
     @PutMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RecipeResponse> updateRecipeAndTagWithEmbedding(@Valid @RequestBody Recipe recipe) {
         RecipeResponse response = recipeService.updateRecipeAndTagWithEmbedding(recipe);
@@ -125,6 +134,7 @@ public class RecipeController {
     }
 
     //search with the embedding from openai, if fail to get embedding , will return a simple fuzzy search of name
+    // TODO NEEDS JWT AUTH (pinging openai?)
     @GetMapping(value = "/search-embedding", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RecipeResponse> searchNearestRecipes(@RequestParam String keyword) {
         List<Recipe> recipes = recipeService.findNearestRecipes(keyword);

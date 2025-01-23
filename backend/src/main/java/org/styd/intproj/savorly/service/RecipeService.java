@@ -94,6 +94,7 @@ public class RecipeService {
         recipe.setIngredients(recipeViewModel.getIngredients());
         recipe.setInstructions(recipeViewModel.getInstructions());
         recipe.setPicture(recipeViewModel.getPicture());
+        // TODO Set the recipe author
 
         Recipe newRecipe = recipeRepository.save(recipe);
         logger.info("Created new recipe with ID: {}", newRecipe.getId());
@@ -155,6 +156,7 @@ public class RecipeService {
         recipe.setInstructions(recipeViewModel.getInstructions());
         recipe.setPicture(recipeViewModel.getPicture());
         recipe.setAuthorId(1L);
+        // TODO SET AUTHOR ID PROPERLY
 
         Tag tag = new Tag();
 

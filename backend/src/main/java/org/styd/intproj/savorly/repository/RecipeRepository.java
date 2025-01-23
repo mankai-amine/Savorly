@@ -13,6 +13,9 @@ import java.util.Optional;
 
 public interface RecipeRepository extends JpaRepository<Recipe, Long> {
     //Recipe findByName(String name);
+
+    List<Recipe> findByAuthorId(Long userId);
+
     Optional<Recipe> findByName(String name);
 
     @Query("SELECT r FROM Recipe r WHERE r.name LIKE :name")

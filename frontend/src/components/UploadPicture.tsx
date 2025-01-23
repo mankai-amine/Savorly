@@ -10,14 +10,14 @@ const UploadPicture = ({ onUploadSuccess }: UploadPictureProps) => {
   const [error, setError] = useState<string | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
-  // 处理文件选择
+  // Handle file selection
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
       setFile(event.target.files[0]);
     }
   };
 
-  // 处理文件上传
+  // Handle file uploads
   const handleUpload = async () => {
     if (!file) {
       setError("Please select a file first.");
@@ -44,7 +44,7 @@ const UploadPicture = ({ onUploadSuccess }: UploadPictureProps) => {
         throw new Error(data.msg || "File upload failed");
       }
 
-      setImageUrl(data.imgUrl); // 服务器返回的 S3 文件名
+      setImageUrl(data.imgUrl); // S3 file name returned by the server
       onUploadSuccess(data.imgUrl);
     } catch (err: any) {
       setError(err.message);

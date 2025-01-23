@@ -5,6 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import UploadPicture from "../components/UploadPicture";
 
 const apiUrl = "http://localhost:8080/api/recipe";
 
@@ -12,6 +13,7 @@ const recipeSchema = Yup.object().shape({
     name: Yup.string().min(10, "Name needs to be at least 10 characters").required('Recipe name is required'),
     ingredients: Yup.string().required('Ingredients are required'),
     instructions: Yup.string().required('Instructions are required'),
+    picture: Yup.string().default(""),
 });
 
 // data structure for form submission
@@ -19,6 +21,7 @@ interface AddRecipeFormData {
     name: string;
     ingredients: string;
     instructions: string;
+    picture: string;
 }
 
 interface ServerErrors {
@@ -31,11 +34,16 @@ export const AddRecipe = () => {
         resolver: yupResolver(recipeSchema),
     });
 
+    const [pictureUrl, setPictureUrl] = useState<string>("");
     const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
     const [submissionStatus, setSubmissionStatus] = useState<string | null>(null);
     const [serverErrors, setServerErrors] = useState<ServerErrors>({});
 
     const navigate = useNavigate();
+
+    const handleUploadSuccess = (imgUrl: string) => {
+        setPictureUrl(imgUrl)
+      };
 
     const onSubmit = async (data: AddRecipeFormData) => {
         setServerErrors({});
@@ -106,6 +114,18 @@ export const AddRecipe = () => {
                                         />
                                         {errors.instructions && <p className="text-danger">{errors.instructions.message}</p>}
                                     </Form.Group>
+
+                                    <Form.Group controlId='formPicture' className='mb-3'>
+                                        <Form.Control
+                                            as="text"
+                                            {...register('picture')}
+                                        />
+                                        {errors.picture && <p className="text-danger">{errors.picture.message}</p>}
+                                    </Form.Group>
+                                    <div>
+                                        {/* pass as call back*/}
+                                        <UploadPicture onUploadSuccess={handleUploadSuccess} />
+                                    </div>
 
                                     <Button variant='primary' type='submit' className='w-100 mb-3'>
                                         Add recipe
