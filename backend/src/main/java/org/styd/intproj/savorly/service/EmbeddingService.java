@@ -41,17 +41,17 @@ public class EmbeddingService {
     }
 
 
-    OllamaOptions options = OllamaOptions.builder()
-            .model("nomic-embed-text")
-            .build();
+//    OllamaOptions options = OllamaOptions.builder()
+//            .model("nomic-embed-text")
+//            .build();
 
     public List<Embedding> getEmbeddings(List<String> texts) {
-        EmbeddingRequest request = new EmbeddingRequest(texts, options);
+//        EmbeddingRequest request = new EmbeddingRequest(texts, options);
 
         try {
             //all print must be disabled in product environment
             System.out.println("Start to get the embedding from ollama");
-            System.out.println("texts in request" +request.getInstructions());
+//            System.out.println("texts in request" +request.getInstructions());
             EmbeddingResponse response = openAiEmbeddingService.getEmbeddingFromOpenAi(texts); //from openai
             //EmbeddingResponse response = ollamaEmbeddingModel.call(request); //from ollama
             System.out.println("return response : " + response );

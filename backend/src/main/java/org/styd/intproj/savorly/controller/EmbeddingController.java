@@ -89,95 +89,95 @@ public class EmbeddingController {
 
 
 
-    @PostMapping(value = "/parse", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> processSearchQuery(@Valid @RequestBody TagPassModel tagPassModel) {
-        try {
-            String query = tagPassModel.getTitle();
-            if (query != null && !query.trim().isEmpty()) {
-                // Parse the query to extract keywords
-                List<String> keywords = parseKeywords(query.trim());
-
-                // Step 1: Get embedding vectors for individual keywords if there are keywords
-                List<Embedding> keywordVectors = new ArrayList<>();
-                if (!keywords.isEmpty()) {
-                    String keywordString = String.join(", ", keywords);
-                    System.out.println("Keywords: " + keywordString);
-                    keywordVectors = embeddingService.processTagWithGenericLogic(tagPassModel, true);
-                }
-
-                // Step 2: Get a single embedding vector for the entire query
-                List<Embedding> queryVector = embeddingService.processTagWithGenericLogic(tagPassModel, false);
-
-                // Step 3: Use the query vector and keyword vectors to retrieve the nearest tags
-                List<Tag> tags = new ArrayList<>();
-                if (!keywordVectors.isEmpty()) {
-                    for (Embedding embedding : keywordVectors) {
-                        tags.addAll(tagService.getTagsForNearestEmbedding(embedding.getOutput()));
-                    }
-                }
-
-                if (!queryVector.isEmpty()) {
-                    tags.addAll(tagService.getTagsForNearestEmbedding(queryVector.getFirst().getOutput()));
-                }
-
-                // Step 4: Map tags to TagViewModel for the response
-                if (!tags.isEmpty()) {
-                    List<TagViewModel> tagViewModels = tags.stream()
-                            .map(tag -> new TagViewModel(tag.getId(), tag.getTitle(), tag.getDescription(), tag.getIngredients()))
-                            .collect(Collectors.toList());
-
-                    // Create and return the final response
-                    SearchResponse response = new SearchResponse();
-                    response.setKeywordVectors(keywordVectors);
-                    response.setQueryVector(queryVector);
-                    response.setTags(tagViewModels);
-
-                    return ResponseEntity.status(HttpStatus.OK).body(response);
-                }
-
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(new ErrorResponse("notFound", "No matching tags found."));
-            }
-
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ErrorResponse("invalidInput", "Query is empty"));
-        } catch (Exception e) {
-            e.printStackTrace(); // Log the exception for debugging
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ErrorResponse("serverError", "Failed to process search query: " + e.getMessage()));
-        }
-    }
-
-
-
-
-
-    @PostMapping(value = "/words", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> processAddTag(@Valid @RequestBody TagPassModel tagPassModel) {
-        try {
-            List<Embedding> getWordsEmbeddings = embeddingService.processTagWithGenericLogic(tagPassModel, true);
-
-            if (getWordsEmbeddings.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-            return ResponseEntity.status(HttpStatus.OK).body(getWordsEmbeddings);
-        }
-        catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ErrorResponse("serverError", "Vector not found"));
-        }
-    }
-
-    @PostMapping(value = "/query", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> processAddTagQuery(@Valid @RequestBody TagPassModel tagPassModel) {
-        try {
-            List<Embedding> getListEmbeddings = embeddingService.processTagWithGenericLogic(tagPassModel, false);
-            if (getListEmbeddings.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-            return ResponseEntity.status(HttpStatus.OK).body(getListEmbeddings);
-        }
-        catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ErrorResponse("serverError", "Vector not found"));
-        }
-    }
+//    @PostMapping(value = "/parse", produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<?> processSearchQuery(@Valid @RequestBody TagPassModel tagPassModel) {
+//        try {
+//            String query = tagPassModel.getTitle();
+//            if (query != null && !query.trim().isEmpty()) {
+//                // Parse the query to extract keywords
+//                List<String> keywords = parseKeywords(query.trim());
+//
+//                // Step 1: Get embedding vectors for individual keywords if there are keywords
+//                List<Embedding> keywordVectors = new ArrayList<>();
+//                if (!keywords.isEmpty()) {
+//                    String keywordString = String.join(", ", keywords);
+//                    System.out.println("Keywords: " + keywordString);
+//                    keywordVectors = embeddingService.processTagWithGenericLogic(tagPassModel, true);
+//                }
+//
+//                // Step 2: Get a single embedding vector for the entire query
+//                List<Embedding> queryVector = embeddingService.processTagWithGenericLogic(tagPassModel, false);
+//
+//                // Step 3: Use the query vector and keyword vectors to retrieve the nearest tags
+//                List<Tag> tags = new ArrayList<>();
+//                if (!keywordVectors.isEmpty()) {
+//                    for (Embedding embedding : keywordVectors) {
+//                        tags.addAll(tagService.getTagsForNearestEmbedding(embedding.getOutput()));
+//                    }
+//                }
+//
+//                if (!queryVector.isEmpty()) {
+//                    tags.addAll(tagService.getTagsForNearestEmbedding(queryVector.getFirst().getOutput()));
+//                }
+//
+//                // Step 4: Map tags to TagViewModel for the response
+//                if (!tags.isEmpty()) {
+//                    List<TagViewModel> tagViewModels = tags.stream()
+//                            .map(tag -> new TagViewModel(tag.getId(), tag.getTitle(), tag.getDescription(), tag.getIngredients()))
+//                            .collect(Collectors.toList());
+//
+//                    // Create and return the final response
+//                    SearchResponse response = new SearchResponse();
+//                    response.setKeywordVectors(keywordVectors);
+//                    response.setQueryVector(queryVector);
+//                    response.setTags(tagViewModels);
+//
+//                    return ResponseEntity.status(HttpStatus.OK).body(response);
+//                }
+//
+//                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+//                        .body(new ErrorResponse("notFound", "No matching tags found."));
+//            }
+//
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+//                    .body(new ErrorResponse("invalidInput", "Query is empty"));
+//        } catch (Exception e) {
+//            e.printStackTrace(); // Log the exception for debugging
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body(new ErrorResponse("serverError", "Failed to process search query: " + e.getMessage()));
+//        }
+//    }
+//
+//
+//
+//
+//
+//    @PostMapping(value = "/words", produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<?> processAddTag(@Valid @RequestBody TagPassModel tagPassModel) {
+//        try {
+//            List<Embedding> getWordsEmbeddings = embeddingService.processTagWithGenericLogic(tagPassModel, true);
+//
+//            if (getWordsEmbeddings.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+//            return ResponseEntity.status(HttpStatus.OK).body(getWordsEmbeddings);
+//        }
+//        catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body(new ErrorResponse("serverError", "Vector not found"));
+//        }
+//    }
+//
+//    @PostMapping(value = "/query", produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<?> processAddTagQuery(@Valid @RequestBody TagPassModel tagPassModel) {
+//        try {
+//            List<Embedding> getListEmbeddings = embeddingService.processTagWithGenericLogic(tagPassModel, false);
+//            if (getListEmbeddings.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+//            return ResponseEntity.status(HttpStatus.OK).body(getListEmbeddings);
+//        }
+//        catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body(new ErrorResponse("serverError", "Vector not found"));
+//        }
+//    }
 
 //    private List<Embedding> processTagWithGenericLogic(TagPassModel tagPassModel, boolean spreadWords) {
 //        List<Embedding> embeddings = new ArrayList<>();
