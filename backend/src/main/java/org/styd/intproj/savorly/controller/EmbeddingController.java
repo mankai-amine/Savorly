@@ -1,7 +1,7 @@
 package org.styd.intproj.savorly.controller;
 
 import org.styd.intproj.savorly.dto.TagViewModel;
-import org.styd.intproj.savorly.entity.Tag;
+//import org.styd.intproj.savorly.entity.Tag;
 import org.styd.intproj.savorly.service.OpenAiEmbeddingService;
 import org.styd.intproj.savorly.service.TagService;
 import jakarta.validation.Valid;
@@ -19,8 +19,16 @@ import org.styd.intproj.savorly.service.EmbeddingService;
 import java.util.*;
 import java.util.stream.Collectors;
 
+//for swagger
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 @RestController
 @RequestMapping("/api/embedding")
+//@Tag(name = "Embedding management")
 public class EmbeddingController {
 
     @Autowired
@@ -90,6 +98,7 @@ public class EmbeddingController {
 
 
     @PostMapping(value = "/parse", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Search with query", description = "Endpoint for nearest distance search in tags table.")
     public ResponseEntity<?> processSearchQuery(@Valid @RequestBody TagPassModel tagPassModel) {
         try {
             String query = tagPassModel.getTitle();
@@ -109,7 +118,7 @@ public class EmbeddingController {
                 List<Embedding> queryVector = embeddingService.processTagWithGenericLogic(tagPassModel, false);
 
                 // Step 3: Use the query vector and keyword vectors to retrieve the nearest tags
-                List<Tag> tags = new ArrayList<>();
+                List<org.styd.intproj.savorly.entity.Tag> tags = new ArrayList<>();
                 if (!keywordVectors.isEmpty()) {
                     for (Embedding embedding : keywordVectors) {
                         tags.addAll(tagService.getTagsForNearestEmbedding(embedding.getOutput()));
@@ -153,6 +162,7 @@ public class EmbeddingController {
 
 
     @PostMapping(value = "/words", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Generate a list of embeddings for spread words", description = "Endpoint for a list of embeddings with the model.")
     public ResponseEntity<?> processAddTag(@Valid @RequestBody TagPassModel tagPassModel) {
         try {
             List<Embedding> getWordsEmbeddings = embeddingService.processTagWithGenericLogic(tagPassModel, true);
@@ -167,6 +177,7 @@ public class EmbeddingController {
     }
 
     @PostMapping(value = "/query", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Generate a list with just one single embedding for a list of words", description = "Endpoint for a single embedding item in a list.")
     public ResponseEntity<?> processAddTagQuery(@Valid @RequestBody TagPassModel tagPassModel) {
         try {
             List<Embedding> getListEmbeddings = embeddingService.processTagWithGenericLogic(tagPassModel, false);
