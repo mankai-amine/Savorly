@@ -1,14 +1,20 @@
 package org.styd.intproj.savorly.controller;
 
 import org.springframework.data.domain.Page;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.styd.intproj.savorly.dto.RecipeResponse;
 import org.styd.intproj.savorly.dto.RecipeViewModel;
 import org.styd.intproj.savorly.entity.Recipe;
 import org.styd.intproj.savorly.service.RecipeService;
+import org.styd.intproj.savorly.repository.FavouriteRepository;
+import org.styd.intproj.savorly.repository.RecipeRepository;
+import org.styd.intproj.savorly.repository.UserRepository;
 
 import jakarta.validation.Valid;
 import java.util.List;
@@ -18,10 +24,14 @@ import java.util.List;
 public class RecipeController {
 
     private final RecipeService recipeService;
+    @Autowired
+    private UserRepository userRepository;
 
     public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
     }
+    @Autowired
+    private RecipeRepository recipeRepository;
 
     /**
      * fuzzy search for name/ingredients/instructions
@@ -29,6 +39,10 @@ public class RecipeController {
     @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RecipeResponse> searchRecipes(@RequestParam String field, @RequestParam String value) {
         List<Recipe> recipes = recipeService.searchRecipes(field, value);
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private FavouriteRepository favouriteRepository;
 
         if (recipes.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -66,6 +80,16 @@ public class RecipeController {
         RecipeResponse response = recipeService.createRecipe(recipeViewModel);
         System.out.println("response message : "+response.toString());
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @GetMapping("/mine")
+    public ResponseEntity<List<Recipe>> getMyRecipes(Authentication authentication) {
+        String username = authentication.getName();
+        Long userId = getUserIdFromUsername(username);
+
+        List<Recipe> recipes = recipeRepository.findByAuthorId(userId);
+
+        return ResponseEntity.ok(recipes);
     }
 
     /**
@@ -111,5 +135,9 @@ public class RecipeController {
         }
 
         return ResponseEntity.ok(new RecipeResponse("success", recipes));
+    }
+
+    private Long getUserIdFromUsername(String username) {
+        return userRepository.findByUsername(username).getId();
     }
 }

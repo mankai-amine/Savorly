@@ -1,16 +1,16 @@
-import { useState } from 'react';
-import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as Yup from 'yup';
-import axios from 'axios';
-import '../Register.css';
+import { useState, useContext } from 'react';
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../helpers/UserContext";
+import { Container, Form, Button, Row, Col } from 'react-bootstrap';
 
-const apiUrl = "http://localhost:8080/api/user";
 
-// validation schema
-const registerSchema = Yup.object().shape({
-    username: Yup.string().required('Username is required'),
+const apiUrl = "http://localhost:8080/api/user/edit";
+
+const profileSchema = Yup.object().shape({
     password: Yup.string().required('Password is required').min(6, 'Password must be at least 6 characters'),
     password2: Yup.string()
         .oneOf([Yup.ref('password'), undefined], 'Passwords must match')
@@ -18,29 +18,48 @@ const registerSchema = Yup.object().shape({
 
 });
 
-// data structure for form submission
-interface RegisterFormData {
-    username: string;
+interface ProfileFormData {
     password: string;
     password2: string;
 }
 
-const Register = () => {
+const EditProfile = () => {
     const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
-    const { register, handleSubmit, formState: { errors } } = useForm<RegisterFormData>({
-        resolver: yupResolver(registerSchema),
+    const { register, handleSubmit, formState: { errors } } = useForm<ProfileFormData>({
+        resolver: yupResolver(profileSchema),
     });
 
+    const navigate = useNavigate();
 
-    const onSubmit = async (data: RegisterFormData) => {
-        try {
-            const response = await axios.post(`${apiUrl}/register`, data);
+    const accessToken = sessionStorage.getItem("accessToken"); 
+    if (!accessToken) {
+        alert("Authorization token is missing. Please log in again.");
+        return;
+    }
+
+    const userContext = useContext(UserContext);
     
-            if (response.status === 201) {
+    if (!userContext) {
+    throw new Error("UserContext is undefined");
+    }
+    
+    const { user } = userContext;
+
+    const onSubmit = async (data: ProfileFormData) => {
+        try {
+            const response = await axios.post(`${apiUrl}`, data, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`, 
+                },
+            });
+    
+            if (response.status === 200) {
                 setIsSubmitted(true);
+                navigate("/");
             } else {
                 setIsSubmitted(false);
+                alert("Editing profile failed. Please try again.");
             }
         } catch (error) {
             console.error('Registration error:', error);
@@ -54,21 +73,13 @@ const Register = () => {
                 <Row className='justify-content-md-center'>
                     <Col md={6} lg={4}>
                         <div className='register-box text-center'>
-                            <h2 className='mb-4 twixer-logo'> Savorly</h2>
+                            <h2 className='mb-4 twixer-logo'> Editing profile password for { user ? user.username : "Guest(should not happen!)" }</h2>
                          
                             <Form onSubmit={handleSubmit(onSubmit)}>
-                                <Form.Group controlId='formUsername' className='mb-3'>
-                                    <Form.Control
-                                        type='text'
-                                        placeholder='Enter your Username'
-                                        {...register('username')}
-                                    />
-                                    {errors.username && <p className="text-danger">{errors.username.message}</p>}
-                                </Form.Group>
                                 <Form.Group controlId="formPassword" className="mb-3">
                                     <Form.Control
                                         type="password"
-                                        placeholder="Enter your password"
+                                        placeholder="Enter your new password"
                                         {...register('password')}
                                     />
                                     {errors.password && <p className="text-danger">{errors.password.message}</p>}
@@ -76,21 +87,17 @@ const Register = () => {
                                 <Form.Group controlId="formConfirmPassword" className="mb-3">
                                     <Form.Control
                                         type="password"
-                                        placeholder="Confirm your password"
+                                        placeholder="Confirm your new password"
                                         {...register('password2')}
                                     />
                                     {errors.password2 && <p className="text-danger">{errors.password2.message}</p>}
                                 </Form.Group>
 
                                 <Button variant='primary' type='submit' className='w-100 mb-3'>
-                                    Register
+                                    Edit password
                                 </Button>
 
-                                {isSubmitted && <p className="text-success">Registration successful!</p>}
-
-                                <div className='mt-3'>
-                                    <p>Already have an account? <a href='/login' className='login-link'>Login</a></p>
-                                </div>
+                                {isSubmitted && <p className="text-success">Profile edited successfully</p>}
                             </Form>
                         </div>
                     </Col>
@@ -100,4 +107,4 @@ const Register = () => {
     );
 };
 
-export default Register;
+export default EditProfile;

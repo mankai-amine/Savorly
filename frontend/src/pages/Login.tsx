@@ -21,9 +21,18 @@ interface LoginFormData {
     password: string;
 }
 
-// data structure for axios response
+// data structure for login response
 interface LoginResponse {
     token: string;
+}
+
+// data structure for fetching user
+interface UserResponse {
+    user: {
+        id: string;
+        username: string;
+        password:string
+    };
 }
 
 interface ServerErrors {
@@ -43,7 +52,7 @@ const Login = () => {
         throw new Error("UserContext must be used within a UserProvider");
     }
 
-
+    const { setUser } = context;
 
     const [submissionStatus, setSubmissionStatus] = useState<string | null>(null);
 
@@ -60,11 +69,17 @@ const Login = () => {
                 password: data.password
             });
 
-            console.log("Login response:", response.data);
 
             if (response.data.token) {
-                sessionStorage.setItem("token", response.data.token);
-                
+                console.log("inside the if statement")
+
+                sessionStorage.setItem("accessToken", response.data.token);
+
+                const userResponse = await axios.get<UserResponse>(apiUrl, {
+                    headers: { Authorization: `Bearer ${response.data.token}` },
+                });
+                const user = userResponse.data.user;
+                setUser(user);
 
                 setSubmissionStatus('Successfully logged in');
                 
