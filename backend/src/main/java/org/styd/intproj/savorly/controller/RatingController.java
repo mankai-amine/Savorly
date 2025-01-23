@@ -74,7 +74,6 @@ public class RatingController {
             Double noRatings = 0.0;
             return ResponseEntity.ok().body(noRatings);
         }
-        
         return ResponseEntity.ok().body(averageRating.get());
     }
 
