@@ -15,6 +15,7 @@ import org.styd.intproj.savorly.repository.RecipeRepository;
 import org.styd.intproj.savorly.repository.ReviewRepository;
 import org.styd.intproj.savorly.repository.UserRepository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,6 +64,7 @@ public class ReviewController {
             review.setUser(user);
             review.setRecipe(recipe);
             review.setText(text);
+            review.setDate(new Date());
             Review savedReview = reviewRepository.save(review);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedReview);
         } catch (Exception e) {

@@ -18,6 +18,7 @@ interface Review {
   id:number;
   text: string;
   author: User;
+  date: string
 }
 
 const reviewSchema = Yup.object().shape({
@@ -141,7 +142,7 @@ export const RecipeDetails = () => {
           <Row key={review.id} md={4} className="mb-4">
               <Card.Body>
                 <Card.Text>
-                  <strong>{review.author.username}</strong> wrote:
+                  <strong>{review.author.username}</strong> wrote on {review.date}:
                 </Card.Text>
                 <Card.Text>
                   {review.text}
