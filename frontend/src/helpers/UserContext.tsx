@@ -34,7 +34,6 @@ export const UserProvider = ({ children }: UserProviderProps) => {
                     const response = await axios.get<User>(`${apiUrl}`, {
                         headers: { Authorization: `Bearer ${accessToken}` },
                     });
-                    console.log("API Response:", response.data);
                     setUser(response.data);
                 } catch (error) {
                     console.error("Error fetching user data:", error);

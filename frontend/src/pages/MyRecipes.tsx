@@ -30,10 +30,10 @@ export const MyRecipes = () => {
 
       const fetchRecipes = async () => {
         try {
-        const response = await axios.get<Recipe[]>(`${apiUrl}/mine`, {
+          const response = await axios.get<Recipe[]>(`${apiUrl}/mine`, {
             headers: { Authorization: `Bearer ${accessToken}` },
             });
-        setMyRecipes(response.data as Recipe[]);
+          setMyRecipes(response.data as Recipe[]);
         } catch (err) {
         setError('Failed to load recipes');
         } finally {
