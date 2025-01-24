@@ -85,6 +85,7 @@ public class RatingController {
         try {
             Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
             if (recipeOptional.isEmpty()) {
+                // code 404
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             }
             Recipe currRecipe = recipeOptional.get();
@@ -96,7 +97,11 @@ public class RatingController {
             User currUser = userOptional.get();
 
             if (ratingRepository.findByRecipeIdAndUserId(currRecipe.getId(), currUser.getId()) != null) {
-                return ResponseEntity.badRequest().build();
+                Rating existingRating = ratingRepository.findByRecipeIdAndUserId(currRecipe.getId(), currUser.getId());
+                existingRating.setRating(ratingDTO.getRating());
+                ratingRepository.save(existingRating);
+                // code 202
+                return ResponseEntity.status(HttpStatus.ACCEPTED).body(existingRating);
             }
 
             Rating rating = new Rating();
@@ -104,7 +109,7 @@ public class RatingController {
             rating.setRecipe(currRecipe);
             rating.setRating(ratingDTO.getRating());
             ratingRepository.save(rating);
-
+            // code 201
             return ResponseEntity.status(HttpStatus.CREATED).body(rating);
 
         } catch (Exception e) {

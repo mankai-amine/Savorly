@@ -6,6 +6,7 @@ import axios from 'axios';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { UserContext } from '../helpers/UserContext';
+import RatingDropdown from '../components/RatingDropdown';
 
 const apiUrl = 'http://localhost:8080/api/recipe';
 const reviewsUrl = 'http://localhost:8080/api/reviews';
@@ -134,6 +135,7 @@ export const RecipeDetails = () => {
           <Card.Text>{recipe.instructions}</Card.Text>
           <Card.Title>Average Rating</Card.Title>
           <Card.Text>{rating}</Card.Text>
+          {user && id && <RatingDropdown recipeId={id} />}
           <Button variant="secondary" href="/">Back to Home</Button>
         </Card.Body>
       </Card>
