@@ -7,7 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Container, Form, Button, Row, Col } from 'react-bootstrap';
 
 
-const apiUrl = "http://localhost:8080/api/recipe";
+const apiUrl = "http://localhost:8080/api/recipes";
 
 const recipeSchema = Yup.object().shape({
     name: Yup.string().min(10, "Name needs to be at least 10 characters").required('Recipe name is required'),
@@ -68,7 +68,7 @@ export const EditRecipe = () => {
         const accessToken = sessionStorage.getItem("accessToken");
 
         try {
-            const response = await axios.put(`${apiUrl}/edit/${id}`, data, {
+            const response = await axios.put(`${apiUrl}/update/${id}`, data, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`, 
                 },

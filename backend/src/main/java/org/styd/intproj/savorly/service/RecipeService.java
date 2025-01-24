@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.styd.intproj.savorly.dto.RecipeResponse;
@@ -18,6 +19,7 @@ import org.styd.intproj.savorly.entity.Recipe;
 import org.styd.intproj.savorly.entity.Tag;
 import org.styd.intproj.savorly.repository.RecipeRepository;
 import org.styd.intproj.savorly.repository.TagRepository;
+import org.styd.intproj.savorly.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,6 +39,9 @@ public class RecipeService {
 
     @Autowired
     private TagRepository tagRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     /**
      * get all recipes
@@ -80,12 +85,20 @@ public class RecipeService {
 
     //create
     @Transactional
-    public RecipeResponse createRecipe(RecipeViewModel recipeViewModel) {
+    public RecipeResponse createRecipe(RecipeViewModel recipeViewModel, Authentication authentication) {
         validateRecipeInput(recipeViewModel); // call the overload method
 
         // check if exists the recipe with the same name
         if (recipeRepository.findByName(recipeViewModel.getName()).isPresent()) {
             throw new IllegalArgumentException("A recipe with the same name already exists");
+        }
+
+        Long currUserId;
+        try {
+            String username = authentication.getName();
+            currUserId = getUserIdFromUsername(username);
+        } catch (Exception e) {
+            throw new EntityNotFoundException("User not found");
         }
 
         // convert
@@ -94,7 +107,7 @@ public class RecipeService {
         recipe.setIngredients(recipeViewModel.getIngredients());
         recipe.setInstructions(recipeViewModel.getInstructions());
         recipe.setPicture(recipeViewModel.getPicture());
-        // TODO Set the recipe author
+        recipe.setAuthorId(currUserId);
 
         Recipe newRecipe = recipeRepository.save(recipe);
         logger.info("Created new recipe with ID: {}", newRecipe.getId());
@@ -106,11 +119,25 @@ public class RecipeService {
      * update
      */
     @Transactional
-    public RecipeResponse updateRecipe(Recipe recipe) {
+    public RecipeResponse updateRecipe(Recipe recipe, Long recipeId, Authentication authentication) {
+        Long currUserId;
+        try {
+            String username = authentication.getName();
+            currUserId = getUserIdFromUsername(username);
+        } catch (Exception e) {
+            throw new EntityNotFoundException("User not found");
+        }
+        recipe.setId(recipeId);
+        recipe.setAuthorId(currUserId);
+
         validateRecipeInput(recipe);
 
-        Recipe existingRecipe = recipeRepository.findById(recipe.getId())
+        Recipe existingRecipe = recipeRepository.findById(recipeId)
                 .orElseThrow(() -> new EntityNotFoundException("Recipe not found with id: " + recipe.getId()));
+
+        if (!existingRecipe.getAuthorId().equals(currUserId)) {
+            throw new IllegalArgumentException("This recipe belongs to a different user.");
+        }
 
         // only when picture is null or empty, use the old data
         if (recipe.getPicture() == null || recipe.getPicture().trim().isEmpty()) {
@@ -124,14 +151,23 @@ public class RecipeService {
     /**
      * delete
      */
-    @Transactional
-    public void deleteRecipe(Long id) {
-        if (id == null) {
-            throw new IllegalArgumentException("Recipe ID cannot be null");
+//    @Transactional
+    public void deleteRecipe(Long id, Authentication authentication) {
+        Long currUserId;
+        try {
+            String username = authentication.getName();
+            currUserId = getUserIdFromUsername(username);
+        } catch (Exception e) {
+            throw new EntityNotFoundException("User not found");
         }
-        if (!recipeRepository.existsById(id)) {
-            throw new EntityNotFoundException("Recipe not found with id: " + id);
+
+        Recipe existingRecipe = recipeRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Recipe not found with id: " + id));
+
+        if (!existingRecipe.getAuthorId().equals(currUserId)) {
+            throw new IllegalArgumentException("This recipe belongs to a different user.");
         }
+
         recipeRepository.deleteById(id);
         logger.info("Deleted recipe with id: {}", id);
     }
@@ -263,5 +299,9 @@ public class RecipeService {
         if (recipe.getName() == null || recipe.getName().trim().isEmpty()) {
             throw new IllegalArgumentException("The name of recipe cannot be empty");
         }
+    }
+
+    private Long getUserIdFromUsername(String username) {
+        return userRepository.findByUsername(username).getId();
     }
 }

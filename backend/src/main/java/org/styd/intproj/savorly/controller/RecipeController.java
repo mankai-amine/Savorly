@@ -79,8 +79,8 @@ public class RecipeController {
      */
     // TODO NEEDS JWT AUTH
     @PostMapping(value = "/new", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RecipeResponse> createRecipe(@Valid @RequestBody RecipeViewModel recipeViewModel) {
-        RecipeResponse response = recipeService.createRecipe(recipeViewModel);
+    public ResponseEntity<RecipeResponse> createRecipe(@Valid @RequestBody RecipeViewModel recipeViewModel, Authentication authentication) {
+        RecipeResponse response = recipeService.createRecipe(recipeViewModel, authentication);
         System.out.println("response message : " + response.toString());
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -98,10 +98,9 @@ public class RecipeController {
     /**
      * update
      */
-    // TODO NEEDS JWT AUTH
-    @PutMapping(value = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RecipeResponse> updateRecipe(@Valid @RequestBody Recipe recipe) {
-        RecipeResponse response = recipeService.updateRecipe(recipe);
+    @PutMapping(value = "/update/{recipeId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RecipeResponse> updateRecipe(@PathVariable Long recipeId, @Valid @RequestBody Recipe recipe, Authentication authentication) {
+        RecipeResponse response = recipeService.updateRecipe(recipe, recipeId, authentication);
         return ResponseEntity.ok(response);
     }
 
@@ -110,8 +109,8 @@ public class RecipeController {
      */
     // TODO NEEDS JWT AUTH
     @DeleteMapping(value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> deleteRecipe(@PathVariable Long id) {
-        recipeService.deleteRecipe(id);
+    public ResponseEntity<Void> deleteRecipe(@PathVariable Long id, Authentication authentication) {
+        recipeService.deleteRecipe(id, authentication);
         return ResponseEntity.noContent().build();
     }
 
