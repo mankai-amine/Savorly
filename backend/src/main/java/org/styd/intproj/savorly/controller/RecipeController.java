@@ -77,7 +77,6 @@ public class RecipeController {
     /**
      * create
      */
-    // TODO NEEDS JWT AUTH
     @PostMapping(value = "/new", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RecipeResponse> createRecipe(@Valid @RequestBody RecipeViewModel recipeViewModel, Authentication authentication) {
         RecipeResponse response = recipeService.createRecipe(recipeViewModel, authentication);
@@ -107,7 +106,6 @@ public class RecipeController {
     /**
      * delete
      */
-    // TODO NEEDS JWT AUTH
     @DeleteMapping(value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> deleteRecipe(@PathVariable Long id, Authentication authentication) {
         recipeService.deleteRecipe(id, authentication);
@@ -115,18 +113,16 @@ public class RecipeController {
     }
 
     //create in transactional way
-    // TODO NEEDS JWT AUTH
     @PostMapping(value = "create",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RecipeResponse> createRecipeAndTagWithEmbedding(@Valid @RequestBody RecipeViewModel recipeViewModel) {
-        RecipeResponse response = recipeService.createRecipeAndTagWithEmbedding(recipeViewModel);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<RecipeResponse> createRecipeAndTagWithEmbedding(@Valid @RequestBody RecipeViewModel recipeViewModel, Authentication authentication) {
+        RecipeResponse response = recipeService.createRecipeAndTagWithEmbedding(recipeViewModel, authentication);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     //update in transactional way
-    // TODO NEEDS JWT AUTH
-    @PutMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RecipeResponse> updateRecipeAndTagWithEmbedding(@Valid @RequestBody Recipe recipe) {
-        RecipeResponse response = recipeService.updateRecipeAndTagWithEmbedding(recipe);
+    @PutMapping(value = "/edit/{recipeId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<RecipeResponse> updateRecipeAndTagWithEmbedding(@PathVariable Long recipeId, @Valid @RequestBody Recipe recipe, Authentication authentication) {
+        RecipeResponse response = recipeService.updateRecipeAndTagWithEmbedding(recipe, recipeId, authentication);
         return ResponseEntity.ok(response);
     }
 

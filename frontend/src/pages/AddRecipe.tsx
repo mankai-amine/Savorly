@@ -30,11 +30,10 @@ interface ServerErrors {
 
 export const AddRecipe = () => {
 
-    const {register, handleSubmit, formState: { errors }} = useForm<AddRecipeFormData>({
+    const {register, handleSubmit, setValue, formState: { errors }} = useForm<AddRecipeFormData>({
         resolver: yupResolver(recipeSchema),
     });
 
-    const [pictureUrl, setPictureUrl] = useState<string>("");
     const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
     const [submissionStatus, setSubmissionStatus] = useState<string | null>(null);
     const [serverErrors, setServerErrors] = useState<ServerErrors>({});
@@ -42,7 +41,7 @@ export const AddRecipe = () => {
     const navigate = useNavigate();
 
     const handleUploadSuccess = (imgUrl: string) => {
-        setPictureUrl(imgUrl)
+        setValue('picture', imgUrl);
       };
 
     const onSubmit = async (data: AddRecipeFormData) => {
@@ -55,7 +54,7 @@ export const AddRecipe = () => {
         }
 
         try {
-            const response = await axios.post(`${apiUrl}/new`, data, {
+            const response = await axios.post(`${apiUrl}/create`, data, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`, 
                 },
@@ -117,7 +116,7 @@ export const AddRecipe = () => {
 
                                     <Form.Group controlId='formPicture' className='mb-3'>
                                         <Form.Control
-                                            as="text"
+                                        type="hidden"
                                             {...register('picture')}
                                         />
                                         {errors.picture && <p className="text-danger">{errors.picture.message}</p>}

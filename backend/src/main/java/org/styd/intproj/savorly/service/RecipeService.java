@@ -128,7 +128,7 @@ public class RecipeService {
             throw new EntityNotFoundException("User not found");
         }
         recipe.setId(recipeId);
-        recipe.setAuthorId(currUserId);
+        //recipe.setAuthorId(currUserId);
 
         validateRecipeInput(recipe);
 
@@ -174,7 +174,15 @@ public class RecipeService {
 
     //create new record both in recipes table and tags table
     @Transactional //transaction will roll back only when runtime exception or error
-    public RecipeResponse createRecipeAndTagWithEmbedding(RecipeViewModel recipeViewModel) {
+    public RecipeResponse createRecipeAndTagWithEmbedding(RecipeViewModel recipeViewModel, Authentication authentication) {
+        Long currUserId;
+        try {
+            String username = authentication.getName();
+            currUserId = getUserIdFromUsername(username);
+        } catch (Exception e) {
+            throw new EntityNotFoundException("User not found");
+        }
+
         validateRecipeInput(recipeViewModel);
         String textToEmbedding = recipeViewModel.getName()+" "+recipeViewModel.getIngredients()+" "+recipeViewModel.getInstructions();
         List<Embedding> embeddings =  embeddingService.getEmbeddings(List.of(textToEmbedding));
@@ -191,8 +199,7 @@ public class RecipeService {
         recipe.setIngredients(recipeViewModel.getIngredients());
         recipe.setInstructions(recipeViewModel.getInstructions());
         recipe.setPicture(recipeViewModel.getPicture());
-        recipe.setAuthorId(1L);
-        // TODO SET AUTHOR ID PROPERLY
+        recipe.setAuthorId(currUserId);
 
         Tag tag = new Tag();
 
@@ -213,15 +220,27 @@ public class RecipeService {
     }
 
     @Transactional // update exists record both in recipes table and tags table
-    public RecipeResponse updateRecipeAndTagWithEmbedding(Recipe recipe) {
+    public RecipeResponse updateRecipeAndTagWithEmbedding(Recipe recipe, Long recipeId, Authentication authentication) {
+        Long currUserId;
+        try {
+            String username = authentication.getName();
+            currUserId = getUserIdFromUsername(username);
+        } catch (Exception e) {
+            throw new EntityNotFoundException("User not found");
+        }
+
         // Step 1: get exists recipe
-        Recipe existsRecipe = recipeRepository.findById(recipe.getId())
-                .orElseThrow(() -> new RuntimeException("Recipe not found with ID: " + recipe.getId()));
+        Recipe existsRecipe = recipeRepository.findById(recipeId)
+                .orElseThrow(() -> new RuntimeException("Recipe not found with ID: " + recipeId));
+
+        if (!existsRecipe.getAuthorId().equals(currUserId)) {
+            throw new IllegalArgumentException("This recipe belongs to a different user.");
+        }
 
         // Step 2: get exists tags
         Tag existsTag = existsRecipe.getTag();
         if (existsTag == null) {
-            throw new RuntimeException("Tag not found for Recipe ID: " + recipe.getId());
+            throw new RuntimeException("Tag not found for Recipe ID: " + recipeId);
         }
 
         // Step 3: generate new embedding
@@ -239,6 +258,7 @@ public class RecipeService {
         existsRecipe.setIngredients(Optional.ofNullable(recipe.getIngredients()).orElse(existsRecipe.getIngredients()));
         existsRecipe.setInstructions(Optional.ofNullable(recipe.getInstructions()).orElse(existsRecipe.getInstructions()));
         existsRecipe.setPicture(Optional.ofNullable(recipe.getPicture()).orElse(existsRecipe.getPicture()));
+        // TODO FIX empty string picture overwrite
 
         // Step 5: update fields in tag
         existsTag.setId(existsTag.getId());
