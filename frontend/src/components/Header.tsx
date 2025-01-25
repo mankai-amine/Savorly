@@ -11,7 +11,6 @@ const Header = () => {
   }
 
   const { user } = userContext;
-  console.log(user);
 
   return (
     <Navbar bg="light" expand="lg" >
