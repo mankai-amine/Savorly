@@ -59,11 +59,12 @@ public class PdfWithS3Service {
                 else {
                     if (Objects.nonNull(value) && (value.endsWith(".jpg") || value.endsWith(".png")))
                     {
+                        document.add(new Paragraph("\n"));
 
                         try {
                             String  preSignedUrl = getPreSigned(value);
                             Image image = Image.getInstance(new URL(preSignedUrl));
-                            image.scaleToFit(400, 400); //limitation of img size 
+                            image.scaleToFit(400, 400); //limitation of img size
                             document.add(image);
                         } catch (Exception e) {
                             document.add(new Paragraph("Pleas find picture on our website.", normalFont));

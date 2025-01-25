@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import { UserProvider } from './helpers/UserContext';
 import Upload from './pages/Upload';
 import SearchRecipe from './pages/Recipes/SearchRecipe';
+import VieRecipePdf from './pages/Recipes/ViewRecipePdf';
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
             <Route path="/recipes/new" element={<CreateRecipe />} />
             <Route path="/recipes/edit/:id" element={<EditRecipe />} />
             <Route path="/recipes/search" element={<SearchRecipe />} />
+            <Route path="/recipes/pdf/:recipeId" element={<VieRecipePdf />} />
             <Route path="/tags" element={<Tag />} />
             <Route path="/upload" element={<Upload />} />
             <Route path='/' element={<Home />} />
