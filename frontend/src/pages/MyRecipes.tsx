@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const apiUrl = 'http://localhost:8080/api/recipe'; 
+const apiUrl = 'http://localhost:8080/api/recipes'; 
 
 interface Recipe {
     id: number;

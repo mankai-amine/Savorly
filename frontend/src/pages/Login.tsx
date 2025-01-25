@@ -69,18 +69,17 @@ const Login = () => {
                 password: data.password
             });
 
-            console.log("outside the if statement")
 
             if (response.data.token) {
                 console.log("inside the if statement")
 
                 sessionStorage.setItem("accessToken", response.data.token);
-                
+
                 const userResponse = await axios.get<UserResponse>(apiUrl, {
                     headers: { Authorization: `Bearer ${response.data.token}` },
                 });
                 const user = userResponse.data.user;
-                setUser(user); 
+                setUser(user);
 
                 setSubmissionStatus('Successfully logged in');
                 

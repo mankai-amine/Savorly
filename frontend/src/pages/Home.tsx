@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const apiUrl = 'http://localhost:8080/api/recipe'; 
+const apiUrl = 'http://localhost:8080/api/recipes';
 const favouritesApiUrl = 'http://localhost:8080/api/favourites';
 
 
@@ -16,31 +16,32 @@ interface Recipe {
   authorId: number;
 }
 
+// TODO ADD THE SEARCH FUNCTIONALITY PLUGIN (RECIPESEARCH.TSX)
 
 export const Home = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   // Stores IDs of favourite recipes
-  const [favourites, setFavourites] = useState<number[]>([]); 
+  const [favourites, setFavourites] = useState<number[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  const accessToken = sessionStorage.getItem("accessToken"); 
+  const accessToken = sessionStorage.getItem("accessToken");
   if (!accessToken) {
     navigate("/login")
   }
-  
+
   useEffect(() => {
     const fetchData  = async () => {
       try {
         const [recipesResponse, favouritesResponse] = await Promise.all([
-          axios.get(apiUrl, {
+          axios.get(`${apiUrl}/all`, {
             headers: { Authorization: `Bearer ${accessToken}` },
             }),
           // Get favorite recipe IDs
           axios.get<Recipe[]>(favouritesApiUrl, {
             headers: { Authorization: `Bearer ${accessToken}` },
-            }), 
+            }),
         ]);
         setRecipes(recipesResponse.data as Recipe[]);
         setFavourites(favouritesResponse.data.map((recipe) => recipe.id));

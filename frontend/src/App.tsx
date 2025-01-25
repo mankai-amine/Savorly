@@ -6,14 +6,16 @@ import { AddRecipe } from './pages/AddRecipe';
 import { Home } from './pages/Home';
 import { RecipeDetails } from './pages/RecipeDetails';
 import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js"; 
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import Header from './components/Header';
 import ProtectedRoute from './helpers/ProtectedRoute';
 import { EditRecipe } from './pages/EditRecipe';
 import { MyRecipes } from './pages/MyRecipes';
 import EditProfile from './pages/EditProfile';
 import { Favourites } from './pages/Favourites';
+import Tag from './pages/Tag';
 
+import Upload from './pages/Upload';
 
 function App() {
 
@@ -32,6 +34,8 @@ function App() {
             <Route path='/recipe/myrecipes' element={<ProtectedRoute element={MyRecipes} />} />
             <Route path='/recipe/favourites' element={<ProtectedRoute element={Favourites} />} />
             <Route path="/recipe/:id" element={<RecipeDetails />} />
+            <Route path="/upload" element={<Upload />} />
+            <Route path="/tags" element={<Tag />} />
           </Routes>
         </Router>
       </div>
