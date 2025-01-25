@@ -16,8 +16,6 @@ import { Favourites } from './pages/Favourites';
 import Tag from './pages/Tag';
 
 import Upload from './pages/Upload';
-import SearchRecipe from './pages/Recipes/SearchRecipe';
-import CreateRecipe from './pages/Recipes/CreateRecipe';
 
 function App() {
 
@@ -36,10 +34,8 @@ function App() {
             <Route path='/recipe/myrecipes' element={<ProtectedRoute element={MyRecipes} />} />
             <Route path='/recipe/favourites' element={<ProtectedRoute element={Favourites} />} />
             <Route path="/recipe/:id" element={<RecipeDetails />} />
-            <Route path="/recipes/search" element={<SearchRecipe />} />
             <Route path="/upload" element={<Upload />} />
             <Route path="/tags" element={<Tag />} />
-            <Route path='/recipetag/add' element={<ProtectedRoute element={CreateRecipe} />} />
           </Routes>
         </Router>
       </div>

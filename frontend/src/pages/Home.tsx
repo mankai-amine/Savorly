@@ -16,6 +16,7 @@ interface Recipe {
   authorId: number;
 }
 
+// TODO ADD THE SEARCH FUNCTIONALITY PLUGIN (RECIPESEARCH.TSX)
 
 export const Home = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
