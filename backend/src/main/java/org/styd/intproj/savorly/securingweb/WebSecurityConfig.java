@@ -54,7 +54,7 @@ public class WebSecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/api/user/**", "/api/recipe/**","/api/reviews/**", "/api/rating/**").permitAll()
+                        .requestMatchers("/", "/api/user/**", "/api/recipes/**","/api/reviews/**", "/api/rating/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

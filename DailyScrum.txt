@@ -99,7 +99,7 @@
 1. Done since last scrum
 - frontend for adding a recipe
 - frontend for viewing recipe(s)
-- backend code for getting authenticated user details 
+- backend code for getting authenticated user details
 2. Plan until next Scrum
 - Header
 - Improve the current styling
@@ -109,9 +109,9 @@
 
 2025/01/17 Felix
 1. Done since last scrum
-- 
+-
 2. Plan until next Scrum
-- 
+-
 3. Need assistance / figure things out
 -
 
@@ -131,18 +131,18 @@
 1. Done since last scrum
 - Header
 - Improve the current styling
-- Frontend for updating a recipe 
+- Frontend for updating a recipe
 2. Plan until next Scrum
 - work on My recipes pages, from which user can update and delete recipes
 - Work on favorites (frontend and backend)
 3. Need assistance / figure things out
-- 
+-
 
 2025/01/20 Felix
 1. Done since last scrum
-- 
+-
 2. Plan until next Scrum
-- 
+-
 3. Need assistance / figure things out
 -
 
@@ -167,13 +167,13 @@
 - work on frontend documentation
 - Work on favorites (frontend)
 3. Need assistance / figure things out
-- 
+-
 
 2025/01/21 Felix
 1. Done since last scrum
-- 
+-
 2. Plan until next Scrum
-- 
+-
 3. Need assistance / figure things out
 -
 
@@ -195,13 +195,13 @@
 2. Plan until next Scrum
 - Review recipe
 3. Need assistance / figure things out
-- 
+-
 
 2025/01/22 Felix
 1. Done since last scrum
-- 
+-
 2. Plan until next Scrum
-- 
+-
 3. Need assistance / figure things out
 -
 
@@ -225,12 +225,12 @@
 - finish reviews
 - work on merging Felix's code
 3. Need assistance / figure things out
-- 
+-
 
 2025/01/23 Felix
 1. Done since last scrum
-- 
+-
 2. Plan until next Scrum
-- 
+-
 3. Need assistance / figure things out
 -

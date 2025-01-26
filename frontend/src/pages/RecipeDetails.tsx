@@ -8,8 +8,8 @@ import { useForm } from 'react-hook-form';
 import { UserContext } from '../helpers/UserContext';
 import RatingDropdown from '../components/RatingDropdown';
 
-const apiUrl = 'http://localhost:8080/api/recipe';
-const reviewsUrl = 'http://localhost:8080/api/reviews';
+const apiUrl = 'http://localhost:8080/api/recipes'; 
+const reviewsUrl = 'http://localhost:8080/api/reviews'; 
 const ratingUrl = 'http://localhost:8080/api/rating/recipe';
 
 interface User {

@@ -1,6 +1,7 @@
 package org.styd.intproj.savorly.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -47,6 +48,24 @@ public class Recipe {
     @JsonIgnore
     private List<Favourite> favourites;
 
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Review> reviews;
+
+
+//    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JoinColumn(name = "tag_id", referencedColumnName = "id", unique = true) // maintain the relation with Reicpe class
+//    @JsonManagedReference
+
+//    @OneToOne(mappedBy = "recipe", cascade = CascadeType.MERGE, fetch = FetchType.LAZY, orphanRemoval = true)
+//    @JsonManagedReference
+
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "tag_id", referencedColumnName = "id", unique = true) // maintain the relation with Reicpe class
+    @JsonManagedReference
+    //create is usable when using this annotation
+    private Tag tag;
+    
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Rating> ratings = new ArrayList<>();
