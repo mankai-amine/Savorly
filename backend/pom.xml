@@ -177,6 +177,13 @@
             <artifactId>spring-boot-starter-mail</artifactId>
             <version>3.3.4</version>
         </dependency>
+
+        <!--for pdf -->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itextpdf</artifactId>
+            <version>5.5.13.4</version>
+        </dependency>
     </dependencies>
 
     <!-- add repository to download the dependencies that not in the central-->

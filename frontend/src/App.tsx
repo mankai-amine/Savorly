@@ -14,6 +14,7 @@ import { MyRecipes } from './pages/MyRecipes';
 import EditProfile from './pages/EditProfile';
 import { Favourites } from './pages/Favourites';
 import Tag from './pages/Tag';
+import ViewRecipePdf from './pages/ViewRecipePdf';
 
 import Upload from './pages/Upload';
 
@@ -34,6 +35,7 @@ function App() {
             <Route path='/recipe/myrecipes' element={<ProtectedRoute element={MyRecipes} />} />
             <Route path='/recipe/favourites' element={<ProtectedRoute element={Favourites} />} />
             <Route path="/recipe/:id" element={<RecipeDetails />} />
+            <Route path="/recipe/pdf/:id" element={<ViewRecipePdf />} />
             <Route path="/upload" element={<Upload />} />
             <Route path="/tags" element={<Tag />} />
           </Routes>
