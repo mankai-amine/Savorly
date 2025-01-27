@@ -60,7 +60,7 @@ public class Recipe {
 //    @OneToOne(mappedBy = "recipe", cascade = CascadeType.MERGE, fetch = FetchType.LAZY, orphanRemoval = true)
 //    @JsonManagedReference
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.EAGER)
     @JoinColumn(name = "tag_id", referencedColumnName = "id", unique = true) // maintain the relation with Reicpe class
     @JsonManagedReference
     //create is usable when using this annotation
