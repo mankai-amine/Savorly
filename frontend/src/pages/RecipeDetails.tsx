@@ -43,6 +43,15 @@ export const RecipeDetails = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  const getAvgRating = async () => {
+    try {
+      const response = await axios.get(`${ratingUrl}/${id}`);
+      setRating(response.data);
+    } catch (err) {
+      console.error('Failed to fetch average rating');
+    }
+  };
+
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
@@ -138,9 +147,7 @@ export const RecipeDetails = () => {
           {user && id && <StarRating 
                           recipeId={id} 
                           initialRating={rating} 
-                          onRatingSubmit={(newRating) => {
-                            setRating(newRating);
-                          }}
+                          onRatingSubmit={getAvgRating}
 />}
           <Button variant="secondary" href="/">Back to Home</Button>
         </Card.Body>

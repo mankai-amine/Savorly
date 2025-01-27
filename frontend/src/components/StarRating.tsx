@@ -4,7 +4,7 @@ import { Star } from 'lucide-react';
 interface StarRatingProps {
   recipeId: string;
   initialRating?: number;
-  onRatingSubmit: (rating: number) => void;
+  onRatingSubmit: (rating: number) => Promise<void>;
 }
 
 interface RatingResponse {
@@ -40,7 +40,8 @@ const StarRating: React.FC<StarRatingProps> = ({
 
       if (response.ok) {
         setSubmitted(true);
-        onRatingSubmit(rating);
+        // Trigger parent component to fetch new average
+        await onRatingSubmit(0); // we pass 0 as we don't want to set this as the new average
       } else {
         const data: RatingResponse = await response.json();
         setError(data.message || 'Failed to submit rating');
