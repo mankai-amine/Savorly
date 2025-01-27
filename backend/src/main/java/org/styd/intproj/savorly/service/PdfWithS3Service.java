@@ -67,7 +67,7 @@ public class PdfWithS3Service {
                             image.scaleToFit(400, 400); //limitation of img size
                             document.add(image);
                         } catch (Exception e) {
-                            document.add(new Paragraph("Pleas find picture on our website.", normalFont));
+                            document.add(new Paragraph("Please find picture on our website.", normalFont));
                         }
                     }
                 }

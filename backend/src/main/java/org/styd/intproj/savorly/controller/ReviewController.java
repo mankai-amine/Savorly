@@ -73,7 +73,7 @@ public class ReviewController {
     }
 
     @DeleteMapping("/{reviewId}")
-    public ResponseEntity<Review> deleteFavourite(@PathVariable Long reviewId, Authentication authentication) {
+    public ResponseEntity<Review> deleteReview(@PathVariable Long reviewId, Authentication authentication) {
         String username = authentication.getName();
 
         try {
