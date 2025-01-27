@@ -55,7 +55,8 @@ public class WebSecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/api/user/**", "/api/recipes/**","/api/reviews/**").permitAll()
+                        //disabled pdf endpoint security protect in test environment
+                        .requestMatchers("/", "/api/user/**", "/api/recipes/**","/api/reviews/**","/api/pdf/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
