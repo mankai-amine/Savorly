@@ -234,3 +234,34 @@
 -
 3. Need assistance / figure things out
 -
+
+*****
+
+2025/01/27 Sean
+1. Done since last scrum
+- Finished merging Felix's code
+- Rating working
+- Bug fixes
+2. Plan until next Scrum
+- Look into JUnit tests
+- Documentation
+3. Need assistance / figure things out
+-
+
+2025/01/27 Amine
+1. Done since last scrum
+- finish reviews
+- work on merging Felix's code
+- started working on fixing some bugs
+2. Plan until next Scrum
+- improve frontend
+3. Need assistance / figure things out
+-
+
+2025/01/27 Felix
+1. Done since last scrum
+-
+2. Plan until next Scrum
+-
+3. Need assistance / figure things out
+-

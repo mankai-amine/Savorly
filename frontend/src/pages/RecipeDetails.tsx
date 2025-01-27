@@ -6,9 +6,11 @@ import axios from 'axios';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { UserContext } from '../helpers/UserContext';
+import StarRating from '../components/StarRating';
 
 const apiUrl = 'http://localhost:8080/api/recipes'; 
 const reviewsUrl = 'http://localhost:8080/api/reviews'; 
+const ratingUrl = 'http://localhost:8080/api/rating/recipe';
 
 interface User {
   username: string;
@@ -37,14 +39,26 @@ export const RecipeDetails = () => {
   const { id } = useParams();
   const [recipe, setRecipe] = useState<any>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
+  const [rating, setRating] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+  const getAvgRating = async () => {
+    try {
+      const response = await axios.get(`${ratingUrl}/${id}`);
+      setRating(response.data);
+    } catch (err) {
+      console.error('Failed to fetch average rating');
+    }
+  };
 
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
         const response = await axios.get(`${apiUrl}/${id}`);
         const response2 = await axios.get<Review[]>(`${reviewsUrl}/${id}`);
+        const response3 = await axios.get(`${ratingUrl}/${id}`);
+        setRating(response3.data);
         setRecipe(response.data);
         console.log(response2.data);
         setReviews(response2.data as Review[]);
@@ -128,6 +142,14 @@ export const RecipeDetails = () => {
           <Card.Text>{recipe.ingredients}</Card.Text>
           <Card.Title>Instructions</Card.Title>
           <Card.Text>{recipe.instructions}</Card.Text>
+          <Card.Title>Average Rating</Card.Title>
+          <Card.Text>{rating}</Card.Text>
+          {user && id && <StarRating 
+                          recipeId={id} 
+                          initialRating={rating} 
+                          onRatingSubmit={getAvgRating}
+/>}
+          <Button variant="secondary" href="/">Back to Home</Button>
         </Card.Body>
       </Card>
       
