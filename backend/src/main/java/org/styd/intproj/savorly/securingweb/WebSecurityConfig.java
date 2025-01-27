@@ -51,11 +51,10 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // TODO double check CSRF settings when working with React
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/api/user/**", "/api/recipes/**","/api/reviews/**").permitAll()
+                        .requestMatchers("/", "/api/user/**", "/api/recipes/**","/api/reviews/**", "/api/rating/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

@@ -65,4 +65,16 @@ public class Recipe {
     @JsonManagedReference
     //create is usable when using this annotation
     private Tag tag;
+    
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Rating> ratings = new ArrayList<>();
+
+//    @ManyToMany
+//    @JoinTable(
+//            name = "recipe_tags",
+//            joinColumns = @JoinColumn(name = "recipeid"),
+//            inverseJoinColumns = @JoinColumn(name = "tagid")
+//    )
+//    private Set<Tag> tags;
 }
