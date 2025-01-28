@@ -140,7 +140,8 @@
 
 2025/01/20 Felix
 1. Done since last scrum
--
+- Brought a Transactional function to Recipes and Tags table.
+- Brought S3 config/service/controller.
 2. Plan until next Scrum
 -
 3. Need assistance / figure things out
@@ -171,7 +172,7 @@
 
 2025/01/21 Felix
 1. Done since last scrum
--
+- Integratd Upload picture function with recipe Create.
 2. Plan until next Scrum
 -
 3. Need assistance / figure things out
@@ -199,7 +200,7 @@
 
 2025/01/22 Felix
 1. Done since last scrum
--
+- Brought Email function.
 2. Plan until next Scrum
 -
 3. Need assistance / figure things out
@@ -229,7 +230,8 @@
 
 2025/01/23 Felix
 1. Done since last scrum
--
+- Update embedding provider from ollama to openai.
+- Brought a function for fuzzy search when fail to get embedding.
 2. Plan until next Scrum
 -
 3. Need assistance / figure things out
@@ -260,7 +262,8 @@
 
 2025/01/27 Felix
 1. Done since last scrum
--
+- Tried the Swagger.
+- Brought PDF viewer function.
 2. Plan until next Scrum
 -
 3. Need assistance / figure things out
