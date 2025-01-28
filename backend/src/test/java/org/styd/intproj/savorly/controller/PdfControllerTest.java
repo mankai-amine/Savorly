@@ -39,11 +39,6 @@ import java.util.Map;
 @SpringBootTest
 public class PdfControllerTest {
 
-    private static MockHttpServletRequest request;
-
-    @PersistenceContext
-    private EntityManager entityManager;
-
 
     @Autowired
     private PdfController pdfController;
@@ -60,7 +55,7 @@ public class PdfControllerTest {
     @Mock
     private S3Service s3Service;
 
-    @DisplayName("Test post a exists id.")
+    @DisplayName("Test post an exists long number.")
     @Test
     public void testExportPdf_Success() throws Exception {
         // Arrange
