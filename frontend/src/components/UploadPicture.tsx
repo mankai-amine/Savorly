@@ -55,7 +55,7 @@ const UploadPicture = ({ onUploadSuccess }: UploadPictureProps) => {
 
   return (
     <div>
-      <h2>Upload a Picture</h2>
+      <p>Upload a Picture</p>
       {error && <p style={{ color: "red" }}>{error}</p>}
       {imageUrl && (
         <div>
