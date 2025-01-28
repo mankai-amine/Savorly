@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Container, Card, Button, Row, Col, Form } from 'react-bootstrap';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -7,10 +7,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { UserContext } from '../helpers/UserContext';
 import StarRating from '../components/StarRating';
+import ViewRecipePdf from './ViewRecipePdf';
 
 const apiUrl = 'http://localhost:8080/api/recipes'; 
 const reviewsUrl = 'http://localhost:8080/api/reviews'; 
 const ratingUrl = 'http://localhost:8080/api/rating/recipe';
+const printUrl = 'http://localhost:8080/api/pdf';
 
 interface User {
   username: string;
@@ -148,8 +150,12 @@ export const RecipeDetails = () => {
                           recipeId={id} 
                           initialRating={rating} 
                           onRatingSubmit={getAvgRating}
-/>}
-          <Button variant="secondary" href="/">Back to Home</Button>
+          />}
+        <Button>
+          <Link to={`/recipe/pdf/${id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+            Print PDF
+          </Link>
+        </Button>
         </Card.Body>
       </Card>
       
