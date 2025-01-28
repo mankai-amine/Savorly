@@ -91,7 +91,7 @@ export const MyRecipes = () => {
                       variant="top"
                       src={recipe.picture} 
                       alt={recipe.name}
-                      style={{ height: '200px', objectFit: 'cover', borderTopLeftRadius: '10px', borderTopRightRadius: '10px' }}
+                      style={{ height: '200px', objectFit: 'fill', borderTopLeftRadius: '10px', borderTopRightRadius: '10px' }}
                     />
                     <Card.Body>
                       <Card.Title className="text-uppercase" style={{ fontWeight: '500', color: '#2c3e50' }}>{recipe.name}</Card.Title>

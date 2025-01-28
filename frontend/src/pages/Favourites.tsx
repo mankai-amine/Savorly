@@ -85,37 +85,39 @@ export const Favourites = () => {
               {favouriteRecipes.map((recipe) => (
                 <Col key={recipe.id} md={4} className="mb-4">
                   <Card className="shadow-sm rounded-lg" style={{ backgroundColor: '#fff' }}>
-                    <div style={{ position: 'relative' }}>
-                      <Button
-                        variant="link"
-                        onClick={() => handleDelete(recipe.id)}
-                        style={{
-                          position: 'absolute',
-                          top: '10px',
-                          right: '10px',
-                          color: '#e74c3c',
-                          fontSize: '1.5rem',
-                          padding: '0',
-                          textDecoration: 'none',
-                          backgroundColor: 'transparent',
-                          border: 'none'
-                        }}
-                      >
-                        &times; {/* Close icon (X) */}
-                      </Button>
-                    </div>
+                    
                     <Card.Img
                       variant="top"
                       src={recipe.picture} 
                       alt={recipe.name}
-                      style={{ height: '200px', objectFit: 'cover', borderTopLeftRadius: '10px', borderTopRightRadius: '10px' }}
+                      style={{ height: '200px', objectFit: 'fill', borderTopLeftRadius: '10px', borderTopRightRadius: '10px' }}
                     />
                     <Card.Body>
-                      <Card.Title className="text-uppercase" style={{ fontWeight: '500', color: '#2c3e50' }}>{recipe.name}</Card.Title>
-                      <Card.Text className="text-muted" style={{ fontSize: '0.95rem' }}>
+                      <div className="d-flex justify-content-between align-items-center">
+                        <Card.Title className="text-uppercase" style={{ fontWeight: '500', color: '#2c3e50' }}>{recipe.name}</Card.Title>
+                        <Button
+                          variant="outline-danger"
+                          size="sm"
+                          onClick={() => handleDelete(recipe.id)}
+                          style={{
+                            border: 'none',
+                            backgroundColor: 'transparent',
+                            color: '#e74c3c',
+                            fontSize: '1.5rem',
+                            fontWeight: 'bold',
+                            //padding: '0rem 0.5rem',
+                            cursor: 'pointer',
+                            borderRadius: '50%',
+                          }}
+                        >
+                          <span>&times;</span>
+                        </Button>
+
+                      </div>
+                      <Card.Text className="text-muted" style={{ fontSize: '1rem' }}>
                         <strong>Ingredients:</strong> {recipe.ingredients}
                       </Card.Text>
-                      <Card.Text className="text-muted" style={{ fontSize: '0.95rem' }}>
+                      <Card.Text className="text-muted" style={{ fontSize: '1rem' }}>
                         <strong>Instructions:</strong> {recipe.instructions}
                       </Card.Text>
                     </Card.Body>

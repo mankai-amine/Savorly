@@ -37,7 +37,7 @@ export const Home = () => {
         const [recipesResponse, favouritesResponse] = await Promise.all([
           axios.get(`${apiUrl}/all`, {
             headers: { Authorization: `Bearer ${accessToken}` },
-            }),
+          }),
           // Get favorite recipe IDs
           axios.get<Recipe[]>(favouritesApiUrl, {
             headers: { Authorization: `Bearer ${accessToken}` },
@@ -85,12 +85,11 @@ export const Home = () => {
   return (
     <div style={{ minHeight: '100vh' }}>
       <Container className="mt-5">
-        <h1 className="text-center mb-5" style={{ fontFamily: 'Arial, sans-serif', color: '#333' }}>Recipes</h1>
-        <Row className="justify-content-center">
+        <Row >
           {recipes.map((recipe) => (
-            <Col key={recipe.id} md={4} className="mb-4">
+            <Col key={recipe.id} md={4} className="mb-4 ">
               <Card className="shadow-lg rounded" style={{ borderRadius: '10px', overflow: 'hidden' }}>
-                <Card.Img variant="top" src={recipe.picture} style={{ height: '200px', objectFit: 'cover' }} />
+                <Card.Img variant="top" src={recipe.picture} style={{ height: '200px', objectFit: 'fill' }} />
                 <Card.Body>
                   <Card.Title style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>{recipe.name}</Card.Title>
                   <Card.Text>
