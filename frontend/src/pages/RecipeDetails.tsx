@@ -128,6 +128,7 @@ export const RecipeDetails = () => {
           <Card.Text>{recipe.ingredients}</Card.Text>
           <Card.Title>Instructions</Card.Title>
           <Card.Text>{recipe.instructions}</Card.Text>
+          {recipe.picture && (<Card.Img src={recipe.picture} alt="Picture of the Recipe." />)}
         </Card.Body>
       </Card>
       
