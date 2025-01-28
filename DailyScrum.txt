@@ -268,3 +268,34 @@
 -
 3. Need assistance / figure things out
 -
+
+*****
+
+2025/01/28 Sean
+1. Done since last scrum
+- Documentation
+- Code cleanup
+- Looking into JUnit
+2. Plan until next Scrum
+- Look into hosting
+- More code cleanup
+3. Need assistance / figure things out
+-
+
+2025/01/28 Amine
+1. Done since last scrum
+- improve frontend styling (home, favourites, my recipes, recipe details)
+2. Plan until next Scrum
+- finish frontend styling improvement
+- work on the frontend for sharing recipe
+3. Need assistance / figure things out
+-
+
+2025/01/28 Felix
+1. Done since last scrum
+- Tried the Swagger.
+- Brought PDF viewer function.
+2. Plan until next Scrum
+-
+3. Need assistance / figure things out
+-
