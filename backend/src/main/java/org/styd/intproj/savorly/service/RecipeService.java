@@ -187,7 +187,7 @@ public class RecipeService {
     /**
      * delete
      */
-//    @Transactional
+    @Transactional
     public void deleteRecipe(Long id, Authentication authentication) {
         Long currUserId;
         try {
@@ -204,7 +204,7 @@ public class RecipeService {
             throw new IllegalArgumentException("This recipe belongs to a different user.");
         }
 
-        recipeRepository.deleteById(id);
+        recipeRepository.delete(existingRecipe);
         logger.info("Deleted recipe with id: {}", id);
     }
 

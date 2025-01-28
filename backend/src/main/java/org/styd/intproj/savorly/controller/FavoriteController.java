@@ -85,7 +85,7 @@ public class FavoriteController {
 
             favouriteRepository.delete(toDelete);
 
-            return ResponseEntity.ok(toDelete);
+            return ResponseEntity.noContent().build();
 
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
