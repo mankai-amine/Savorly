@@ -95,6 +95,6 @@ public class PdfControllerTest {
         // Act & Assert
         mockMvc.perform(get("/api/pdf/{id}", "cc")
                         .accept(MediaType.APPLICATION_PDF))
-                .andExpect(status().is5xxServerError());
+                .andExpect(status().isBadRequest());
     }
 }
