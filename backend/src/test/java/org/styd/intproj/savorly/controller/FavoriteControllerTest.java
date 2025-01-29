@@ -101,7 +101,7 @@ class FavoriteControllerTest {
         when(favouriteRepository.save(Mockito.any(Favourite.class))).thenReturn(mockFavourite);
 
         mockMvc.perform(post("/api/favourites/{recipeId}", recipeId)
-                        .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZWxpeCIsImlhdCI6MTczODA5NjY2NywiZXhwIjoxNzM4MTgzMDY3fQ.GfquoWdYBE35yfloOwfKsE6gi6U1ktQ-gaa18efsg1I") // Mock JWT token
+                        .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZWxpeCIsImlhdCI6MTczODE2MzU2MiwiZXhwIjoxNzM4MjQ5OTYyfQ.fYyvu6HS1lb0DRPBKVuIX8Cql-zKusevTcdZ7_i6qHA") // Mock JWT token
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.user.username").value(mockUser.getUsername()))
@@ -117,7 +117,7 @@ class FavoriteControllerTest {
         when(userRepository.findByUsername("felix")).thenReturn(null); // No user found
 
         mockMvc.perform(post("/api/favourites/{recipeId}", recipeId)
-                        .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZWxpeCIsImlhdCI6MTczODA5NjY2NywiZXhwIjoxNzM4MTgzMDY3fQ.GfquoWdYBE35yfloOwfKsE6gi6U1ktQ-gaa18efsg1I") // Mock JWT token
+                        .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZWxpeCIsImlhdCI6MTczODE2MzU2MiwiZXhwIjoxNzM4MjQ5OTYyfQ.fYyvu6HS1lb0DRPBKVuIX8Cql-zKusevTcdZ7_i6qHA") // Mock JWT token
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isForbidden());
     }
@@ -151,7 +151,7 @@ class FavoriteControllerTest {
         when(recipeRepository.findById(recipeId)).thenReturn(Optional.empty()); // Recipe NOT found
 
         mockMvc.perform(post("/api/favourites/{recipeId}", recipeId)
-                        .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZWxpeCIsImlhdCI6MTczODA5NjY2NywiZXhwIjoxNzM4MTgzMDY3fQ.GfquoWdYBE35yfloOwfKsE6gi6U1ktQ-gaa18efsg1I") // Mock JWT token
+                        .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZWxpeCIsImlhdCI6MTczODE2MzU2MiwiZXhwIjoxNzM4MjQ5OTYyfQ.fYyvu6HS1lb0DRPBKVuIX8Cql-zKusevTcdZ7_i6qHA") // Mock JWT token
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound()); // Expect 404 when recipe is missing
     }
@@ -167,7 +167,7 @@ class FavoriteControllerTest {
         when(favouriteRepository.save(Mockito.any(Favourite.class))).thenThrow(new RuntimeException("Unexpected error"));
 
         mockMvc.perform(post("/api/favourites/{recipeId}", recipeId)
-                        .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZWxpeCIsImlhdCI6MTczODA5NjY2NywiZXhwIjoxNzM4MTgzMDY3fQ.GfquoWdYBE35yfloOwfKsE6gi6U1ktQ-gaa18efsg1I") // Mock JWT token
+                        .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZWxpeCIsImlhdCI6MTczODE2MzU2MiwiZXhwIjoxNzM4MjQ5OTYyfQ.fYyvu6HS1lb0DRPBKVuIX8Cql-zKusevTcdZ7_i6qHA") // Mock JWT token
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }

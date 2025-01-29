@@ -94,8 +94,9 @@ class RecipeControllerTest {
         String field = "instructions";
         String value = "hongkong";
 
-        // Act & Assert
+        //without mock config
 
+        // Act & Assert
         mockMvc.perform(get("/api/recipes/search")
                         .param("field", field)
                         .param("value", value)
@@ -158,7 +159,7 @@ class RecipeControllerTest {
     void getMyRecipes_Success() throws Exception {
 
         mockMvc.perform(get("/api/recipes/mine")
-                        .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZWxpeCIsImlhdCI6MTczODAyNDM0OSwiZXhwIjoxNzM4MTEwNzQ5fQ.Yf5MyJSFDPM2XULNis28XrPa-Yh-e2cj6FV_VMzYvR0") // Mock JWT token
+                        .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZWxpeCIsImlhdCI6MTczODE2MzU2MiwiZXhwIjoxNzM4MjQ5OTYyfQ.fYyvu6HS1lb0DRPBKVuIX8Cql-zKusevTcdZ7_i6qHA") // Mock JWT token
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
@@ -177,12 +178,14 @@ class RecipeControllerTest {
         recipeViewModel.setInstructions("Mix and bake");
         recipeViewModel.setPicture("");
 
-        // config mock to recipeservice
+
+
+        // config mock
         when(recipeService.createRecipeAndTagWithEmbedding(Mockito.any(RecipeViewModel.class), Mockito.any(Authentication.class)))
                 .thenThrow(new EntityNotFoundException("User not found"));
 
         mockMvc.perform(post("/api/recipes/create")
-                        //.header("Authorization", "Bearer invalidToken") // invalid token
+                        .header("Authorization", "Bearer invalidToken") // invalid token
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(recipeViewModel)))
                 .andExpect(status().isNotFound());
@@ -211,7 +214,7 @@ class RecipeControllerTest {
                 .thenReturn(new RecipeResponse("success", List.of(recipe)));
 
         mockMvc.perform(post("/api/recipes/create")
-                        .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZWxpeCIsImlhdCI6MTczODAyNDM0OSwiZXhwIjoxNzM4MTEwNzQ5fQ.Yf5MyJSFDPM2XULNis28XrPa-Yh-e2cj6FV_VMzYvR0") //not valid token
+                        .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZWxpeCIsImlhdCI6MTczODE2MzU2MiwiZXhwIjoxNzM4MjQ5OTYyfQ.fYyvu6HS1lb0DRPBKVuIX8Cql-zKusevTcdZ7_i6qHA") //not valid token
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(recipeViewModel)))
                 .andExpect(status().isCreated())

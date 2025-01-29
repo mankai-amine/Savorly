@@ -211,6 +211,10 @@ public class RecipeService {
     //create new record both in recipes table and tags table
     @Transactional //transaction will roll back only when runtime exception or error
     public RecipeResponse createRecipeAndTagWithEmbedding(RecipeViewModel recipeViewModel, Authentication authentication) {
+        if (authentication == null || authentication.getName() == null) {
+            throw new EntityNotFoundException("User not found");
+        }
+
         Long currUserId;
         try {
             String username = authentication.getName();

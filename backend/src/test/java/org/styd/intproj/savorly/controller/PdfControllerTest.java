@@ -22,6 +22,7 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.styd.intproj.savorly.entity.Recipe;
@@ -41,18 +42,15 @@ public class PdfControllerTest {
 
 
     @Autowired
-    private PdfController pdfController;
-
-    @Autowired
     private MockMvc mockMvc;
 
-    @Mock
+    @MockitoBean
     private RecipeService recipeService;
 
-    @Mock
+    @MockitoBean
     private PdfWithS3Service pdfWithS3Service;
 
-    @Mock
+    @MockitoBean
     private S3Service s3Service;
 
     @DisplayName("Test post an exists long number.")
@@ -67,11 +65,13 @@ public class PdfControllerTest {
         mockRecipe.setInstructions("Test Instructions");
         mockRecipe.setPicture("Test Picture");
 
+        //mock config
         when(recipeService.getRecipeById(recipeId)).thenReturn(mockRecipe);
         when(pdfWithS3Service.generatedPdfStream(any())).thenReturn(new ByteArrayOutputStream());
 
         // Act & Assert
         mockMvc.perform(get("/api/pdf/{id}", recipeId)
+                        .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZWxpeCIsImlhdCI6MTczODE2MzU2MiwiZXhwIjoxNzM4MjQ5OTYyfQ.fYyvu6HS1lb0DRPBKVuIX8Cql-zKusevTcdZ7_i6qHA") // Use a valid JWT token
                         .accept(MediaType.APPLICATION_PDF))
                 .andExpect(status().isOk());
     }
@@ -81,10 +81,12 @@ public class PdfControllerTest {
     public void testExportPdf_RecipeNotFound() throws Exception {
         // Arrange
         Long recipeId = -99L;
+        //mock config
         when(recipeService.getRecipeById(recipeId)).thenReturn(null);
 
         // Act & Assert
         mockMvc.perform(get("/api/pdf/{id}", recipeId)
+                        .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZWxpeCIsImlhdCI6MTczODE2MzU2MiwiZXhwIjoxNzM4MjQ5OTYyfQ.fYyvu6HS1lb0DRPBKVuIX8Cql-zKusevTcdZ7_i6qHA") // Use a valid JWT token
                         .accept(MediaType.APPLICATION_PDF))
                 .andExpect(status().isBadRequest());
     }
@@ -92,8 +94,10 @@ public class PdfControllerTest {
     @DisplayName("Test post a string.")
     @Test
     public void testExportPdf_InvalidId() throws Exception {
+        // without mock config
         // Act & Assert
         mockMvc.perform(get("/api/pdf/{id}", "cc")
+                        .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZWxpeCIsImlhdCI6MTczODE2MzU2MiwiZXhwIjoxNzM4MjQ5OTYyfQ.fYyvu6HS1lb0DRPBKVuIX8Cql-zKusevTcdZ7_i6qHA") // Use a valid JWT token
                         .accept(MediaType.APPLICATION_PDF))
                 .andExpect(status().isBadRequest());
     }
