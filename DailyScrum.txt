@@ -298,3 +298,34 @@
 -
 3. Need assistance / figure things out
 -
+
+*****
+
+2025/01/29 Sean
+1. Done since last scrum
+- Looked into hosting options
+- Bug fixing
+2. Plan until next Scrum
+- Double check some aspects of code (like the JWT)
+- Finish hosting
+3. Need assistance / figure things out
+- How to host two programs from 1 repo
+
+2025/01/29 Amine
+1. Done since last scrum
+- finish frontend styling improvement
+- work on the frontend for sharing recipe
+2. Plan until next Scrum
+- integrate search function in the frontend
+- help with hosting if necessary
+3. Need assistance / figure things out
+-
+
+2025/01/29 Felix
+1. Done since last scrum
+- 
+2. Plan until next Scrum
+-
+3. Need assistance / figure things out
+-
+
