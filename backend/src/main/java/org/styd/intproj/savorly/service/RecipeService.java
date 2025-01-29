@@ -1,4 +1,5 @@
 package org.styd.intproj.savorly.service;
+import com.amazonaws.HttpMethod;
 import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,12 +44,22 @@ public class RecipeService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired S3Service s3Service;
+
     /**
      * get all recipes
      */
     public List<Recipe> getAllRecipes() {
-        return recipeRepository.findAll();
+        List<Recipe> recipes = recipeRepository.findAll();
+        for (Recipe recipe : recipes) {
+            if (recipe.getPicture() != null && !recipe.getPicture().trim().isEmpty()) {
+                String pictureUrl = recipe.getPicture();
+                recipe.setPicture(s3Service.generateUrl(pictureUrl, HttpMethod.GET));
+            }
+        }
+        return recipes;
     }
+
 
     /**
      * get pageable recipes
@@ -62,8 +73,14 @@ public class RecipeService {
      * get single recipe
      */
     public Recipe getRecipeById(Long id) {
-        return recipeRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Recipe not found with id: " + id));
+        Optional<Recipe> recipe = recipeRepository.findById(id);
+        if (recipe.isEmpty()) {
+            throw new EntityNotFoundException("Recipe with id " + id + " not found");
+        }
+        if (recipe.get().getPicture() != null && !recipe.get().getPicture().trim().isEmpty()) {
+            String pictureUrl = recipe.get().getPicture();
+            recipe.get().setPicture(s3Service.generateUrl(pictureUrl, HttpMethod.GET));
+        }    return recipe.get();
     }
 
     /**

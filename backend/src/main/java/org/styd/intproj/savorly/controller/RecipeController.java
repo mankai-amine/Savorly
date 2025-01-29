@@ -1,5 +1,6 @@
 package org.styd.intproj.savorly.controller;
 
+import com.amazonaws.HttpMethod;
 import org.springframework.data.domain.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,8 @@ import org.styd.intproj.savorly.repository.RecipeRepository;
 import org.styd.intproj.savorly.repository.UserRepository;
 
 import jakarta.validation.Valid;
+import org.styd.intproj.savorly.service.S3Service;
+
 import java.util.List;
 
 @RestController
@@ -40,6 +43,9 @@ public class RecipeController {
 
     @Autowired
     private FavouriteRepository favouriteRepository;
+
+    @Autowired
+    S3Service s3Service;
 
     /**
      * fuzzy search for name/ingredients/instructions
@@ -84,12 +90,20 @@ public class RecipeController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+
     @GetMapping("/mine")
     public ResponseEntity<List<Recipe>> getMyRecipes(Authentication authentication) {
         String username = authentication.getName();
         Long userId = getUserIdFromUsername(username);
 
         List<Recipe> recipes = recipeRepository.findByAuthorId(userId);
+
+        for (Recipe recipe : recipes) {
+            if (recipe.getPicture() != null && !recipe.getPicture().trim().isEmpty()) {
+                String pictureUrl = recipe.getPicture();
+                recipe.setPicture(s3Service.generateUrl(pictureUrl, HttpMethod.GET));
+            }
+        }
 
         return ResponseEntity.ok(recipes);
     }

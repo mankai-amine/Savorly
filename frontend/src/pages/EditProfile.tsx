@@ -67,14 +67,13 @@ const EditProfile = () => {
     };
 
     return (
-        <div style={{ backgroundColor: '#e3eef8', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 
-            <Container className='mt-5'>
+            <Container >
                 <Row className='justify-content-md-center'>
                     <Col md={6} lg={4}>
-                        <div className='register-box text-center'>
-                            <h2 className='mb-4 twixer-logo'> Editing profile password for { user ? user.username : "Guest(should not happen!)" }</h2>
-                         
+                    <h2 className='mb-4 text-center'> Change password</h2>
+                        <div className='register-box text-center '>                           
                             <Form onSubmit={handleSubmit(onSubmit)}>
                                 <Form.Group controlId="formPassword" className="mb-3">
                                     <Form.Control
