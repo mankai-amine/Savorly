@@ -72,52 +72,62 @@ export const Favourites = () => {
         }
     }
 
-  return (
-    <div style={{ backgroundColor: '#f0f0f0', minHeight: '100vh' }}>
-      <Container className="mt-5">
-        <h1 className="mb-4">Favourite Recipes</h1>
-        {Array.isArray(favouriteRecipes) && favouriteRecipes.length === 0 ? (
-        <div className="alert alert-info" role="alert">
-          No recipes found.
-        </div>
-        ) : (
-        <Row>
-          {favouriteRecipes.map((recipe) => (
-            <Col key={recipe.id} md={4} className="mb-4">
-              <Card>
-                <div style={{ position: 'relative' }}>
-                    <Button
-                    variant="link"
-                    onClick={() => handleDelete(recipe.id)}
-                    style={{
-                        position: 'absolute',
-                        top: '10px',
-                        right: '10px',
-                        color: 'red',
-                        fontSize: '1.5rem',
-                        padding: '0',
-                        textDecoration: 'none'
-                    }}
-                    >
-                    &times; {/* Close icon (X) */}
-                    </Button>
-                </div>
-                <Card.Body>
-                    <Card.Title>{recipe.name}</Card.Title>
-                    <Card.Text>
-                    <strong>Ingredients:</strong> {recipe.ingredients}
-                    </Card.Text>
-                    <Card.Text>
-                    <strong>Instructions:</strong> {recipe.instructions}
-                    </Card.Text>
-                </Card.Body>
-                </Card>
+    return (
+      <div style={{ minHeight: '100vh' }}>
+        <Container className="mt-5">
+          <h1 className="text-center mb-4" style={{ fontSize: '2.5rem', fontWeight: '600', color: '#333' }}>Favourite Recipes</h1>
+          {Array.isArray(favouriteRecipes) && favouriteRecipes.length === 0 ? (
+            <div className="text-center" style={{ fontSize: '1.2rem' }}>
+              No recipes found.
+            </div>
+          ) : (
+            <Row>
+              {favouriteRecipes.map((recipe) => (
+                <Col key={recipe.id} md={4} className="mb-4">
+                  <Card className="shadow-sm rounded-lg" style={{ backgroundColor: '#fff' }}>
+                    
+                    <Card.Img
+                      variant="top"
+                      src={recipe.picture} 
+                      alt={recipe.name}
+                      style={{ height: '200px', objectFit: 'fill', borderTopLeftRadius: '10px', borderTopRightRadius: '10px' }}
+                    />
+                    <Card.Body>
+                      <div className="d-flex justify-content-between align-items-center">
+                        <Card.Title className="text-uppercase" style={{ fontWeight: '500', color: '#2c3e50' }}>{recipe.name}</Card.Title>
+                        <Button
+                          variant="outline-danger"
+                          size="sm"
+                          onClick={() => handleDelete(recipe.id)}
+                          style={{
+                            border: 'none',
+                            backgroundColor: 'transparent',
+                            color: '#e74c3c',
+                            fontSize: '1.5rem',
+                            fontWeight: 'bold',
+                            //padding: '0rem 0.5rem',
+                            cursor: 'pointer',
+                            borderRadius: '50%',
+                          }}
+                        >
+                          <span>&times;</span>
+                        </Button>
 
-            </Col>
-          ))}
-        </Row>
-        )}
-      </Container>
-    </div>
-  );
+                      </div>
+                      <Card.Text className="text-muted" style={{ fontSize: '1rem' }}>
+                        <strong>Ingredients:</strong> {recipe.ingredients}
+                      </Card.Text>
+                      <Card.Text className="text-muted" style={{ fontSize: '1rem' }}>
+                        <strong>Instructions:</strong> {recipe.instructions}
+                      </Card.Text>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+          )}
+        </Container>
+      </div>
+    );
+    
 };

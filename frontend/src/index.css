@@ -91,6 +91,13 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+.nav-item-hover {
+  transition: color 0.3s ease;
+}
+.nav-item-hover:hover {
+  color: rgb(213, 66, 21) !important;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

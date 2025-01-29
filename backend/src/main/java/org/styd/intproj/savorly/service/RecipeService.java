@@ -42,13 +42,16 @@ public class RecipeService {
     @Autowired
     private UserRepository userRepository;
 
+
     @Autowired
     private S3Service s3Service;
+
 
     /**
      * get all recipes
      */
     public List<Recipe> getAllRecipes() {
+
         List<Recipe> allRecipes =  recipeRepository.findAll();
         // get pre-signed link, lambda
         allRecipes.forEach(recipe -> {
@@ -59,6 +62,7 @@ public class RecipeService {
 
         return allRecipes;
     }
+
 
     /**
      * get pageable recipes
