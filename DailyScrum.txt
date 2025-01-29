@@ -293,8 +293,7 @@
 
 2025/01/28 Felix
 1. Done since last scrum
-- Tried the Swagger.
-- Brought PDF viewer function.
+- Brought 4 TEST classes, covering about 30% of endpoints.
 2. Plan until next Scrum
 -
 3. Need assistance / figure things out
