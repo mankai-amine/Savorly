@@ -37,7 +37,7 @@ export const Home = () => {
         const [recipesResponse, favouritesResponse] = await Promise.all([
           axios.get(`${apiUrl}/all`, {
             headers: { Authorization: `Bearer ${accessToken}` },
-            }),
+          }),
           // Get favorite recipe IDs
           axios.get<Recipe[]>(favouritesApiUrl, {
             headers: { Authorization: `Bearer ${accessToken}` },
@@ -83,36 +83,37 @@ export const Home = () => {
   }
 
   return (
-    <div style={{ backgroundColor: '#f0f0f0', minHeight: '100vh' }}>
+    <div style={{ minHeight: '100vh' }}>
       <Container className="mt-5">
-        <h1 className="mb-4">Recipes</h1>
-        <Row>
+        <Row >
           {recipes.map((recipe) => (
-            <Col key={recipe.id} md={4} className="mb-4">
-              <Card>
+            <Col key={recipe.id} md={4} className="mb-4 ">
+              <Card className="shadow-lg rounded" style={{ borderRadius: '10px', overflow: 'hidden' }}>
+                <Card.Img variant="top" src={recipe.picture} style={{ height: '200px', objectFit: 'fill' }} />
                 <Card.Body>
-                  <Card.Title>{recipe.name}</Card.Title>
+                  <Card.Title style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>{recipe.name}</Card.Title>
                   <Card.Text>
                     <strong>Ingredients:</strong> {recipe.ingredients}
                   </Card.Text>
                   <Card.Text>
                     <strong>Instructions:</strong> {recipe.instructions}
                   </Card.Text>
-                  <Button
-                    variant="primary"
-                    onClick={() => navigate(`/recipe/${recipe.id}`)}
-                  >
-                    View Recipe
-                  </Button>
-                  <Button
-                    variant={favourites.includes(recipe.id) ? 'danger' : 'success'}
-                    style={{ marginLeft: '10px' }}
-                    onClick={() => toggleFavourite(recipe.id)}
-                  >
-                    {favourites.includes(recipe.id)
-                      ? 'Remove from Favourites'
-                      : 'Add to Favourites'}
-                  </Button>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <Button
+                      variant="primary"
+                      onClick={() => navigate(`/recipe/${recipe.id}`)}
+                      style={{ width: '48%' }}
+                    >
+                      View Recipe
+                    </Button>
+                    <Button
+                      variant={favourites.includes(recipe.id) ? 'danger' : 'success'}
+                      style={{ marginLeft: '10px', width: '48%' }}
+                      onClick={() => toggleFavourite(recipe.id)}
+                    >
+                      {favourites.includes(recipe.id) ? 'Remove Favourite' : 'Add to Favourites'}
+                    </Button>
+                  </div>
                 </Card.Body>
               </Card>
             </Col>

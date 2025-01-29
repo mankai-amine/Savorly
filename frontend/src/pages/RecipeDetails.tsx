@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Container, Card, Button, Row, Col, Form } from 'react-bootstrap';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -7,10 +7,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { UserContext } from '../helpers/UserContext';
 import StarRating from '../components/StarRating';
+import ViewRecipePdf from './ViewRecipePdf';
 
 const apiUrl = 'http://localhost:8080/api/recipes'; 
 const reviewsUrl = 'http://localhost:8080/api/reviews'; 
 const ratingUrl = 'http://localhost:8080/api/rating/recipe';
+const printUrl = 'http://localhost:8080/api/pdf';
 
 interface User {
   username: string;
@@ -135,66 +137,94 @@ export const RecipeDetails = () => {
 
   return (
     <Container className="mt-5">
-      <h1 className="mb-4">{recipe.name}</h1>
-      <Card className="mb-4">
+      {/* Recipe Title and Header */}
+      <h1 className="mb-4 text-center text-primary">{recipe.name}</h1>
+      
+      {/* Recipe Card */}
+      <Card className="shadow-lg mb-4 p-4">
         <Card.Body>
-          <Card.Title>Ingredients</Card.Title>
-          <Card.Text>{recipe.ingredients}</Card.Text>
-          <Card.Title>Instructions</Card.Title>
-          <Card.Text>{recipe.instructions}</Card.Text>
-          <Card.Title>Average Rating</Card.Title>
-          <Card.Text>{rating}</Card.Text>
-          {user && id && <StarRating 
-                          recipeId={id} 
-                          initialRating={rating} 
-                          onRatingSubmit={getAvgRating}
-/>}
-          <Button variant="secondary" href="/">Back to Home</Button>
+          <div className="row align-items-center">
+            {/* Left side: Ingredients, Instructions, Rating */}
+            <div className="col-md-8">
+              <Card.Title className="text-uppercase text-secondary">Ingredients</Card.Title>
+              <Card.Text>{recipe.ingredients}</Card.Text>
+              
+              <Card.Title className="text-uppercase text-secondary">Instructions</Card.Title>
+              <Card.Text>{recipe.instructions}</Card.Text>
+              
+              <Card.Title className="text-uppercase text-secondary">Average Rating</Card.Title>
+              <Card.Text><strong>{rating}</strong></Card.Text>
+            </div>
+
+            {/* Right side: Recipe Image */}
+            <div className="col-md-4">
+              <img
+                src={recipe.picture} // Assuming recipe.picture is the URL of the image
+                alt={recipe.name}
+                className="img-fluid rounded"
+                style={{ maxHeight: '200px', objectFit: 'cover' }}
+              />
+            </div>
+          </div>
+
+          {/* Star Rating Component */}
+          {user && id && (
+            <StarRating 
+              recipeId={id} 
+              initialRating={rating} 
+              onRatingSubmit={getAvgRating}
+            />
+          )}
+
+          {/* Print PDF Button */}
+          <Button variant="outline-primary" className="mt-3">
+            <Link to={`/recipe/pdf/${id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+              <strong>Print PDF</strong>
+            </Link>
+          </Button>
         </Card.Body>
       </Card>
-      
-      <h2 className="mb-4">Reviews</h2>
+
+      {/* Reviews Section */}
+      <h2 className="mb-4 text-center text-info">Reviews</h2>
       {Array.isArray(reviews) && reviews.length === 0 ? (
-        <p>
-          No reviews yet.
-        </p>
-        ) : (
-      <Row>
-        {reviews.map((review) => (
-          <Row key={review.id} md={4} className="mb-4">
-              <Card.Body>
-                <Card.Text>
-                  <strong>{review.author.username}</strong> wrote on {review.date}:
-                </Card.Text>
-                <Card.Text>
-                  {review.text}
-                </Card.Text>
-                <hr />
-              </Card.Body>
-            
-          </Row>
-        ))}
-      </Row>
+        <p className="text-center">No reviews yet.</p>
+      ) : (
+        <Row>
+          {reviews.map((review) => (
+            <Col key={review.id} md={4} className="mb-4">
+              <Card className="shadow-sm">
+                <Card.Body>
+                  <Card.Text>
+                    <strong>{review.author.username}</strong> wrote on {review.date}:
+                  </Card.Text>
+                  <Card.Text>{review.text}</Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
+        </Row>
       )}
 
-      {user &&
-      <Form onSubmit={handleSubmit(onSubmit)}>
-          <Form.Group controlId='formText' className='mb-3'>
-              <Form.Control
-                  type="text"
-                  placeholder="Write your comment here..."
-                  {...register('text')}
-              />
-              {errors.text && <p className="text-danger">{errors.text.message}</p>}
+      {/* Comment Form (if user is logged in) */}
+      {user && (
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <Form.Group controlId="formText" className="mb-3">
+            <Form.Control
+              type="text"
+              placeholder="Write your comment here..."
+              {...register("text")}
+            />
+            {errors.text && <p className="text-danger">{errors.text.message}</p>}
           </Form.Group>
 
-          <Button variant='primary' type='submit' className='mb-3'>
-              Comment
+          <Button variant="secondary" type="submit" className="mb-3">
+            Comment
           </Button>
 
           {isSubmitted && <p className="text-success">Review added</p>}
-      </Form>
-      }   
+        </Form>
+      )}
     </Container>
   );
 };

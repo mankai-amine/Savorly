@@ -28,11 +28,9 @@ interface LoginResponse {
 
 // data structure for fetching user
 interface UserResponse {
-    user: {
-        id: string;
-        username: string;
-        password:string
-    };
+    id: string;
+    username: string;
+    password:string
 }
 
 interface ServerErrors {
@@ -69,16 +67,15 @@ const Login = () => {
                 password: data.password
             });
 
-
             if (response.data.token) {
-                console.log("inside the if statement")
+                console.log("Login successful:", response);
 
                 sessionStorage.setItem("accessToken", response.data.token);
 
                 const userResponse = await axios.get<UserResponse>(apiUrl, {
                     headers: { Authorization: `Bearer ${response.data.token}` },
                 });
-                const user = userResponse.data.user;
+                const user = userResponse.data;
                 setUser(user);
 
                 setSubmissionStatus('Successfully logged in');
