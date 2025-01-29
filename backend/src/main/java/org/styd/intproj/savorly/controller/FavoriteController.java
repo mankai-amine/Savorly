@@ -1,5 +1,6 @@
 package org.styd.intproj.savorly.controller;
 
+import com.amazonaws.HttpMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.styd.intproj.savorly.entity.User;
 import org.styd.intproj.savorly.repository.FavouriteRepository;
 import org.styd.intproj.savorly.repository.RecipeRepository;
 import org.styd.intproj.savorly.repository.UserRepository;
+import org.styd.intproj.savorly.service.S3Service;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,12 +31,23 @@ public class FavoriteController {
     @Autowired
     private FavouriteRepository favouriteRepository;
 
+    @Autowired
+    S3Service s3Service;
+
     @GetMapping
     public ResponseEntity<List<Recipe>> getFavouriteRecipes(Authentication authentication) {
         String username = authentication.getName();
         try {
             Long currUserId = userRepository.findByUsername(username).getId();
             List<Recipe> favouriteRecipes = favouriteRepository.getFavouriteByUserId(currUserId);
+
+            for (Recipe recipe : favouriteRecipes) {
+                if (recipe.getPicture() != null && !recipe.getPicture().trim().isEmpty()) {
+                    String pictureUrl = recipe.getPicture();
+                    recipe.setPicture(s3Service.generateUrl(pictureUrl, HttpMethod.GET));
+                }
+            }
+
             return ResponseEntity.ok(favouriteRecipes);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
