@@ -199,7 +199,6 @@ export const RecipeDetails = () => {
                     <strong>{review.author.username}</strong> wrote on {review.date}:
                   </Card.Text>
                   <Card.Text>{review.text}</Card.Text>
-                  <hr />
                 </Card.Body>
               </Card>
             </Col>

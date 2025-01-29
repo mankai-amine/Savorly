@@ -111,7 +111,7 @@ export const Home = () => {
                       style={{ marginLeft: '10px', width: '48%' }}
                       onClick={() => toggleFavourite(recipe.id)}
                     >
-                      {favourites.includes(recipe.id) ? 'Remove from Favourites' : 'Add to Favourites'}
+                      {favourites.includes(recipe.id) ? 'Remove Favourite' : 'Add to Favourites'}
                     </Button>
                   </div>
                 </Card.Body>
