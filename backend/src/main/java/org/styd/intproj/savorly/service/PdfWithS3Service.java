@@ -57,13 +57,13 @@ public class PdfWithS3Service {
                     document.add(paragraph);
                 }
                 else {
-                    if (Objects.nonNull(value) && (value.endsWith(".jpg") || value.endsWith(".png")))
+                    System.out.println("The picture field is : " + value);
+                    if (Objects.nonNull(value) && (value.contains("amazonaws.com")) && (value.contains("Amz-Credential")))
                     {
                         document.add(new Paragraph("\n"));
 
                         try {
-                            String  preSignedUrl = getPreSigned(value);
-                            Image image = Image.getInstance(new URL(preSignedUrl));
+                            Image image = Image.getInstance(new URL(value));
                             image.scaleToFit(400, 400); //limitation of img size
                             document.add(image);
                         } catch (Exception e) {

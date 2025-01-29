@@ -46,7 +46,7 @@ public class PdfController {
             return map;
         }).collect(Collectors.toList());
 
-        //System.out.println(quereyResults.toString());
+        //System.out.println("The queryResults are : "+quereyResults.toString());
         ByteArrayOutputStream pdfStream = pdfWithS3Service.generatedPdfStream(quereyResults);
 
         HttpHeaders headers = new HttpHeaders();
