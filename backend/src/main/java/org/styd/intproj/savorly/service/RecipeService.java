@@ -1,13 +1,11 @@
 package org.styd.intproj.savorly.service;
+import com.amazonaws.HttpMethod;
 import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.embedding.Embedding;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class RecipeService {
@@ -43,11 +42,22 @@ public class RecipeService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private S3Service s3Service;
+
     /**
      * get all recipes
      */
     public List<Recipe> getAllRecipes() {
-        return recipeRepository.findAll();
+        List<Recipe> allRecipes =  recipeRepository.findAll();
+        // get pre-signed link, lambda
+        allRecipes.forEach(recipe -> {
+            if (recipe.getPicture() != null && !recipe.getPicture().trim().isEmpty()) {
+                recipe.setPicture(s3Service.generateUrl(recipe.getPicture(),HttpMethod.GET));
+            }
+        });
+
+        return allRecipes;
     }
 
     /**
@@ -55,15 +65,34 @@ public class RecipeService {
      */
     public Page<Recipe> getAllRecipes(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        return recipeRepository.findAll(pageable);
+        Page<Recipe> pageableRecipes = recipeRepository.findAll(pageable);
+
+        // Convert Page to List to modify elements
+        List<Recipe> modifiedRecipes = pageableRecipes.getContent().stream()
+                .peek(recipe -> {
+                    if (recipe.getPicture() != null && !recipe.getPicture().trim().isEmpty()) {
+                        recipe.setPicture(s3Service.generateUrl(recipe.getPicture(), HttpMethod.GET));
+                    }
+                })
+                .collect(Collectors.toList());
+
+        // Return a new PageImpl with modified content
+        return new PageImpl<>(modifiedRecipes, pageable, pageableRecipes.getTotalElements());
     }
 
     /**
      * get single recipe
      */
     public Recipe getRecipeById(Long id) {
-        return recipeRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Recipe not found with id: " + id));
+        Optional<Recipe> recipe = recipeRepository.findById(id);
+        if (recipe.isEmpty()) {
+            throw new EntityNotFoundException("Recipe with id " + id + " not found");
+        }
+        if (recipe.get().getPicture() != null && !recipe.get().getPicture().trim().isEmpty()) {
+            String pictureUrl = recipe.get().getPicture();
+            recipe.get().setPicture(s3Service.generateUrl(pictureUrl, HttpMethod.GET));
+        }
+        return recipe.get();
     }
 
     /**
@@ -75,12 +104,19 @@ public class RecipeService {
         }
         String likeValue = "%" + value.trim() + "%";
 
-        return switch (field.toLowerCase()) {
+        List<Recipe> fuzzySearchRecipes =  switch (field.toLowerCase()) {
             case "name" -> recipeRepository.findByNameLike(likeValue);
             case "ingredients" -> recipeRepository.findByIngredientsLike(likeValue);
             case "instructions" -> recipeRepository.findByInstructionsLike(likeValue);
             default -> throw new IllegalArgumentException("Invalid search field: " + field);
         };
+
+        fuzzySearchRecipes.forEach(recipe -> {
+            if (recipe.getPicture() != null && !recipe.getPicture().trim().isEmpty()) {
+                recipe.setPicture(s3Service.generateUrl(recipe.getPicture(), HttpMethod.GET));
+            }
+        });
+        return fuzzySearchRecipes;
     }
 
     //create
