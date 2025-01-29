@@ -1,5 +1,6 @@
 package org.styd.intproj.savorly.controller;
 
+import jakarta.persistence.EntityNotFoundException;
 import com.amazonaws.HttpMethod;
 import org.springframework.data.domain.Page;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -157,4 +158,5 @@ public class RecipeController {
     private Long getUserIdFromUsername(String username) {
         return userRepository.findByUsername(username).getId();
     }
+
 }

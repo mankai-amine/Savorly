@@ -5,10 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.embedding.Embedding;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class RecipeService {
@@ -44,20 +42,25 @@ public class RecipeService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired S3Service s3Service;
+
+    @Autowired
+    private S3Service s3Service;
+
 
     /**
      * get all recipes
      */
     public List<Recipe> getAllRecipes() {
-        List<Recipe> recipes = recipeRepository.findAll();
-        for (Recipe recipe : recipes) {
+
+        List<Recipe> allRecipes =  recipeRepository.findAll();
+        // get pre-signed link, lambda
+        allRecipes.forEach(recipe -> {
             if (recipe.getPicture() != null && !recipe.getPicture().trim().isEmpty()) {
-                String pictureUrl = recipe.getPicture();
-                recipe.setPicture(s3Service.generateUrl(pictureUrl, HttpMethod.GET));
+                recipe.setPicture(s3Service.generateUrl(recipe.getPicture(),HttpMethod.GET));
             }
-        }
-        return recipes;
+        });
+
+        return allRecipes;
     }
 
 
@@ -66,7 +69,19 @@ public class RecipeService {
      */
     public Page<Recipe> getAllRecipes(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        return recipeRepository.findAll(pageable);
+        Page<Recipe> pageableRecipes = recipeRepository.findAll(pageable);
+
+        // Convert Page to List to modify elements
+        List<Recipe> modifiedRecipes = pageableRecipes.getContent().stream()
+                .peek(recipe -> {
+                    if (recipe.getPicture() != null && !recipe.getPicture().trim().isEmpty()) {
+                        recipe.setPicture(s3Service.generateUrl(recipe.getPicture(), HttpMethod.GET));
+                    }
+                })
+                .collect(Collectors.toList());
+
+        // Return a new PageImpl with modified content
+        return new PageImpl<>(modifiedRecipes, pageable, pageableRecipes.getTotalElements());
     }
 
     /**
@@ -80,7 +95,8 @@ public class RecipeService {
         if (recipe.get().getPicture() != null && !recipe.get().getPicture().trim().isEmpty()) {
             String pictureUrl = recipe.get().getPicture();
             recipe.get().setPicture(s3Service.generateUrl(pictureUrl, HttpMethod.GET));
-        }    return recipe.get();
+        }
+        return recipe.get();
     }
 
     /**
@@ -92,12 +108,19 @@ public class RecipeService {
         }
         String likeValue = "%" + value.trim() + "%";
 
-        return switch (field.toLowerCase()) {
+        List<Recipe> fuzzySearchRecipes =  switch (field.toLowerCase()) {
             case "name" -> recipeRepository.findByNameLike(likeValue);
             case "ingredients" -> recipeRepository.findByIngredientsLike(likeValue);
             case "instructions" -> recipeRepository.findByInstructionsLike(likeValue);
             default -> throw new IllegalArgumentException("Invalid search field: " + field);
         };
+
+        fuzzySearchRecipes.forEach(recipe -> {
+            if (recipe.getPicture() != null && !recipe.getPicture().trim().isEmpty()) {
+                recipe.setPicture(s3Service.generateUrl(recipe.getPicture(), HttpMethod.GET));
+            }
+        });
+        return fuzzySearchRecipes;
     }
 
     //create
