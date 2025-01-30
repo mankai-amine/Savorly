@@ -75,7 +75,7 @@ const StarRating: React.FC<StarRatingProps> = ({
       {rating > 0 && !submitted && (
       <Button
         onClick={handleRatingSubmit}
-        style={{ background: 'rgb(213, 66, 21)', color: 'white', padding: '8px 16px', border: 'none', borderRadius: '5px', cursor: 'pointer' }}
+        style={{ marginBottom:'10px', background: 'rgb(213, 66, 21)', color: 'white', padding: '8px 16px', border: 'none', borderRadius: '5px', cursor: 'pointer' }}
         >
         Submit Rating
       </Button>

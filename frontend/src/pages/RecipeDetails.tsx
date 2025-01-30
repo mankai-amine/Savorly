@@ -11,6 +11,7 @@ import StarRating from '../components/StarRating';
 const apiUrl = 'http://localhost:8080/api/recipes'; 
 const reviewsUrl = 'http://localhost:8080/api/reviews'; 
 const ratingUrl = 'http://localhost:8080/api/rating/recipe';
+const mailUrl = 'http://localhost:8080/api/mail';
 
 interface User {
   username: string;
@@ -42,6 +43,8 @@ export const RecipeDetails = () => {
   const [rating, setRating] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [recipientEmail, setRecipientEmail] = useState("");
 
   const getAvgRating = async () => {
     try {
@@ -125,6 +128,24 @@ export const RecipeDetails = () => {
     }
   };
 
+
+  const handleShare = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await axios.post(`${mailUrl}/send`, {
+        to: recipientEmail,
+        subject: `Check out this recipe: ${recipe.name}`,
+        message: `Hey, check out this recipe: ${recipe.name}\n\nIngredients:\n${recipe.ingredients}\n\nInstructions:\n${recipe.instructions}`,
+        name: user?.username || "Recipe App",
+        isHtml: false
+      });
+      alert("Recipe shared successfully!");
+      setShowShareModal(false);
+    } catch (error) {
+      alert("Failed to share recipe. Please try again.");
+    }
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -183,6 +204,32 @@ export const RecipeDetails = () => {
               <strong>Print PDF</strong>
             </Link>
           </Button>
+
+          {/* Share via Email Button */}
+          <Button variant="outline-success" className="mt-3 ms-2" onClick={() => setShowShareModal(true)}>
+            <strong>Share via Email</strong>
+          </Button>
+          {/* Share Modal */}
+          {showShareModal && (
+            <div className="modal-overlay">
+              <div className="modal-content">
+                <Form onSubmit={handleShare}>
+                  <Form.Group>
+                    <Form.Label>Recipient's Email</Form.Label>
+                    <Form.Control 
+                      type="email" 
+                      placeholder="Enter email" 
+                      value={recipientEmail} 
+                      onChange={(e) => setRecipientEmail(e.target.value)} 
+                      required 
+                    />
+                  </Form.Group>
+                  <Button type="submit" variant="primary" className="mt-2">Send</Button>
+                  <Button variant="secondary" className="mt-2 ms-2" onClick={() => setShowShareModal(false)}>Cancel</Button>
+                </Form>
+              </div>
+            </div>
+          )}
         </Card.Body>
       </Card>
 
