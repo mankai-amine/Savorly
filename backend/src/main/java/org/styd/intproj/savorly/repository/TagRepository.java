@@ -1,7 +1,5 @@
 package org.styd.intproj.savorly.repository;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.transaction.annotation.Transactional;
 import org.styd.intproj.savorly.entity.Tag;
@@ -14,7 +12,6 @@ import java.util.Optional;
 
 
 public interface TagRepository extends JpaRepository<Tag, Long> {
-    //Tag findByTitle(String title);
     Optional<Tag> findByTitle(String title);
 
     @Query("SELECT t FROM Tag t WHERE t.title LIKE :title")

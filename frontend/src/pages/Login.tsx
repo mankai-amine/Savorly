@@ -68,8 +68,6 @@ const Login = () => {
             });
 
             if (response.data.token) {
-                console.log("Login successful:", response);
-
                 sessionStorage.setItem("accessToken", response.data.token);
 
                 const userResponse = await axios.get<UserResponse>(apiUrl, {

@@ -5,14 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.styd.intproj.savorly.dto.RecipeResponse;
 import org.styd.intproj.savorly.dto.RecipeViewModel;
 import org.styd.intproj.savorly.entity.Recipe;
 import org.styd.intproj.savorly.service.RecipeService;
-import org.styd.intproj.savorly.repository.FavouriteRepository;
 import org.styd.intproj.savorly.repository.RecipeRepository;
 import org.styd.intproj.savorly.repository.UserRepository;
 
@@ -36,12 +34,6 @@ public class RecipeController {
 
     @Autowired
     private RecipeRepository recipeRepository;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private FavouriteRepository favouriteRepository;
 
     @Autowired
     S3Service s3Service;

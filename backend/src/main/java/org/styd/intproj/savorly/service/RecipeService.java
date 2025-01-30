@@ -311,7 +311,6 @@ public class RecipeService {
         existsTag.setDescription(existsRecipe.getInstructions());
         existsTag.setEmbedding(embeddingArray);
 
-        //tagRepository.save(existsTag);
         existsTag.setRecipe(existsRecipe);
         existsRecipe.setTag(existsTag);
 

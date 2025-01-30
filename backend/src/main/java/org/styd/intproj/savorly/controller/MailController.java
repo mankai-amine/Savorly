@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import org.styd.intproj.savorly.dto.MailRequest;
 import org.styd.intproj.savorly.service.MailService;
 
-import java.util.Map;
-
 @RestController
 @RequestMapping("/api/mail")
 public class MailController {

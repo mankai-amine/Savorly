@@ -18,7 +18,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "recipes") // maybe public.recipes?
+@Table(name = "recipes")
 public class Recipe {
 
     @Id
@@ -52,14 +52,6 @@ public class Recipe {
     @JsonIgnore
     private List<Review> reviews;
 
-
-//    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinColumn(name = "tag_id", referencedColumnName = "id", unique = true) // maintain the relation with Reicpe class
-//    @JsonManagedReference
-
-//    @OneToOne(mappedBy = "recipe", cascade = CascadeType.MERGE, fetch = FetchType.LAZY, orphanRemoval = true)
-//    @JsonManagedReference
-
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.EAGER)
     @JoinColumn(name = "tag_id", referencedColumnName = "id", unique = true) // maintain the relation with Reicpe class
     @JsonManagedReference
@@ -70,11 +62,4 @@ public class Recipe {
     @JsonIgnore
     private List<Rating> ratings = new ArrayList<>();
 
-//    @ManyToMany
-//    @JoinTable(
-//            name = "recipe_tags",
-//            joinColumns = @JoinColumn(name = "recipeid"),
-//            inverseJoinColumns = @JoinColumn(name = "tagid")
-//    )
-//    private Set<Tag> tags;
 }
