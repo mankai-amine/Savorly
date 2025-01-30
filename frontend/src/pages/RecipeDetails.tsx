@@ -8,10 +8,10 @@ import { useForm } from 'react-hook-form';
 import { UserContext } from '../helpers/UserContext';
 import StarRating from '../components/StarRating';
 
-const apiUrl = 'http://localhost:8080/api/recipes'; 
-const reviewsUrl = 'http://localhost:8080/api/reviews'; 
-const ratingUrl = 'http://localhost:8080/api/rating/recipe';
-const mailUrl = 'http://localhost:8080/api/mail';
+const apiUrl = `${import.meta.env.VITE_API_URL}/recipes`; 
+const reviewsUrl = `${import.meta.env.VITE_API_URL}/reviews`; 
+const ratingUrl = `${import.meta.env.VITE_API_URL}/rating/recipe`;
+const mailUrl = `${import.meta.env.VITE_API_URL}/mail`;
 
 interface User {
   username: string;

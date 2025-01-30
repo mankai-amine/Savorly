@@ -29,8 +29,8 @@ const StarRating: React.FC<StarRatingProps> = ({
         setError("Please log in to rate this recipe");
         return;
       }
-
-      const response = await fetch(`http://localhost:8080/api/rating/create/${recipeId}`, {
+      
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/rating/create/${recipeId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

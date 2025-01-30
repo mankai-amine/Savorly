@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import '../Register.css';
 
-const apiUrl = "http://localhost:8080/api/user";
+const apiUrl = `${import.meta.env.VITE_API_URL}/user`;
 
 // validation schema
 const registerSchema = Yup.object().shape({

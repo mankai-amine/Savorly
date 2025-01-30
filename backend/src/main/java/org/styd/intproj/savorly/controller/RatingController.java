@@ -14,8 +14,6 @@ import org.styd.intproj.savorly.repository.RatingRepository;
 import org.styd.intproj.savorly.repository.RecipeRepository;
 import org.styd.intproj.savorly.repository.UserRepository;
 
-import javax.swing.text.html.Option;
-import java.util.List;
 import java.util.Optional;
 
 @RestController

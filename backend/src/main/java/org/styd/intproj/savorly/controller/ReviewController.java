@@ -3,21 +3,17 @@ package org.styd.intproj.savorly.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.styd.intproj.savorly.entity.Favourite;
 import org.styd.intproj.savorly.entity.Recipe;
 import org.styd.intproj.savorly.entity.Review;
 import org.styd.intproj.savorly.entity.User;
-import org.styd.intproj.savorly.repository.FavouriteRepository;
 import org.styd.intproj.savorly.repository.RecipeRepository;
 import org.styd.intproj.savorly.repository.ReviewRepository;
 import org.styd.intproj.savorly.repository.UserRepository;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/reviews")

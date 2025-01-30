@@ -2,7 +2,6 @@ package org.styd.intproj.savorly.controller;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import org.styd.intproj.savorly.config.AmazonS3Config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -12,21 +11,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
 @Controller
 public class FileUploadController {
-
-    // Set this to the directory where you want to store the images
-//    @Value("${upload.path}")
-//    private String uploadDirectory;
 
     @Value("${S3_BUCKET_NAME}")
     private String bucketName;

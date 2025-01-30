@@ -1,6 +1,5 @@
 package org.styd.intproj.savorly.dto;
 
-import org.styd.intproj.savorly.entity.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
