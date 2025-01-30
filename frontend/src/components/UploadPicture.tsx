@@ -31,7 +31,7 @@ const UploadPicture = ({ onUploadSuccess }: UploadPictureProps) => {
     formData.append("imgUrl", file);
 
     try {
-      const response = await fetch("http://localhost:8080/pic-upload", {
+      const response = await fetch(`${import.meta.env.VITE_UPLOAD_URL}/pic-upload`, {
         method: "POST",
         body: formData,
         headers: {

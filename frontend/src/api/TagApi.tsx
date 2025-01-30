@@ -14,7 +14,7 @@ export interface PaginatedResponse<T> {
   number: number;
 }
 
-const API_BASE_URL = "http://localhost:8080/api/tags";
+const API_BASE_URL = `${import.meta.env.VITE_API_URL}/tags`;
 
 export const fetchAllTags = async (page: number, size: number): Promise<PaginatedResponse<Tag>> => {
   const response = await fetch(`${API_BASE_URL}/all?page=${page}&size=${size}`, {

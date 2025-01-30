@@ -1,13 +1,13 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import UploadPicture from "../components/UploadPicture";
 
-const apiUrl = "http://localhost:8080/api/recipes";
+const apiUrl = `${import.meta.env.VITE_API_URL}/recipes`;
 
 const recipeSchema = Yup.object().shape({
     name: Yup.string().min(10, "Name needs to be at least 10 characters").required('Recipe name is required'),

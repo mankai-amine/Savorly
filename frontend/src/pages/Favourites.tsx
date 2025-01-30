@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import axios from 'axios';
 
-const apiUrl = 'http://localhost:8080/api/favourites'; 
+const apiUrl = `${import.meta.env.VITE_API_URL}/favourites`; 
 
 interface Recipe {
     id: number;

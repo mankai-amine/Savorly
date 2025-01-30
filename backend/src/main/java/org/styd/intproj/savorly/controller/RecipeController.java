@@ -1,8 +1,6 @@
 package org.styd.intproj.savorly.controller;
 
-import jakarta.persistence.EntityNotFoundException;
 import com.amazonaws.HttpMethod;
-import org.springframework.data.domain.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -142,7 +140,6 @@ public class RecipeController {
     }
 
     //search with the embedding from openai, if fail to get embedding , will return a simple fuzzy search of name
-    // TODO NEEDS JWT AUTH (pinging openai?)
     @GetMapping(value = "/search-embedding", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RecipeResponse> searchNearestRecipes(@RequestParam String keyword) {
         List<Recipe> recipes = recipeService.findNearestRecipes(keyword);

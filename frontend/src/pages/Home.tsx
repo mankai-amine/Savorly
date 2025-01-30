@@ -3,8 +3,8 @@ import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const apiUrl = 'http://localhost:8080/api/recipes';
-const favouritesApiUrl = 'http://localhost:8080/api/favourites';
+const apiUrl = `${import.meta.env.VITE_API_URL}/recipes`;
+const favouritesApiUrl = `${import.meta.env.VITE_API_URL}/favourites`;
 
 
 interface Recipe {
@@ -16,8 +16,6 @@ interface Recipe {
   authorId: number;
 }
 
-// TODO ADD THE SEARCH FUNCTIONALITY PLUGIN (RECIPESEARCH.TSX)
-
 export const Home = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   // Stores IDs of favourite recipes
@@ -27,9 +25,6 @@ export const Home = () => {
   const navigate = useNavigate();
 
   const accessToken = sessionStorage.getItem("accessToken");
-  //if (!accessToken) {
-  //  navigate("/login")
-  //}
 
   useEffect(() => {
     const fetchData = async () => {
