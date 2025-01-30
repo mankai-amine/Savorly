@@ -7,12 +7,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { UserContext } from '../helpers/UserContext';
 import StarRating from '../components/StarRating';
-import ViewRecipePdf from './ViewRecipePdf';
 
-const apiUrl = 'http://localhost:8080/api/recipes'; 
-const reviewsUrl = 'http://localhost:8080/api/reviews'; 
-const ratingUrl = 'http://localhost:8080/api/rating/recipe';
-const printUrl = 'http://localhost:8080/api/pdf';
+const apiUrl = `${import.meta.env.VITE_API_URL}/recipes`; 
+const reviewsUrl = `${import.meta.env.VITE_API_URL}/reviews`; 
+const ratingUrl = `${import.meta.env.VITE_API_URL}/rating/recipe`;
+const mailUrl = `${import.meta.env.VITE_API_URL}/mail`;
 
 interface User {
   username: string;
@@ -44,6 +43,8 @@ export const RecipeDetails = () => {
   const [rating, setRating] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [recipientEmail, setRecipientEmail] = useState("");
 
   const getAvgRating = async () => {
     try {
@@ -127,6 +128,24 @@ export const RecipeDetails = () => {
     }
   };
 
+
+  const handleShare = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await axios.post(`${mailUrl}/send`, {
+        to: recipientEmail,
+        subject: `Check out this recipe: ${recipe.name}`,
+        message: `Hey, check out this recipe: ${recipe.name}\n\nIngredients:\n${recipe.ingredients}\n\nInstructions:\n${recipe.instructions}`,
+        name: user?.username || "Recipe App",
+        isHtml: false
+      });
+      alert("Recipe shared successfully!");
+      setShowShareModal(false);
+    } catch (error) {
+      alert("Failed to share recipe. Please try again.");
+    }
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -138,7 +157,10 @@ export const RecipeDetails = () => {
   return (
     <Container className="mt-5">
       {/* Recipe Title and Header */}
-      <h1 className="mb-4 text-center text-primary">{recipe.name}</h1>
+      <h1 className="text-center mb-5" 
+        style={{ fontSize: '2rem', fontWeight: 'bold', color: 'rgb(213, 66, 21)', letterSpacing: '2px', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.2)' }}>
+        {recipe.name}
+      </h1>
       
       {/* Recipe Card */}
       <Card className="shadow-lg mb-4 p-4">
@@ -151,9 +173,10 @@ export const RecipeDetails = () => {
               
               <Card.Title className="text-uppercase text-secondary">Instructions</Card.Title>
               <Card.Text>{recipe.instructions}</Card.Text>
-              
+              { user && 
               <Card.Title className="text-uppercase text-secondary">Average Rating</Card.Title>
-              <Card.Text><strong>{rating}</strong></Card.Text>
+              }
+              {/* <Card.Text><strong>{rating}</strong></Card.Text> */}
             </div>
 
             {/* Right side: Recipe Image */}
@@ -177,16 +200,46 @@ export const RecipeDetails = () => {
           )}
 
           {/* Print PDF Button */}
+          {user &&
           <Button variant="outline-primary" className="mt-3">
             <Link to={`/recipe/pdf/${id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
               <strong>Print PDF</strong>
             </Link>
           </Button>
+          }
+
+          {/* Share via Email Button */}
+          {user &&
+          <Button variant="outline-success" className="mt-3 ms-2" onClick={() => setShowShareModal(true)}>
+            <strong>Share via Email</strong>
+          </Button>
+          }
+          {/* Share Modal */}
+          {showShareModal && (
+            <div className="modal-overlay">
+              <div className="modal-content">
+                <Form onSubmit={handleShare}>
+                  <Form.Group>
+                    <Form.Label>Recipient's Email</Form.Label>
+                    <Form.Control 
+                      type="email" 
+                      placeholder="Enter email" 
+                      value={recipientEmail} 
+                      onChange={(e) => setRecipientEmail(e.target.value)} 
+                      required 
+                    />
+                  </Form.Group>
+                  <Button type="submit" variant="primary" className="mt-2">Send</Button>
+                  <Button variant="secondary" className="mt-2 ms-2" onClick={() => setShowShareModal(false)}>Cancel</Button>
+                </Form>
+              </div>
+            </div>
+          )}
         </Card.Body>
       </Card>
 
       {/* Reviews Section */}
-      <h2 className="mb-4 text-center text-info">Reviews</h2>
+      <h2 className="mb-4 mt-5">Reviews</h2>
       {Array.isArray(reviews) && reviews.length === 0 ? (
         <p className="text-center">No reviews yet.</p>
       ) : (
@@ -218,7 +271,7 @@ export const RecipeDetails = () => {
             {errors.text && <p className="text-danger">{errors.text.message}</p>}
           </Form.Group>
 
-          <Button variant="secondary" type="submit" className="mb-3">
+          <Button variant="primary" type="submit" className="mb-3">
             Comment
           </Button>
 

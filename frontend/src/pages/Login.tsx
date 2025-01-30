@@ -8,7 +8,7 @@ import { UserContext } from "../helpers/UserContext";
 import { useNavigate } from 'react-router-dom';
 import '../Login.css';
 
-const apiUrl = "http://localhost:8080/api/user";
+const apiUrl = `${import.meta.env.VITE_API_URL}/user`;
 
 const loginSchema = Yup.object().shape({
     username: Yup.string().required('Username is required'),
@@ -68,8 +68,6 @@ const Login = () => {
             });
 
             if (response.data.token) {
-                console.log("Login successful:", response);
-
                 sessionStorage.setItem("accessToken", response.data.token);
 
                 const userResponse = await axios.get<UserResponse>(apiUrl, {

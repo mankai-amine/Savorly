@@ -96,7 +96,7 @@ class ReviewControllerTest {
         when(reviewRepository.getReviewsByRecipeId(recipeId)).thenReturn(List.of(mockReview));
 
         mockMvc.perform(get("/api/reviews/{recipeId}", recipeId)
-                .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZWxpeCIsImlhdCI6MTczODA5NjY2NywiZXhwIjoxNzM4MTgzMDY3fQ.GfquoWdYBE35yfloOwfKsE6gi6U1ktQ-gaa18efsg1I\"") // Mock JWT token
+                .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZWxpeCIsImlhdCI6MTczODE2MzU2MiwiZXhwIjoxNzM4MjQ5OTYyfQ.fYyvu6HS1lb0DRPBKVuIX8Cql-zKusevTcdZ7_i6qHA") // Mock JWT token
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(mockReview.getId()));
@@ -114,7 +114,7 @@ class ReviewControllerTest {
         when(reviewRepository.save(Mockito.any(Review.class))).thenReturn(mockReview);
 
         mockMvc.perform(post("/api/reviews/{recipeId}", recipeId) // Fix incorrect API path
-                        .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZWxpeCIsImlhdCI6MTczODA5NjY2NywiZXhwIjoxNzM4MTgzMDY3fQ.GfquoWdYBE35yfloOwfKsE6gi6U1ktQ-gaa18efsg1I\"") // Use a valid JWT token
+                        .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZWxpeCIsImlhdCI6MTczODE2MzU2MiwiZXhwIjoxNzM4MjQ5OTYyfQ.fYyvu6HS1lb0DRPBKVuIX8Cql-zKusevTcdZ7_i6qHA") // Use a valid JWT token
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"content\": \"Great recipe!\"}")) // Mock JSON content
                 .andExpect(status().isCreated()) // Expect 201 Created
@@ -130,7 +130,7 @@ class ReviewControllerTest {
         when(userRepository.findByUsername("felix")).thenReturn(null); // No user found
 
         mockMvc.perform(post("/api/reviews/{recipeId}", recipeId)
-                        .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZWxpeCIsImlhdCI6MTczODA5NjY2NywiZXhwIjoxNzM4MTgzMDY3fQ.GfquoWdYBE35yfloOwfKsE6gi6U1ktQ-gaa18efsg1I") // Mock JWT token
+                        .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZWxpeCIsImlhdCI6MTczODE2MzU2MiwiZXhwIjoxNzM4MjQ5OTYyfQ.fYyvu6HS1lb0DRPBKVuIX8Cql-zKusevTcdZ7_i6qHA") // Mock JWT token
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"content\": \"Great recipe!\"}"))
                 .andExpect(status().isBadRequest()); //return a status code 400 bad request
@@ -145,7 +145,7 @@ class ReviewControllerTest {
         when(recipeRepository.findById(recipeId)).thenReturn(null); // Recipe NOT exists
 
         mockMvc.perform(post("/api/reviews/{recipeId}", recipeId)
-                        .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZWxpeCIsImlhdCI6MTczODA5NjY2NywiZXhwIjoxNzM4MTgzMDY3fQ.GfquoWdYBE35yfloOwfKsE6gi6U1ktQ-gaa18efsg1I") // Mock JWT token
+                        .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZWxpeCIsImlhdCI6MTczODE2MzU2MiwiZXhwIjoxNzM4MjQ5OTYyfQ.fYyvu6HS1lb0DRPBKVuIX8Cql-zKusevTcdZ7_i6qHA") // Mock JWT token
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"content\": \"Great recipe!\"}"))
                 .andExpect(status().isBadRequest()); //return a status code 400 bad request

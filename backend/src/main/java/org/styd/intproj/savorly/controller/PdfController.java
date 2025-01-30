@@ -37,16 +37,14 @@ public class PdfController {
         List<Recipe> recipes = List.of(recipe);
         List<Map<String, Object>> quereyResults = recipes.stream().map(recipeItem -> {
             Map<String, Object> map = new LinkedHashMap<>(); // keep the order, so not HashMap
-            //map.put("id", recipeItem.getId());
             map.put("name", recipeItem.getName());
             map.put("ingredients", recipeItem.getIngredients());
             map.put("instructions", recipeItem.getInstructions());
             map.put("picture", recipeItem.getPicture());
-            //map.put("authorId", recipeItem.getAuthorId());
             return map;
         }).collect(Collectors.toList());
 
-        //System.out.println("The queryResults are : "+quereyResults.toString());
+        System.out.println("The query Results are : "+quereyResults.toString());
         ByteArrayOutputStream pdfStream = pdfWithS3Service.generatedPdfStream(quereyResults);
 
         HttpHeaders headers = new HttpHeaders();
