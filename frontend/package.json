@@ -5,10 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start": "npm run dev"
+    "start": "vite preview --host"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -36,5 +36,8 @@
     "typescript": "~5.6.2",
     "typescript-eslint": "^8.18.2",
     "vite": "^6.0.5"
+  },
+  "engines": {
+    "node": ">=20.0.0"
   }
 }
