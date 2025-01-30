@@ -96,9 +96,8 @@ const Login = () => {
             <Container className='mt-5'>
                 <Row className='justify-content-md-center'>
                     <Col md={6} lg={4}>
+                        <h2 className='mb-4 text-center'>Log in</h2>
                         <div className='login-box text-center'>
-                            <h2 className='mb-4 twixer-logo'>Savorly</h2>
-
                             <Form onSubmit={handleSubmit(onSubmit)}>
                                 <Form.Group controlId='formUsername' className='mb-3'>
                                     <Form.Control

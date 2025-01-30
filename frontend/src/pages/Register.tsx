@@ -49,13 +49,11 @@ const Register = () => {
 
     return (
         <div style={{ minHeight: '90vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-
             <Container className='mt-5'>
                 <Row className='justify-content-md-center'>
                     <Col md={6} lg={4}>
-                        <div className='register-box text-center'>
-                            <h2 className='mb-4 twixer-logo'> Savorly</h2>
-                         
+                        <h2 className='mb-4 text-center'>Create an account</h2>
+                        <div className='register-box text-center'>                         
                             <Form onSubmit={handleSubmit(onSubmit)}>
                                 <Form.Group controlId='formUsername' className='mb-3'>
                                     <Form.Control
