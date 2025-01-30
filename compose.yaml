@@ -1,0 +1,38 @@
+services:
+  # Backend Spring Boot Service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env:
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRATION= ${JWT_EXPIRATION}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - S3_BUCKET_NAME=${S3_BUCKET_NAME}
+      - spring_mail_host=${spring_mail_host}
+      - spring_mail_port=${spring_mail_port}
+      - spring_mail_password=${spring_mail_password}
+      - spring_mail_properties_mail_smtp_auth=${spring_mail_properties_mail_smtp_auth}
+      - spring_mail_properties_mail_smtp_starttls_enable=${spring_mail_properties_mail_smtp_starttls_enable}
+      - spring.ai.openai.api-key=${spring.ai.openai.api-key}
+      - spring.ai.openai.embedding.api-key=${spring.ai.openai.embedding.api-key}
+    ports:
+      - "8080:8080"
+
+  # Frontend React Service  
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    env:
+      # - REACT_APP_API_URL=${BACKEND_URL}
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
