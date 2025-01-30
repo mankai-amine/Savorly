@@ -16,7 +16,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "users") // maybe public.users?
+@Table(name = "users")
 public class User {
 
     @Id

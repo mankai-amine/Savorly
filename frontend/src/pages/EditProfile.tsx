@@ -8,7 +8,7 @@ import { UserContext } from "../helpers/UserContext";
 import { Container, Form, Button, Row, Col } from 'react-bootstrap';
 
 
-const apiUrl = "http://localhost:8080/api/user/edit";
+const apiUrl = `${import.meta.env.VITE_API_URL}/user/edit`;
 
 const profileSchema = Yup.object().shape({
     password: Yup.string().required('Password is required').min(6, 'Password must be at least 6 characters'),
@@ -43,8 +43,6 @@ const EditProfile = () => {
     if (!userContext) {
     throw new Error("UserContext is undefined");
     }
-    
-    const { user } = userContext;
 
     const onSubmit = async (data: ProfileFormData) => {
         try {
