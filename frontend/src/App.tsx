@@ -17,6 +17,7 @@ import Tag from './pages/Tag';
 import ViewRecipePdf from './pages/ViewRecipePdf';
 
 import Upload from './pages/Upload';
+import RecipeSearch from './components/RecipeSearch';
 
 function App() {
 
@@ -38,6 +39,7 @@ function App() {
             <Route path="/recipe/pdf/:id" element={<ViewRecipePdf />} />
             <Route path="/upload" element={<Upload />} />
             <Route path="/tags" element={<Tag />} />
+            <Route path="/recipe/search" element={<RecipeSearch />} />
           </Routes>
         </Router>
       </div>

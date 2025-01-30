@@ -152,6 +152,13 @@ public class RecipeController {
                     .body(new RecipeResponse("notFound", recipes));
         }
 
+        for (Recipe recipe : recipes) {
+            if (recipe.getPicture() != null && !recipe.getPicture().trim().isEmpty()) {
+                String pictureUrl = recipe.getPicture();
+                recipe.setPicture(s3Service.generateUrl(pictureUrl, HttpMethod.GET));
+            }
+        }
+
         return ResponseEntity.ok(new RecipeResponse("success", recipes));
     }
 
