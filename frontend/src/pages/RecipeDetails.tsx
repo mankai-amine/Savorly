@@ -173,8 +173,9 @@ export const RecipeDetails = () => {
               
               <Card.Title className="text-uppercase text-secondary">Instructions</Card.Title>
               <Card.Text>{recipe.instructions}</Card.Text>
-              
+              { user && 
               <Card.Title className="text-uppercase text-secondary">Average Rating</Card.Title>
+              }
               {/* <Card.Text><strong>{rating}</strong></Card.Text> */}
             </div>
 
@@ -199,16 +200,20 @@ export const RecipeDetails = () => {
           )}
 
           {/* Print PDF Button */}
+          {user &&
           <Button variant="outline-primary" className="mt-3">
             <Link to={`/recipe/pdf/${id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
               <strong>Print PDF</strong>
             </Link>
           </Button>
+          }
 
           {/* Share via Email Button */}
+          {user &&
           <Button variant="outline-success" className="mt-3 ms-2" onClick={() => setShowShareModal(true)}>
             <strong>Share via Email</strong>
           </Button>
+          }
           {/* Share Modal */}
           {showShareModal && (
             <div className="modal-overlay">

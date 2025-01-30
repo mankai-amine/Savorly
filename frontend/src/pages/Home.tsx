@@ -27,33 +27,34 @@ export const Home = () => {
   const navigate = useNavigate();
 
   const accessToken = sessionStorage.getItem("accessToken");
-  if (!accessToken) {
-    navigate("/login")
-  }
+  //if (!accessToken) {
+  //  navigate("/login")
+  //}
 
   useEffect(() => {
-    const fetchData  = async () => {
+    const fetchData = async () => {
       try {
-        const [recipesResponse, favouritesResponse] = await Promise.all([
-          axios.get(`${apiUrl}/all`, {
-            headers: { Authorization: `Bearer ${accessToken}` },
-          }),
-          // Get favorite recipe IDs
-          axios.get<Recipe[]>(favouritesApiUrl, {
-            headers: { Authorization: `Bearer ${accessToken}` },
-            }),
-        ]);
+        // Fetch all recipes (public)
+        const recipesResponse = await axios.get(`${apiUrl}/all`);
         setRecipes(recipesResponse.data as Recipe[]);
-        setFavourites(favouritesResponse.data.map((recipe) => recipe.id));
+  
+        // Fetch favorites only if user is authenticated
+        if (accessToken) {
+          const favouritesResponse = await axios.get<Recipe[]>(favouritesApiUrl, {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          });
+          setFavourites(favouritesResponse.data.map((recipe) => recipe.id));
+        }
       } catch (err) {
         setError('Failed to load recipes');
       } finally {
         setLoading(false);
       }
     };
-
-    fetchData ();
-  }, []);
+  
+    fetchData();
+  }, [accessToken]);
+  
 
   const toggleFavourite = async (recipeId: number) => {
     try {
@@ -106,6 +107,8 @@ export const Home = () => {
                     >
                       View Recipe
                     </Button>
+                    
+                    { accessToken &&
                     <Button
                       variant={favourites.includes(recipe.id) ? 'danger' : 'success'}
                       style={{ marginLeft: '10px', width: '48%' }}
@@ -113,6 +116,7 @@ export const Home = () => {
                     >
                       {favourites.includes(recipe.id) ? 'Remove Favourite' : 'Add to Favourites'}
                     </Button>
+                    }
                   </div>
                 </Card.Body>
               </Card>
