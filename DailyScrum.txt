@@ -323,7 +323,8 @@
 
 2025/01/29 Felix
 1. Done since last scrum
-- 
+- Fixed test classes
+- Modified the documentation
 2. Plan until next Scrum
 -
 3. Need assistance / figure things out
