@@ -94,49 +94,49 @@ const Login = () => {
     };
 
     return (
-        <div style={{ backgroundColor: '#e3eef8', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <Container className='mt-5'>
-            <Row className='justify-content-md-center'>
-                <Col md={6} lg={4}>
-                    <div className='login-box text-center'>
-                        <h2 className='mb-4 twixer-logo'>Savorly</h2>
+        <div style={{ minHeight: '90vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Container className='mt-5'>
+                <Row className='justify-content-md-center'>
+                    <Col md={6} lg={4}>
+                        <div className='login-box text-center'>
+                            <h2 className='mb-4 twixer-logo'>Savorly</h2>
 
-                        <Form onSubmit={handleSubmit(onSubmit)}>
-                            <Form.Group controlId='formUsername' className='mb-3'>
-                                <Form.Control
-                                    type='username'
-                                    placeholder='Enter username'
-                                    {...register('username')}
-                                />
-                                {errors.username && <p className="text-danger">{errors.username.message}</p>}
-                            </Form.Group>
+                            <Form onSubmit={handleSubmit(onSubmit)}>
+                                <Form.Group controlId='formUsername' className='mb-3'>
+                                    <Form.Control
+                                        type='username'
+                                        placeholder='Enter username'
+                                        {...register('username')}
+                                    />
+                                    {errors.username && <p className="text-danger">{errors.username.message}</p>}
+                                </Form.Group>
 
-                            <Form.Group controlId="formPassword" className="mb-3">
-                                <Form.Control
-                                    type="password"
-                                    placeholder="Enter your password"
-                                    {...register('password')}
-                                />
-                                {errors.password && <p className="text-danger">{errors.password.message}</p>}
-                            </Form.Group>
+                                <Form.Group controlId="formPassword" className="mb-3">
+                                    <Form.Control
+                                        type="password"
+                                        placeholder="Enter your password"
+                                        {...register('password')}
+                                    />
+                                    {errors.password && <p className="text-danger">{errors.password.message}</p>}
+                                </Form.Group>
 
-                            <Button variant='primary' type='submit' className='w-100 mb-3 custom-button'>
-                                Login
-                            </Button>
-                            
-                            {submissionStatus && <p className="text-success">{submissionStatus}</p>}
+                                <Button style={{ background: "rgb(213, 66, 21)", border: 'none' }} type='submit' className='w-100 mb-3'>
+                                    Login
+                                </Button>
+                                
+                                {submissionStatus && <p className="text-success">{submissionStatus}</p>}
 
-                            <div className="mt-3">
-                                <p>
-                                    Don't have an account? <a href="/register" className="sign-up-link">Sign up</a>
-                                </p>
-                            </div>
-                        </Form>
-                        {serverErrors.message && <div className="alert alert-danger mt-3">{serverErrors.message}</div>}
-                    </div>
-                </Col>
-            </Row>
-        </Container>
+                                <div className="mt-3">
+                                    <p>
+                                        Don't have an account? <a href="/register" className="sign-up-link" style={{ color: "rgb(213, 66, 21)" }}>Sign up</a>
+                                    </p>
+                                </div>
+                            </Form>
+                            {serverErrors.message && <div className="alert alert-danger mt-3">{serverErrors.message}</div>}
+                        </div>
+                    </Col>
+                </Row>
+            </Container>
         </div>
     );
 };

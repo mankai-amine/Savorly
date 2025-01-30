@@ -48,7 +48,7 @@ const Register = () => {
     };
 
     return (
-        <div style={{ backgroundColor: '#e3eef8', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ minHeight: '90vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 
             <Container className='mt-5'>
                 <Row className='justify-content-md-center'>
@@ -82,14 +82,14 @@ const Register = () => {
                                     {errors.password2 && <p className="text-danger">{errors.password2.message}</p>}
                                 </Form.Group>
 
-                                <Button variant='primary' type='submit' className='w-100 mb-3'>
+                                <Button style={{ background: "rgb(213, 66, 21)", border: 'none' }} type='submit' className='w-100 mb-3'>
                                     Register
                                 </Button>
 
                                 {isSubmitted && <p className="text-success">Registration successful!</p>}
 
                                 <div className='mt-3'>
-                                    <p>Already have an account? <a href='/login' className='login-link'>Login</a></p>
+                                    <p>Already have an account? <a href='/login' className='login-link' style={{ color: "rgb(213, 66, 21)" }} >Login</a></p>
                                 </div>
                             </Form>
                         </div>
