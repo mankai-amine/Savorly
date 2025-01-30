@@ -33,8 +33,8 @@ public class PdfWithS3Service {
         document.open();
 
 
-        document.add(new Paragraph("\n"));
-        document.add(new Paragraph("YOUR RECIPE",new Font(Font.FontFamily.HELVETICA, 24, Font.BOLD)));
+        //document.add(new Paragraph("\n"));
+        //document.add(new Paragraph("YOUR RECIPE",new Font(Font.FontFamily.HELVETICA, 24, Font.BOLD)));
         document.add(new Paragraph("\n"));
 
         //write data rows

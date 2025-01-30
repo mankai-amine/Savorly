@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Star } from 'lucide-react';
+import { Button } from 'react-bootstrap';
 
 interface StarRatingProps {
   recipeId: string;
@@ -53,7 +54,7 @@ const StarRating: React.FC<StarRatingProps> = ({
 
   return (
     <div className="flex flex-col items-start gap-2">
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-1 mb-3">
         {[1, 2, 3, 4, 5].map((star) => (
           <Star
             key={star}
@@ -72,13 +73,12 @@ const StarRating: React.FC<StarRatingProps> = ({
         ))}
       </div>
       {rating > 0 && !submitted && (
-        <button
-          onClick={handleRatingSubmit}
-          className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
-          type="button"
+      <Button
+        onClick={handleRatingSubmit}
+        style={{ background: 'rgb(213, 66, 21)', color: 'white', padding: '8px 16px', border: 'none', borderRadius: '5px', cursor: 'pointer' }}
         >
-          Submit Rating
-        </button>
+        Submit Rating
+      </Button>
       )}
       {error && <p className="text-red-500 text-sm">{error}</p>}
       {submitted && <p className="text-green-500 text-sm">Rating submitted!</p>}

@@ -77,7 +77,11 @@ export const MyRecipes = () => {
     return (
       <div style={{minHeight: '100vh' }}>
         <Container className="mt-5">
-          <h1 className="text-center mb-4" style={{ fontSize: '2.5rem', fontWeight: '600', color: '#333' }}>My Recipes</h1>
+        <h1 className="text-center mb-5" 
+            style={{ fontSize: '2rem', fontWeight: 'bold', color: 'rgb(213, 66, 21)', letterSpacing: '2px', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.2)' }}>
+          MY RECIPES
+        </h1>
+
           {Array.isArray(myRecipes) && myRecipes.length === 0 ? (
             <div className="alert alert-info text-center" role="alert" style={{ fontSize: '1.2rem' }}>
               No recipes found.
@@ -102,20 +106,10 @@ export const MyRecipes = () => {
                         <strong>Instructions:</strong> {recipe.instructions}
                       </Card.Text>
                       <div className="d-flex justify-content-between align-items-center">
-                        <Button
-                          variant="primary"
-                          onClick={() => navigate(`/recipe/edit/${recipe.id}`)}
-                          className="btn-sm"
-                          style={{ backgroundColor: '#3498db', borderColor: '#3498db' }}
-                        >
+                        <Button variant="success" onClick={() => navigate(`/recipe/edit/${recipe.id}`)} className="btn-sm">
                           Edit
                         </Button>
-                        <Button
-                          variant="danger"
-                          onClick={() => handleDelete(recipe.id)}
-                          className="btn-sm"
-                          style={{ backgroundColor: '#e74c3c', borderColor: '#e74c3c' }}
-                        >
+                        <Button variant="danger" onClick={() => handleDelete(recipe.id)} className="btn-sm">
                           Delete
                         </Button>
                       </div>

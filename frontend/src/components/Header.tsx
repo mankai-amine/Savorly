@@ -52,6 +52,9 @@ const Header = () => {
                 <Nav.Link as={Link} to="/recipe/favourites" className="text-dark nav-item-hover">
                   Favourites
                 </Nav.Link>
+                <Nav.Link as={Link} to="/recipe/search" className="text-dark nav-item-hover">
+                  Search
+                </Nav.Link>
                 <Nav.Link as={Link} to="/profile" className="text-dark nav-item-hover">
                   Edit Profile
                 </Nav.Link>

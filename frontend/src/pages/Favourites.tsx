@@ -75,7 +75,10 @@ export const Favourites = () => {
     return (
       <div style={{ minHeight: '100vh' }}>
         <Container className="mt-5">
-          <h1 className="text-center mb-4" style={{ fontSize: '2.5rem', fontWeight: '600', color: '#333' }}>Favourite Recipes</h1>
+        <h1 className="text-center mb-5" 
+            style={{ fontSize: '2rem', fontWeight: 'bold', color: 'rgb(213, 66, 21)', letterSpacing: '2px', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.2)' }}>
+          FAVOURITE RECIPES
+        </h1>
           {Array.isArray(favouriteRecipes) && favouriteRecipes.length === 0 ? (
             <div className="text-center" style={{ fontSize: '1.2rem' }}>
               No recipes found.
