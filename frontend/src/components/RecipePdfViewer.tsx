@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const API_BASE_URL = "http://localhost:8080/api/pdf"; // 你的后端 API 地址
+const API_BASE_URL = "http://localhost:8080/api/pdf"; 
 
 const RecipePdfViewer = ({ recipeId }: { recipeId: number }) => {
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
@@ -46,7 +46,6 @@ const RecipePdfViewer = ({ recipeId }: { recipeId: number }) => {
 
   return (
     <div>
-      {/* <h2>Recipe PDF Viewer</h2> */}
       {pdfUrl && (
         <iframe
           src={pdfUrl}
