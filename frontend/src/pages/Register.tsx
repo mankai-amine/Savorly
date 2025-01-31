@@ -37,7 +37,7 @@ const Register = () => {
         try {
             const response = await axios.post(`${apiUrl}/register`, data);
     
-            if (response.status === 201) {
+            if (response.status === 200) {
                 setIsSubmitted(true);
             } else {
                 setIsSubmitted(false);
@@ -48,14 +48,12 @@ const Register = () => {
     };
 
     return (
-        <div style={{ backgroundColor: '#e3eef8', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-
+        <div style={{ minHeight: '90vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Container className='mt-5'>
                 <Row className='justify-content-md-center'>
                     <Col md={6} lg={4}>
-                        <div className='register-box text-center'>
-                            <h2 className='mb-4 twixer-logo'> Savorly</h2>
-                         
+                        <h2 className='mb-4 text-center'>Create an account</h2>
+                        <div className='register-box text-center'>                         
                             <Form onSubmit={handleSubmit(onSubmit)}>
                                 <Form.Group controlId='formUsername' className='mb-3'>
                                     <Form.Control
@@ -82,14 +80,14 @@ const Register = () => {
                                     {errors.password2 && <p className="text-danger">{errors.password2.message}</p>}
                                 </Form.Group>
 
-                                <Button variant='primary' type='submit' className='w-100 mb-3'>
+                                <Button style={{ background: "rgb(213, 66, 21)", border: 'none' }} type='submit' className='w-100 mb-3'>
                                     Register
                                 </Button>
 
                                 {isSubmitted && <p className="text-success">Registration successful!</p>}
 
                                 <div className='mt-3'>
-                                    <p>Already have an account? <a href='/login' className='login-link'>Login</a></p>
+                                    <p>Already have an account? <a href='/login' className='login-link' style={{ color: "rgb(213, 66, 21)" }} >Login</a></p>
                                 </div>
                             </Form>
                         </div>
