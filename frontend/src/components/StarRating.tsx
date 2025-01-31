@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Star } from 'lucide-react';
 import { Button } from 'react-bootstrap';
 
+const API_RATING_URL = new URL('/api/rating/create', import.meta.env.VITE_API_URL).toString();
+
 interface StarRatingProps {
   recipeId: string;
   initialRating?: number;
@@ -30,7 +32,7 @@ const StarRating: React.FC<StarRatingProps> = ({
         return;
       }
       
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/rating/create/${recipeId}`, {
+      const response = await fetch(`${API_RATING_URL}/${recipeId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const apiUrl = `${import.meta.env.VITE_API_URL}/recipes`; 
+const apiUrl = new URL('/api/recipes', import.meta.env.VITE_API_URL).toString();
 
 interface Recipe {
     id: number;

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const API_BASE_URL = `${import.meta.env.VITE_API_URL}/pdf`;
+const API_BASE_URL = new URL('/api/pdf', import.meta.env.VITE_API_URL).toString();
 
 const RecipePdfViewer = ({ recipeId }: { recipeId: number }) => {
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);

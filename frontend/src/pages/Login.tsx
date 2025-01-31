@@ -8,7 +8,7 @@ import { UserContext } from "../helpers/UserContext";
 import { useNavigate } from 'react-router-dom';
 import '../Login.css';
 
-const apiUrl = `${import.meta.env.VITE_API_URL}/user`;
+const apiUrl = new URL('/api/user', import.meta.env.VITE_API_URL).toString();
 
 const loginSchema = Yup.object().shape({
     username: Yup.string().required('Username is required'),
