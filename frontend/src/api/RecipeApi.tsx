@@ -23,8 +23,7 @@ export interface PaginatedResponse<T> {
   number: number;
 }
 
-
-const API_BASE_URL = `${import.meta.env.VITE_API_URL}/recipes`;
+const API_BASE_URL = new URL('/api/recipes', import.meta.env.VITE_API_URL).toString();
 
 export const fetchAllRecipes = async (page: number, size: number): Promise<PaginatedResponse<Recipe>> => {
   const response = await fetch(`${API_BASE_URL}/all?page=${page}&size=${size}`, {

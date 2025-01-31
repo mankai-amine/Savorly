@@ -3,8 +3,8 @@ import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const apiUrl = `${import.meta.env.VITE_API_URL}/recipes`;
-const favouritesApiUrl = `${import.meta.env.VITE_API_URL}/favourites`;
+const apiUrl = new URL('/api/recipes', import.meta.env.VITE_API_URL).toString();
+const favouritesApiUrl = new URL('/api/favourites', import.meta.env.VITE_API_URL).toString();
 
 
 interface Recipe {
