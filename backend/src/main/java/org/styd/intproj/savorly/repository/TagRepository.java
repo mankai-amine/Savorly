@@ -17,7 +17,7 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
     @Query("SELECT t FROM Tag t WHERE t.title LIKE :title")
     List<Tag> findByTitleLike(@Param("title") String title);
 
-    @Query(value = "SELECT * FROM tags ORDER BY embedding <-> CAST(:embedding AS vector) LIMIT 5", nativeQuery = true)
+    @Query(value = "SELECT * FROM tags ORDER BY embedding <-> CAST(:embedding AS vector) LIMIT 3", nativeQuery = true)
     List<Tag> findNearestTags(float[] embedding);
 
     @Modifying //@Modifying：INSERT should add a tag @Modifying，or JPA will take as SELECT

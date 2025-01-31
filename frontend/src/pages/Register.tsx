@@ -37,7 +37,7 @@ const Register = () => {
         try {
             const response = await axios.post(`${apiUrl}/register`, data);
     
-            if (response.status === 201) {
+            if (response.status === 200) {
                 setIsSubmitted(true);
             } else {
                 setIsSubmitted(false);
