@@ -8,7 +8,7 @@ import { UserContext } from "../helpers/UserContext";
 import { Container, Form, Button, Row, Col } from 'react-bootstrap';
 
 
-const apiUrl = `${import.meta.env.VITE_API_URL}/user/edit`;
+const apiUrl = new URL('/api/user/edit', import.meta.env.VITE_API_URL).toString();
 
 const profileSchema = Yup.object().shape({
     password: Yup.string().required('Password is required').min(6, 'Password must be at least 6 characters'),

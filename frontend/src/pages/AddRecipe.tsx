@@ -7,7 +7,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import UploadPicture from "../components/UploadPicture";
 
-const apiUrl = `${import.meta.env.VITE_API_URL}/recipes`;
+const apiUrl = new URL('/api/recipes', import.meta.env.VITE_API_URL).toString();
 
 const recipeSchema = Yup.object().shape({
     name: Yup.string().min(10, "Name needs to be at least 10 characters").required('Recipe name is required'),

@@ -2,7 +2,7 @@ import { createContext, useState, useEffect, ReactNode } from 'react';
 import axios from 'axios';
 
 
-const apiUrl = `${import.meta.env.VITE_API_URL}/user`;
+const apiUrl = new URL('/api/user', import.meta.env.VITE_API_URL).toString();
 
 // structure of the user data 
 interface User {

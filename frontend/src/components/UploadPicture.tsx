@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+const API_UPLOAD_URL = new URL('pic-upload', import.meta.env.VITE_UPLOAD_URL).toString();
+
 interface UploadPictureProps {
     onUploadSuccess: (url: string) => void;
   }
@@ -31,7 +33,7 @@ const UploadPicture = ({ onUploadSuccess }: UploadPictureProps) => {
     formData.append("imgUrl", file);
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_UPLOAD_URL}/pic-upload`, {
+      const response = await fetch(`${API_UPLOAD_URL}`, {
         method: "POST",
         body: formData,
         headers: {
