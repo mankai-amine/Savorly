@@ -11,10 +11,10 @@ Our technology stack for making this app consisted of: Java Spring Boot, Postgre
 # Functionalities
 •	Registration  
 •	Login/logout   
-•	Browse, rate, print, share, and comment on recipes 
-•	Save to and remove from favorites 
-•	Create, edit, and delete recipes
-•	AI-powered search tool helps find the best recipes based on keywords
+•	Browse, rate, print, share, and comment on recipes  
+•	Save to and remove from favorites  
+•	Create, edit, and delete recipes  
+•	AI-powered search tool helps find the best recipes based on keywords  
  
 # How to Run
 - Clone the Repository
@@ -58,5 +58,5 @@ spring_mail_properties_mail_smtp_starttls_enable (default value true)
 For CORS:  
 ALLOWED_CORS_URL  
 
-# database setup:
+# Database setup:
 The section 2.2 in our Documentation file (in the root of this project) explains in details how to set up the database correctly.
